@@ -4,6 +4,7 @@
       <h1>SmartCLIDE IDE</h1>
     </header>
     <ul>
+<!--      <Login/>-->
       <Home/>
 <!--      <Task-->
 <!--          v-for="task in getTasks()"-->
@@ -18,8 +19,10 @@
 import Task from "./components/_old/Task.vue";
 import Hello from "/imports/ui/components/_old/Hello.vue"
 import Home from "/imports/ui/components/Home"
+import Login from "./components/Login";
 export default {
   components: {
+    Login,
     Task,
     Hello,
     Home
