@@ -1,3 +1,3 @@
-import '../imports/api/fixtures'
-import '../imports/api/methods'
-import '../imports/api/publications'
+import '../imports/api/_old/fixtures'
+import '../imports/api/_old/methods'
+import '../imports/api/_old/publications'

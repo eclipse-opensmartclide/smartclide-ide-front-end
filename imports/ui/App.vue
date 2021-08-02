@@ -5,11 +5,11 @@
     </header>
     <ul>
       <Hello/>
-      <Task
-          v-for="task in getTasks()"
-          v-bind:key="task._id"
-          v-bind:task="task"
-      />
+<!--      <Task-->
+<!--          v-for="task in getTasks()"-->
+<!--          v-bind:key="task._id"-->
+<!--          v-bind:task="task"-->
+<!--      />-->
     </ul>
   </div>
 </template>
