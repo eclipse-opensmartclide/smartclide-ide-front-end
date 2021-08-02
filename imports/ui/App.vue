@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <header>
-      <h1>Todo List</h1>
+      <h1>SmartCLIDE IDE</h1>
     </header>
     <ul>
-      <Hello/>
+      <Home/>
 <!--      <Task-->
 <!--          v-for="task in getTasks()"-->
 <!--          v-bind:key="task._id"-->
@@ -15,12 +15,14 @@
 </template>
 
 <script>
-import Task from "./components/Task.vue";
-import Hello from "/imports/ui/components/Hello.vue"
+import Task from "./components/_old/Task.vue";
+import Hello from "/imports/ui/components/_old/Hello.vue"
+import Home from "/imports/ui/components/Home"
 export default {
   components: {
     Task,
-    Hello
+    Hello,
+    Home
   },
   data() {
     return {};
