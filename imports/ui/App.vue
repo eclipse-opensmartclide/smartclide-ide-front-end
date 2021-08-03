@@ -12,6 +12,7 @@
 <!--          v-bind:task="task"-->
 <!--      />-->
     </ul>
+
   </div>
 </template>
 
