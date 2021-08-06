@@ -45,7 +45,7 @@
 
 <style scoped>
   .main-logo{
-    width: 200px;
+    width: 365px;
   }
 
   .icon-and-input{
