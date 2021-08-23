@@ -2,16 +2,26 @@ import Vue from 'vue'
 import '../imports/ui/plugins'
 import '../styles/variables.scss'
 import {BootstrapVue, BootstrapVueIcons, ImagePlugin} from "bootstrap-vue"
-
 import App from '../imports/ui/App.vue'
+
+import router from './routes'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(ImagePlugin)
 
+
+// Meteor.startup(() => {
+//   new Vue({
+//     el: '#app',
+//     router,
+//     ...App,
+//   })
+// })
+
 Meteor.startup(() => {
   new Vue({
-    el: '#app',
-    ...App,
-  })
-})
+    router,
+    render: (h) => h(App),
+  }).$mount('#app');
+});
