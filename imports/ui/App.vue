@@ -2,6 +2,7 @@
   <Login/>
 <!--  <Register/>-->
 <!--  <Home/>-->
+<!--  <RecoveryPassword/>-->
 </template>
 
 <!-- THIS IS WILL BE HOME  -->
@@ -19,9 +20,11 @@
 import Home from "./components/Home"
 import Login from "./components/Login";
 import Register from "./components/Register";
+import RecoveryPassword from "./components/RecoveryPassword";
 
 export default {
   components: {
+    RecoveryPassword,
     Login,
     Register,
     Home

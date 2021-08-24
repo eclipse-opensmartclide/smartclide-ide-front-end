@@ -5,52 +5,49 @@
     <BImg class="main-logo" src="/assets/SmartClideRGBColor.png"/>
 
     <BForm>
-
-
-
-   <!-- username -->
-    <div class="icon-and-input">
-      <div class="icon-container bg-primary">
-        <BIconPerson class="icon p-1"/>
+      <!-- username -->
+      <div class="icon-and-input">
+        <div class="icon-container bg-primary">
+          <BIconPerson class="icon p-1"/>
+        </div>
+        <BFormInput class="form-input" placeholder="Username" v-model="username" required/>
       </div>
-      <BFormInput class="form-input" placeholder="Username" v-model="username" required/>
-    </div>
 
-    <!-- password -->
-    <div class="icon-and-input mt-2">
-      <div class="icon-container bg-primary">
-        <BIconKey class="icon p-1"/>
+      <!-- password -->
+      <div class="icon-and-input mt-2">
+        <div class="icon-container bg-primary">
+          <BIconKey class="icon p-1"/>
+        </div>
+        <BFormInput class="form-input" type="password" placeholder="Password" v-model="password" required/>
       </div>
-      <BFormInput class="form-input" type="password" placeholder="Password" v-model="password" required/>
-    </div>
 
-    <div class="sign-in-up">
-      <BRow class="mt-2 ml-0">
-        <BCol cols="8">
-          <div class="register text">
-            <div>Don't have an account?</div>
-            <BLink href="/register" class="ml-1">Register</BLink>
-          </div>
+      <div class="sign-in-up">
+        <BRow class="mt-2 ml-0">
+          <BCol cols="8">
+            <div class="register text">
+              <div>Don't have an account?</div>
+              <BLink to="/register" class="ml-1">Register</BLink>
+<!--              <RouterLink to="/register" class="ml-1">Register</RouterLink>-->
+            </div>
 
-          <BLink class="recovery text" href="/recoveryPassword">Forgot your password?</BLink>
-        </BCol>
+            <BLink class="recovery text" href="/recoveryPassword">Forgot your password?</BLink>
+          </BCol>
 
-
-        <BCol>
-          <BButton  v-on:click="login" class="float-right bg-primary text-white" type="submit">Log in</BButton>
-        </BCol>
-      </BRow>
-    </div>
+          <BCol>
+            <BButton  v-on:click="login" class="float-right bg-primary text-white" type="submit">Log in</BButton>
+          </BCol>
+        </BRow>
+      </div>
 
     </BForm>
   </BContainer>
 </template>
 
 <script>
-// import Register from "./Register";
+
 export default {
   components: {
-    // Register,
+
   },
   data(){
     return {
