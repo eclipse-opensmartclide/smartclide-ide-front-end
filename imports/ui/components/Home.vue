@@ -1,11 +1,13 @@
 
 <template>
-  <div class="container">
-    <header>
-      <h1>HOME</h1>
+  <div>
 
-      <label class="testing">teste</label>
-    </header>
-
+    <router-link to="/workflows">Workflows</router-link>
+    <router-link to="/services">Services</router-link>
+    <div>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
+
+

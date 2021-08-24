@@ -1,74 +1,92 @@
-
 <template>
+
   <BContainer class="vh-100 d-flex justify-content-center align-items-center flex-column" >
+
 
     <BImg class="main-logo" src="/assets/SmartClideRGBColor.png"/>
 
-    <div class="icon-and-input">
-      <div class="icon-container bg-primary">
-        <BIconArchive class="icon p-1"/>
+    <BForm>
+
+      <!-- email  -->
+      <div class="icon-and-input">
+        <div class="icon-container bg-primary">
+          <BIconEnvelope class="icon p-1"/>
+        </div>
+        <BFormInput class="form-input" placeholder="Email" v-model="email" required/>
       </div>
-      <BFormInput class="form-input" placeholder="Email" v-model="email" required/>
-    </div>
 
-<!--    <div class="icon-and-input mt-2">-->
-<!--      <div class="icon-container bg-primary">-->
-<!--        <BIconPerson class="icon p-1"/>-->
-<!--      </div>-->
-<!--      <BFormInput class="form-input" placeholder="Email" v-model="email" required/>-->
-<!--    </div>-->
+      <!-- username  -->
+      <div class="icon-and-input mt-2">
+        <div class="icon-container bg-primary">
+          <BIconPerson class="icon p-1"/>
+        </div>
+        <BFormInput class="form-input" placeholder="Username" v-model="username" required/>
+      </div>
 
-<!--    <div class="icon-and-input mt-2">-->
-<!--      <div class="icon-container bg-primary">-->
-<!--        <BIconKey class="icon p-1"/>-->
-<!--      </div>-->
-<!--      <BFormInput class="form-input" type="password" placeholder="Password" v-model="password" required/>-->
-<!--    </div>-->
+      <!-- password  -->
+      <div class="icon-and-input mt-2">
+        <div class="icon-container bg-primary">
+          <BIconKey class="icon p-1"/>
+        </div>
+        <BFormInput class="form-input" type="password" placeholder="Password" v-model="password" required/>
+      </div>
 
+      <!-- password  confirm -->
+      <div class="icon-and-input mt-2">
+        <div class="icon-container bg-primary">
+          <BIconKey class="icon p-1"/>
+        </div>
+        <BFormInput class="form-input" type="password" placeholder="Confirm your password" v-model="passwordConfirm" required/>
+      </div>
 
-    <div class="sign-in-up">
-      <BRow class="mt-2 ml-0">
-        <BCol>
-          <BRow class="text">
-            Don't have an account? <BLink href="/register" class="ml-1 text">Sign Up</BLink>
-          </BRow>
-          <BRow class="text">
-            <BLink href="/recoveryPassword">Forgot your password?</BLink>
-          </BRow>
-        </BCol>
-        <BCol>
-          <BButton  v-on:click="login" class="float-right bg-primary text-white">Log in</BButton>
-        </BCol>
-      </BRow>
-    </div>
+      <div class="sign-in-up">
+        <BRow class="mt-2 ml-0">
+          <BCol cols="8">
+            <div class="login text">
+              <div>Already have an account?</div>
+              <BLink href="/login" class="ml-1">Login</BLink>
+            </div>
+          </BCol>
+
+          <BCol>
+            <BButton  v-on:click="register" class="float-right bg-primary text-white" type="submit">Register</BButton>
+          </BCol>
+        </BRow>
+      </div>
+
+    </BForm>
 
   </BContainer>
 </template>
 
+
 <script>
 export default {
+  components: {
+
+  },
   data(){
     return {
       email: '',
-      password: ''
+      username: '',
+      password: '',
+      passwordConfirm: ''
     }
   },
-
   methods: {
-    login: function (event) {
-      console.log(this.name, this.password)
-
-    },
     register: function (event){
 
-    },
-    recoverPassword: function (event){
 
-    }
+    },
   }
+
+
 }
 
 </script>
+
+
+
 
 <style scoped>
 .main-logo{
@@ -101,6 +119,14 @@ export default {
   border-bottom-left-radius: 0 !important;
 }
 
+.login{
+  margin-left: -15px;
+  margin-right: -15px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
 .sign-in-up{
   width: 400px;
 }
@@ -110,4 +136,3 @@ export default {
 }
 
 </style>
-

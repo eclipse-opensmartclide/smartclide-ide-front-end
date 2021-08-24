@@ -1,5 +1,7 @@
 <template>
   <Login/>
+<!--  <Register/>-->
+<!--  <Home/>-->
 </template>
 
 <!-- THIS IS WILL BE HOME  -->
@@ -14,10 +16,15 @@
 <!--</template>-->
 
 <script>
+import Home from "./components/Home"
 import Login from "./components/Login";
+import Register from "./components/Register";
+
 export default {
   components: {
     Login,
+    Register,
+    Home
   },
   data() {
     return {};

@@ -4,14 +4,19 @@
 
     <BImg class="main-logo" src="/assets/SmartClideRGBColor.png"/>
 
-    <div class="icon-and-input">
+    <BForm>
 
+
+
+   <!-- username -->
+    <div class="icon-and-input">
       <div class="icon-container bg-primary">
         <BIconPerson class="icon p-1"/>
       </div>
-      <BFormInput class="form-input" placeholder="Name" v-model="name" required/>
+      <BFormInput class="form-input" placeholder="Username" v-model="username" required/>
     </div>
 
+    <!-- password -->
     <div class="icon-and-input mt-2">
       <div class="icon-container bg-primary">
         <BIconKey class="icon p-1"/>
@@ -19,47 +24,45 @@
       <BFormInput class="form-input" type="password" placeholder="Password" v-model="password" required/>
     </div>
 
-
     <div class="sign-in-up">
       <BRow class="mt-2 ml-0">
-        <BCol>
-          <BRow class="text">
-            Don't have an account? <BLink href="/register" class="ml-1 text">Sign Up</BLink>
-          </BRow>
-          <BRow class="text">
-            <BLink href="/recoveryPassword">Forgot your password?</BLink>
-          </BRow>
+        <BCol cols="8">
+          <div class="register text">
+            <div>Don't have an account?</div>
+            <BLink href="/register" class="ml-1">Register</BLink>
+          </div>
+
+          <BLink class="recovery text" href="/recoveryPassword">Forgot your password?</BLink>
         </BCol>
+
+
         <BCol>
-          <BButton  v-on:click="login" class="float-right bg-primary text-white">Log in</BButton>
+          <BButton  v-on:click="login" class="float-right bg-primary text-white" type="submit">Log in</BButton>
         </BCol>
       </BRow>
     </div>
+
+    </BForm>
   </BContainer>
 </template>
 
 <script>
-import Register from "./Register";
+// import Register from "./Register";
 export default {
   components: {
-    Register,
+    // Register,
   },
   data(){
     return {
-      name: '',
+      username: '',
       password: ''
     }
   },
   methods: {
     login: function (event) {
-      console.log(this.name, this.password)
-
-    },
-    register: function (event){
-
-    },
-    recoverPassword: function (event){
-
+      // console.log(this.name, this.password)
+      // console.log(this.$router.getRoutes())
+      // window.open("/register", "_self")
     }
   }
 }
@@ -103,6 +106,18 @@ export default {
 
 .text{
   font-size: 14px;
+}
+
+.register{
+  margin-left: -15px;
+  margin-right: -15px;
+  flex-direction: row;
+  display: flex;
+}
+
+.recovery{
+  margin-left: -15px;
+  margin-right: -15px;
 }
 
 </style>

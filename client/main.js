@@ -11,14 +11,6 @@ Vue.use(BootstrapVueIcons)
 Vue.use(ImagePlugin)
 
 
-// Meteor.startup(() => {
-//   new Vue({
-//     el: '#app',
-//     router,
-//     ...App,
-//   })
-// })
-
 Meteor.startup(() => {
   new Vue({
     router,
