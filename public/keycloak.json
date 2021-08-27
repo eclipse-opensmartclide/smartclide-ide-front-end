@@ -1,0 +1,8 @@
+{
+  "realm": "che",
+  "auth-server-url": "https://keycloak-smartclide-che.che.smartclide.eu/auth",
+  "ssl-required": "external",
+  "resource": "smartclide-frontend",
+  "public-client": true,
+  "confidential-port": 0
+}
