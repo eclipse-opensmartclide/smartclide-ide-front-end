@@ -1,39 +1,40 @@
 <template>
-  <Login/>
-<!--  <Register/>-->
-<!--  <Home/>-->
-<!--  <RecoveryPassword/>-->
+  <div class="main">
+    <template v-if="currentUser">
+      <div class="user" v-on:click="logout">
+        {{currentUser.username}} 🚪
+      </div>
+      <Home/>
+    </template>
+    <template v-else>
+      <Login/>
+    </template>
+  </div>
 </template>
 
-<!-- THIS IS WILL BE HOME  -->
-<!--<template>-->
-<!--  <div>-->
 
-<!--    <router-link to="/">Home</router-link>-->
-<!--    <div>-->
-<!--      <router-view></router-view>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</template>-->
 
 <script>
 import Home from "./components/Home"
 import Login from "./components/Login";
-import Register from "./components/Register";
-import RecoveryPassword from "./components/RecoveryPassword";
 
 export default {
   components: {
-    RecoveryPassword,
     Login,
-    Register,
     Home
   },
   data() {
     return {};
   },
   methods: {
-
+    logout(){
+      Meteor.logout();
+    }
+  },
+  meteor: {
+    currentUser(){
+      return Meteor.user();
+    }
   }
 };
 </script>

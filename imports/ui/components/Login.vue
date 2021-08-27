@@ -59,12 +59,18 @@ export default {
   },
   methods: {
     login: function (event) {
+      event.preventDefault()
+      console.log(this.username, this.password)
+      // Accounts.createUser(this.username, this.password)
+
+      // Meteor.loginWithPassword(this.username, this.password)
+
       // console.log(this.name, this.password)
       // console.log(this.$router.getRoutes())
       // window.open("/register", "_self")
 
 
-      var keycloak = new Keycloak("http://localhost:8080/keycloak.json")
+      // var keycloak = new Keycloak("http://localhost:8080/keycloak.json")
 
 
 
@@ -74,15 +80,15 @@ export default {
       //   clientId: keycloakInfo.resource
       // })
       //
-      keycloak.init({
-        onLoad: 'login-required'
-      }).then(function (authenticated){
-        console.log(authenticated)
-        alert(authenticated ? 'authenticated': 'not authenticated')
-      }).catch(function (error){
-        console.log(error)
-        alert('failed to initialize')
-      })
+      // keycloak.init({
+      //   onLoad: 'login-required'
+      // }).then(function (authenticated){
+      //   console.log(authenticated)
+      //   alert(authenticated ? 'authenticated': 'not authenticated')
+      // }).catch(function (error){
+      //   console.log(error)
+      //   alert('failed to initialize')
+      // })
     }
   }
 }
