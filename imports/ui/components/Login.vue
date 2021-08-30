@@ -59,11 +59,22 @@ export default {
   },
   methods: {
     login: function (event) {
-      event.preventDefault()
-      console.log(this.username, this.password)
+      // event.preventDefault() // ignore required fields
+
+
+      // const form = event.target
+      // const check_status = form.checkValidity()
+      // form.reportValidity();
+      // if (check_status) {
+      //
+      //   // do your customized submit operations here.
+      //   console.log(this.username, this.password)
+      // }
+
+
       // Accounts.createUser(this.username, this.password)
 
-      // Meteor.loginWithPassword(this.username, this.password)
+      Meteor.loginWithPassword(this.username, this.password)
 
       // console.log(this.name, this.password)
       // console.log(this.$router.getRoutes())

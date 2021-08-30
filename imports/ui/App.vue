@@ -28,12 +28,12 @@ export default {
   },
   methods: {
     logout(){
-      Meteor.logout();
+      // Meteor.logout();
     }
   },
   meteor: {
     currentUser(){
-      return Meteor.user();
+      // return Meteor.user();
     }
   }
 };
