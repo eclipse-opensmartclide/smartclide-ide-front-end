@@ -4,7 +4,7 @@
 
     <BImg class="main-logo" src="/assets/SmartClideRGBColor.png"/>
 
-    <BForm>
+    <BForm @submit.prevent="login">
       <!-- username -->
       <div class="icon-and-input">
         <div class="icon-container bg-primary">
@@ -21,25 +21,34 @@
         <BFormInput class="form-input" type="password" placeholder="Password" v-model="password" required/>
       </div>
 
-      <div class="sign-in-up">
-        <BRow class="mt-2 ml-0">
-          <BCol cols="8">
-            <div class="register text">
-              <div>Don't have an account?</div>
-              <BLink to="/register" class="ml-1">Register</BLink>
-<!--              <RouterLink to="/register" class="ml-1">Register</RouterLink>-->
-            </div>
+      <!--      <div class="sign-in-up">-->
+      <!--        <BRow class="mt-2 ml-0">-->
+      <!--          <BCol cols="8">-->
+      <!--            <div class="register text">-->
+      <!--              <div>Don't have an account?</div>-->
+      <!--              <BLink to="/register" class="ml-1">Register</BLink>-->
+      <!--            </div>-->
 
-            <BLink class="recovery text" href="/recoveryPassword">Forgot your password?</BLink>
-          </BCol>
+      <!--            <BLink class="recovery text" href="/recoveryPassword">Forgot your password?</BLink>-->
+      <!--          </BCol>-->
 
-          <BCol>
-            <BButton  v-on:click="login" class="float-right bg-primary text-white" type="submit">Log in</BButton>
-          </BCol>
-        </BRow>
+      <!--          <BCol>-->
+      <!--            <BButton class="float-right bg-primary text-white" type="submit">Log in</BButton>-->
+      <!--          </BCol>-->
+      <!--        </BRow>-->
+      <!--      </div>-->
+
+      <div class="login mt-2 d-flex justify-content-center">
+        <BButton class="bg-primary text-white" name="login" type="submit">Log in</BButton>
       </div>
-
     </BForm>
+
+
+    <BForm @submit.prevent="loginWithEclipseChe" class="mt-5">
+      <BButton class="bg-secondary text-white" name="loginEclipseChe" type="submit">Log in with Eclipse CHE</BButton>
+    </BForm>
+
+
   </BContainer>
 </template>
 
@@ -58,48 +67,23 @@ export default {
     }
   },
   methods: {
-    login: function (event) {
-      // event.preventDefault() // ignore required fields
-
-
-      // const form = event.target
-      // const check_status = form.checkValidity()
-      // form.reportValidity();
-      // if (check_status) {
-      //
-      //   // do your customized submit operations here.
-      //   console.log(this.username, this.password)
-      // }
-
-
-      // Accounts.createUser(this.username, this.password)
-
+    login: function (ev){
+      console.log("login")
       Meteor.loginWithPassword(this.username, this.password)
+    },
 
-      // console.log(this.name, this.password)
-      // console.log(this.$router.getRoutes())
-      // window.open("/register", "_self")
-
-
-      // var keycloak = new Keycloak("http://localhost:8080/keycloak.json")
-
-
-
-      // var keycloak = new Keycloak({
-      //   url: keycloakInfo["auth-server-url"],
-      //   realm: keycloakInfo.realm,
-      //   clientId: keycloakInfo.resource
-      // })
-      //
-      // keycloak.init({
-      //   onLoad: 'login-required'
-      // }).then(function (authenticated){
-      //   console.log(authenticated)
-      //   alert(authenticated ? 'authenticated': 'not authenticated')
-      // }).catch(function (error){
-      //   console.log(error)
-      //   alert('failed to initialize')
-      // })
+    loginWithEclipseChe: function (ev){
+      console.log("login with eclipse che")
+      const keycloak = new Keycloak("http://localhost:8080/keycloak.json");
+      keycloak.init({
+        onLoad: 'login-required'
+      }).then(function (authenticated){
+        console.log(authenticated)
+        alert(authenticated ? 'authenticated': 'not authenticated')
+      }).catch(function (error){
+        console.log(error)
+        alert('failed to initialize')
+      })
     }
   }
 }

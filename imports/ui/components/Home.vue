@@ -1,13 +1,21 @@
-
 <template>
   <div>
-
-    <router-link to="/workflows">Workflows</router-link>
-    <router-link to="/services">Services</router-link>
-    <div>
-      <router-view></router-view>
-    </div>
+    <NavigationBar/>
+    <router-view/>
   </div>
 </template>
 
+<script>
+import NavigationBar from './NavigationBar';
 
+export default {
+  name: "Home",
+  components: {
+    NavigationBar
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

@@ -1,17 +1,18 @@
 <template>
   <div class="main">
+
     <template v-if="currentUser">
       <div class="user" v-on:click="logout">
         {{currentUser.username}} 🚪
       </div>
       <Home/>
     </template>
+
     <template v-else>
-      <Login/>
+      <Login />
     </template>
   </div>
 </template>
-
 
 
 <script>
@@ -28,14 +29,26 @@ export default {
   },
   methods: {
     logout(){
-      // Meteor.logout();
+      Meteor.logout();
     }
   },
   meteor: {
     currentUser(){
-      // return Meteor.user();
+      return Meteor.user()
     }
   }
 };
 </script>
+
+<style scoped>
+
+.user {
+  display: flex;
+  cursor: pointer;
+  align-self: flex-end;
+  margin: 8px 16px 0;
+  font-weight: bold;
+}
+
+</style>
 

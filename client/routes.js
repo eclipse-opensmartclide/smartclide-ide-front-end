@@ -8,13 +8,9 @@ import Home from '/imports/ui/components/Home'
 import Register from "../imports/ui/components/Register";
 import Workflows from "../imports/ui/components/Workflows";
 import Services from "../imports/ui/components/Services";
+import Deployments from "../imports/ui/components/Deployments";
 
 const routes = [
-    {
-        path: "/",
-        name: "Home",
-        component: Home
-    },
     {
         path: "/register",
         name: "Register",
@@ -29,10 +25,16 @@ const routes = [
         path: "/services",
         name: 'Services',
         component: Services
+    },
+    {
+        path: "/deployments",
+        name: 'Deployments',
+        component: Deployments
     }
 ]
 
 const router = new VueRouter({
+    mode: 'history',
     routes
 })
 
