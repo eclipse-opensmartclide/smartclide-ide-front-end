@@ -16,7 +16,8 @@
     "popper.js": "^1.16.1-lts",
     "vue": "^2.6.14",
     "vue-meteor-tracker": "^2.0.0-beta.5",
-    "vue-router": "^3.5.2"
+    "vue-router": "^3.5.2",
+    "vue-template-compiler": "^2.6.14"
   },
   "meteor": {
     "mainModule": {
