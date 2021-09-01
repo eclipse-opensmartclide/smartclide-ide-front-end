@@ -68,12 +68,10 @@ export default {
   },
   methods: {
     login: function (ev){
-      console.log("login")
       Meteor.loginWithPassword(this.username, this.password)
     },
 
     loginWithEclipseChe: function (ev){
-      console.log("login with eclipse che")
       const keycloak = new Keycloak("http://localhost:8080/keycloak.json");
       keycloak.init({
         onLoad: 'login-required'
