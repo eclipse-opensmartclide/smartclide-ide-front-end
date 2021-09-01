@@ -1,16 +1,19 @@
-
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
-Vue.use(VueRouter)
-
 import Home from '/imports/ui/components/Home'
-import Register from "../imports/ui/components/Register";
+import Register from "../imports/ui/components/_old/Register";
 import Workflows from "../imports/ui/components/Workflows";
 import Services from "../imports/ui/components/Services";
 import Deployments from "../imports/ui/components/Deployments";
 
+Vue.use(VueRouter)
+
 const routes = [
+    {
+        path: "/index",
+        name: "Home",
+        component: Home
+    },
     {
         path: "/register",
         name: "Register",

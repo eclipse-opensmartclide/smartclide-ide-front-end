@@ -13,7 +13,5 @@ Meteor.startup(() => {
             username: USERNAME,
             password: PASSWORD
         });
-    }else{
-        console.log("Account found! ", USERNAME)
     }
 })
