@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center">
+  <div class="d-flex">
   <BNavbar class="d-block">
     <RouterLink to="/workflows">Workflows</RouterLink>
     <RouterLink to="/services">Services</RouterLink>

@@ -1,22 +1,22 @@
 <template>
   <div class="main">
-    <template v-if="currentUser||eclipseCheLogin">
+    <template v-if="meteorUser|| this.eclipseCheLogin">
 
       <header>
-        <Header v-bind:user="currentUser"/>
+        <Header :keycloak="this.keycloak" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser"/>
       </header>
 
       <Home/>
     </template>
 
     <template v-else>
-      <Login @eclipseCheLogin="checkEclipseCheLogin"/>
+      <Login :keycloak="this.keycloak" />
     </template>
   </div>
 </template>
 
-
 <script>
+import Keycloak from "keycloak-js";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import NavigationBar from "./components/NavigationBar";
@@ -29,19 +29,36 @@ export default {
     Login,
     Home
   },
+
+  created() {
+    this.keycloak = new Keycloak("http://localhost:8080/keycloak.json");
+
+    this.keycloak.init({
+      onLoad: 'check-sso',
+      loadUserProfileAtStartUp: true
+    })
+    .then((authenticated)=>{
+      console.log("authenticated: ", authenticated)
+
+      this.eclipseCheLogin = authenticated
+      // get eclipse che user
+      if(this.keycloak.tokenParsed){
+        this.eclipseCheUser = this.keycloak.tokenParsed
+      }
+    }).catch(function (error){
+      console.log(error)
+    })
+  },
   data() {
     return {
       eclipseCheLogin: false
     };
   },
   methods: {
-    checkEclipseCheLogin(){
-      console.log("check eclipse che login")
-      this.eclipseCheLogin = !this.eclipseCheLogin
-    }
+
   },
   meteor: {
-    currentUser(){
+    meteorUser(){
       return Meteor.user()
     }
   }
@@ -49,29 +66,6 @@ export default {
 </script>
 
 <style scoped>
-
-.logo{
-  width: 122px;
-}
-
-.header{
-  display: flex;
-  align-items: center;
-}
-
-.user {
-  display: flex;
-  align-items: center;
-}
-
-.user-icon{
-  width: 40px;
-  height: 40px;
-  color: var(--primary);
-  margin-left: 8px;
-}
-
-
 
 </style>
 

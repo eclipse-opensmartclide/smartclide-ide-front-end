@@ -49,14 +49,14 @@
     </BForm>
 
 
+
   </BContainer>
 </template>
 
 <script>
 
-import Keycloak from "keycloak-js";
-
 export default {
+  props: ["keycloak"],
   components: {
 
   },
@@ -71,18 +71,31 @@ export default {
       Meteor.loginWithPassword(this.username, this.password)
     },
 
-    loginWithEclipseChe: function (ev){
-      const keycloak = new Keycloak("http://localhost:8080/keycloak.json");
-      keycloak.init({
+    loginWithEclipseChe: function (){
+      this.keycloak.init({
         onLoad: 'login-required'
-      }).then(function (authenticated){
-        console.log(authenticated)
-        alert(authenticated ? 'authenticated': 'not authenticated')
-      }).catch(function (error){
-        console.log(error)
-        alert('failed to initialize')
       })
-    }
+
+      // const keycloak = new Keycloak("http://localhost:8080/keycloak.json");
+      //
+      // keycloak.init({
+      //   onLoad: 'login-required'
+      // })
+      // .then((authenticated)=>{
+      //   console.log("authenticated",authenticated)
+      //   // this.eclipseCheLogin = authenticated
+      //   if(authenticated){
+      //     this.emitEvent(authenticated)
+      //   }
+      // }).catch(function (error){
+      //   console.log(error)
+      // })
+    },
+
+    // emitEvent(state){
+    //   console.log("emit", state)
+    //   this.$emit("loginEclipseChe")
+    // },
   }
 }
 

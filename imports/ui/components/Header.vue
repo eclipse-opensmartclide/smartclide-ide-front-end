@@ -30,7 +30,12 @@
     <!-- user -->
     <BCol>
       <div class="user" >
-        {{user.username}}
+        <template v-if="meteorUser">
+          {{meteorUser.username}}
+        </template>
+        <template v-if="eclipseCheUser">
+          {{eclipseCheUser.name}}
+        </template>
         <div>
           <BDropdown variant="bg-transparent text-primary" toggle-class="text-decoration-none" no-caret>
             <template #button-content>
@@ -40,7 +45,7 @@
             <BDropdownItem>Team</BDropdownItem>
             <BDropdownItem>Sources</BDropdownItem>
             <BDropdownItem>Credentials</BDropdownItem>
-            <BDropdownItem v-on:click="logout">Log out</BDropdownItem>
+            <BDropdownItem @click="logout">Log out</BDropdownItem>
           </BDropdown>
         </div>
       </div>
@@ -56,11 +61,16 @@ export default {
     NavigationBar,
   },
   name: "Header",
-  props: ["user"],
+  props: ["meteorUser", "eclipseCheUser", "keycloak"],
   methods: {
     logout(){
       // TODO go to initial page
-      Meteor.logout();
+      if(this.eclipseCheUser){
+        this.keycloak.logout()
+      }
+      else{
+        Meteor.logout();
+      }
     },
   }
 }
