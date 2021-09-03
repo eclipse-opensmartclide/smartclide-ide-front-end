@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <template v-if="meteorUser|| this.eclipseCheLogin">
+    <template v-if="meteorUser|| this.eclipseCheUser">
 
       <header>
         <Header :keycloak="this.keycloak" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser"/>
@@ -51,7 +51,7 @@ export default {
   },
   data() {
     return {
-      eclipseCheLogin: false
+      eclipseCheUser: undefined
     };
   },
   methods: {

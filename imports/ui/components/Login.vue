@@ -48,8 +48,6 @@
       <BButton class="bg-secondary text-white" name="loginEclipseChe" type="submit">Log in with Eclipse CHE</BButton>
     </BForm>
 
-
-
   </BContainer>
 </template>
 
@@ -75,27 +73,7 @@ export default {
       this.keycloak.init({
         onLoad: 'login-required'
       })
-
-      // const keycloak = new Keycloak("http://localhost:8080/keycloak.json");
-      //
-      // keycloak.init({
-      //   onLoad: 'login-required'
-      // })
-      // .then((authenticated)=>{
-      //   console.log("authenticated",authenticated)
-      //   // this.eclipseCheLogin = authenticated
-      //   if(authenticated){
-      //     this.emitEvent(authenticated)
-      //   }
-      // }).catch(function (error){
-      //   console.log(error)
-      // })
-    },
-
-    // emitEvent(state){
-    //   console.log("emit", state)
-    //   this.$emit("loginEclipseChe")
-    // },
+    }
   }
 }
 
