@@ -1,53 +1,26 @@
 
 <template>
-  <BContainer class="vh-100 d-flex justify-content-center align-items-center flex-column" >
+  <BContainer class="vh-100 d-flex justify-content-center align-items-center" >
 
-    <BImg class="main-logo" src="/assets/SmartClideRGBColor.png"/>
+    <div class="login-container d-flex flex-column align-items-center">
 
-    <BForm @submit.prevent="login">
-      <!-- username -->
-      <div class="icon-and-input">
-        <div class="icon-container bg-primary">
-          <BIconPerson class="icon p-1"/>
-        </div>
-        <BFormInput class="form-input" placeholder="Username" v-model="username" required/>
-      </div>
+      <BImg class="main-logo mt-4" src="/assets/SmartClideRGBColor.png"/>
 
-      <!-- password -->
-      <div class="icon-and-input mt-2">
-        <div class="icon-container bg-primary">
-          <BIconKey class="icon p-1"/>
-        </div>
-        <BFormInput class="form-input" type="password" placeholder="Password" v-model="password" required/>
-      </div>
+      <BForm @submit.prevent="loginWithSmartCLIDE">
+        <BButton class="smartCLIDE bg-primary mt-4" name="login" type="submit">
+          <BImg class="smartCLIDE_icon" src="/assets/icon_smartclide.png"/>
+          <div class="btn-text">Username or Email</div>
+        </BButton>
+      </BForm>
 
-      <!--      <div class="sign-in-up">-->
-      <!--        <BRow class="mt-2 ml-0">-->
-      <!--          <BCol cols="8">-->
-      <!--            <div class="register text">-->
-      <!--              <div>Don't have an account?</div>-->
-      <!--              <BLink to="/register" class="ml-1">Register</BLink>-->
-      <!--            </div>-->
+      <BForm @submit.prevent="loginWithEclipseChe">
+        <BButton class="che mt-3" name="loginEclipseChe" type="submit">
+          <BImg class="eclipse_icon" src="/assets/icon_eclipse.png"/>
+          <div class="btn-text">SmartCLIDE Eclipse Che</div>
+        </BButton>
+      </BForm>
 
-      <!--            <BLink class="recovery text" href="/recoveryPassword">Forgot your password?</BLink>-->
-      <!--          </BCol>-->
-
-      <!--          <BCol>-->
-      <!--            <BButton class="float-right bg-primary text-white" type="submit">Log in</BButton>-->
-      <!--          </BCol>-->
-      <!--        </BRow>-->
-      <!--      </div>-->
-
-      <div class="login mt-2 d-flex justify-content-center">
-        <BButton class="bg-primary text-white" name="login" type="submit">Log in</BButton>
-      </div>
-    </BForm>
-
-
-    <BForm @submit.prevent="loginWithEclipseChe" class="mt-5">
-      <BButton class="bg-secondary text-white" name="loginEclipseChe" type="submit">Log in with Eclipse CHE</BButton>
-    </BForm>
-
+    </div>
   </BContainer>
 </template>
 
@@ -65,8 +38,9 @@ export default {
     }
   },
   methods: {
-    login: function (ev){
-      Meteor.loginWithPassword(this.username, this.password)
+    loginWithSmartCLIDE: function (ev){
+      // TODO open input parameters page
+      // Meteor.loginWithPassword(this.username, this.password)
     },
 
     loginWithEclipseChe: function (){
@@ -80,54 +54,52 @@ export default {
 </script>
 
 <style scoped>
+
+.login-container{
+  background: #E5EEFD;
+  width: 351px;
+  height: 397px;
+  border-radius: 10px;
+}
+
 .main-logo{
-  width: 365px;
+  width: 274px;
 }
 
-.icon-and-input{
-  display: flex;
-  flex-direction: row;
-  width: 400px;
-}
-
-.icon-container{
-  display: flex;
-  align-content: center;
-  height: 38px;
-  width: 38px;
-  border-top-left-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
-}
-
-.icon{
+.smartCLIDE{
   color: white;
-  width: 100%;
-  height: 100%;
-}
-
-.form-input{
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-}
-
-.sign-in-up{
-  width: 400px;
-}
-
-.text{
-  font-size: 14px;
-}
-
-.register{
-  margin-left: -15px;
-  margin-right: -15px;
-  flex-direction: row;
+  width: 234px;
+  height: 38px;
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.recovery{
-  margin-left: -15px;
-  margin-right: -15px;
+.che{
+  background: #989EB5;
+  color: white;
+  width: 234px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.smartCLIDE_icon{
+  width: 30px;
+  height: 19px
+}
+
+.eclipse_icon{
+  width: 24px;
+  height: 26px
+}
+
+.btn-text{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  font-size: 14px;
 }
 
 </style>
