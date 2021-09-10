@@ -39,8 +39,7 @@ export default {
   },
   methods: {
     loginWithSmartCLIDE: function (ev){
-      // TODO open input parameters page
-      // Meteor.loginWithPassword(this.username, this.password)
+      this.$emit("login_clicked", true)
     },
 
     loginWithEclipseChe: function (){

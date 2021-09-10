@@ -9,8 +9,12 @@
       <Home/>
     </template>
 
+    <template v-else-if="this.smartCLIDE_login">
+      <LoginSmartCLIDE />
+    </template>
+
     <template v-else>
-      <Login :keycloak="this.keycloak" />
+      <Login :keycloak="this.keycloak" @login_clicked="login_clicked"/>
     </template>
   </div>
 </template>
@@ -21,9 +25,11 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import NavigationBar from "./components/NavigationBar";
 import Header from "./components/Header";
+import LoginSmartCLIDE from "./components/LoginSmartCLIDE";
 
 export default {
   components: {
+    LoginSmartCLIDE,
     Header,
     NavigationBar,
     Login,
@@ -33,33 +39,42 @@ export default {
   created() {
     this.keycloak = new Keycloak("http://localhost:8080/keycloak.json");
 
+    console.log("SmartCLIDE Login: " + this.smartCLIDE_login)
+
     this.keycloak.init({
       onLoad: 'check-sso',
       loadUserProfileAtStartUp: true
     })
-    .then((authenticated)=>{
-      console.log("authenticated: ", authenticated)
+        .then((authenticated)=>{
+          console.log("authenticated: ", authenticated)
 
-      this.eclipseCheLogin = authenticated
-      // get eclipse che user
-      if(this.keycloak.tokenParsed){
-        this.eclipseCheUser = this.keycloak.tokenParsed
-      }
-    }).catch(function (error){
+          this.eclipseCheLogin = authenticated
+          // get eclipse che user
+          if(this.keycloak.tokenParsed){
+            this.eclipseCheUser = this.keycloak.tokenParsed
+          }
+        }).catch(function (error){
       console.log(error)
     })
   },
   data() {
     return {
-      eclipseCheUser: undefined
+      eclipseCheUser: undefined,
+      smartCLIDE_login: undefined
     };
   },
   methods: {
-
+    login_clicked(state){
+      this.smartCLIDE_login = state
+    }
   },
   meteor: {
     meteorUser(){
-      return Meteor.user()
+     const meteorUser = Meteor.user();
+     if(meteorUser){
+       this.smartCLIDE_login = false
+       return meteorUser
+     }
     }
   }
 };

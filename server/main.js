@@ -4,8 +4,8 @@ import '../imports/api/_old/publications'
 import { Meteor } from 'meteor/meteor';
 import { Accounts} from "meteor/accounts-base";
 
-const USERNAME = 'pedro';
-const PASSWORD = 'pedro';
+const USERNAME = 'Admin';
+const PASSWORD = 'Admin';
 
 Meteor.startup(() => {
     if (!Accounts.findUserByUsername((USERNAME))) {
