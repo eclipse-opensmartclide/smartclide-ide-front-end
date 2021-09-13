@@ -1,55 +1,44 @@
 <template>
   <div class="header">
 
-    <!-- smartclide logo -->
+    <!-- LOGO -->
     <BCol>
-
-      <router-link to="/"> <BImg class="logo" src="/assets/SmartClideRGBColor.png" /></router-link>
+      <RouterLink to="/"> <BImg class="logo" src="/assets/SmartClideRGBColor.png" /></RouterLink>
     </BCol>
 
-    <!-- navigation bar -->
-    <BCol cols="6">
-      <NavigationBar/>
-    </BCol>
+    <!-- IDE -->
+    <div class="ide float-right">
+      <BDropdown variant="bg-transparent text-primary" toggle-class="text-decoration-none" no-caret>
+        <template #button-content>
+          <BIconGear class="icon"/>
+        </template>
+        <BDropdownItem>Statistics</BDropdownItem>
+        <BDropdownItem>Logs</BDropdownItem>
+        <BDropdownItem>Appearance</BDropdownItem>
+        <BDropdownItem>Help</BDropdownItem>
+      </BDropdown>
+    </div>
 
-    <!-- settings -->
-    <BCol>
-      <div>
-        <BDropdown variant="bg-transparent text-primary" toggle-class="text-decoration-none" no-caret>
-          <template #button-content>
-            <BIconGear class="user-icon"/>
-          </template>
-          <BDropdownItem>Statistics</BDropdownItem>
-          <BDropdownItem>Logs</BDropdownItem>
-          <BDropdownItem>Appearance</BDropdownItem>
-          <BDropdownItem>Help</BDropdownItem>
-        </BDropdown>
-      </div>
-    </BCol>
-
-    <!-- user -->
-    <BCol>
-      <div class="user" >
+    <!-- USER -->
+    <div class="user float-right">
+      <BDropdown variant="bg-transparent text-primary" toggle-class="text-decoration-none" no-caret>
+        <template #button-content>
+          <BIconPersonCircle class="icon"/>
+        </template>
         <template v-if="meteorUser">
-          {{meteorUser.username}}
+          <BDropdownItem>{{meteorUser.username}}</BDropdownItem>
         </template>
         <template v-if="eclipseCheUser">
-          {{eclipseCheUser.name}}
+          <BDropdownItem>{{eclipseCheUser.name}}</BDropdownItem>
         </template>
-        <div>
-          <BDropdown variant="bg-transparent text-primary" toggle-class="text-decoration-none" no-caret>
-            <template #button-content>
-              <BIconPersonCircle class="user-icon"/>
-            </template>
-            <BDropdownItem>Profile</BDropdownItem>
-            <BDropdownItem>Team</BDropdownItem>
-            <BDropdownItem>Sources</BDropdownItem>
-            <BDropdownItem>Credentials</BDropdownItem>
-            <BDropdownItem @click="logout">Log out</BDropdownItem>
-          </BDropdown>
-        </div>
-      </div>
-    </BCol>
+        <BDropdownDivider/>
+        <BDropdownItem>Profile</BDropdownItem>
+        <BDropdownItem>Team</BDropdownItem>
+        <BDropdownItem>Sources</BDropdownItem>
+        <BDropdownItem>Credentials</BDropdownItem>
+        <BDropdownItem @click="logout">Log out</BDropdownItem>
+      </BDropdown>
+    </div>
   </div>
 </template>
 
@@ -88,15 +77,18 @@ export default {
   align-items: center;
 }
 
-.user {
-  display: flex;
-  align-items: center;
+.ide{
+  margin-right: 50px;
 }
 
-.user-icon{
+.user {
+  margin-right: 100px;
+}
+
+.icon{
   width: 40px;
   height: 40px;
   color: var(--primary);
-  margin-left: 8px;
+
 }
 </style>

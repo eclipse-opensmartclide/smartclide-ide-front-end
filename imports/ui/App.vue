@@ -1,12 +1,13 @@
 <template>
-  <div class="main">
+  <div class="main vh-100 d-flex flex-column">
     <template v-if="meteorUser|| this.eclipseCheUser">
+
+
 
       <header>
         <Header :keycloak="this.keycloak" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser"/>
       </header>
-
-      <Home/>
+      <Home />
     </template>
 
     <template v-else-if="this.smartCLIDE_login">

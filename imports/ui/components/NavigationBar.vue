@@ -1,11 +1,9 @@
 <template>
-  <div class="d-flex">
-  <BNavbar class="d-block">
-    <RouterLink to="/workflows">Workflows</RouterLink>
-    <RouterLink to="/services">Services</RouterLink>
-    <RouterLink to="/deployments">Deployments</RouterLink>
-  </BNavbar>
-  </div>
+  <BNav class="nav bg-light" aria-orientation="vertical">
+    <RouterLink class="nav_item" to="/workflows">Workflows</RouterLink>
+    <RouterLink class="nav_item mt-3" to="/services">Services</RouterLink>
+    <RouterLink class="nav_item mt-3" to="/deployments">Deployments</RouterLink>
+  </BNav>
 </template>
 
 <script>
@@ -27,5 +25,18 @@ export default {
 </script>
 
 <style scoped>
+
+.nav{
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  padding-top: 23px;
+}
+
+.nav_item{
+  color: black;
+  text-decoration: none;
+}
 
 </style>

@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <router-view/>
+  <div class="d-flex flex-grow-1">
+    <NavigationBar/>
+    <router-view class="flex-grow-1" />
   </div>
 </template>
 
