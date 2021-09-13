@@ -9,5 +9,5 @@ $input-border-color: #2272ea;
 $navbar-light-active-color: #2272ea;
 
 @import "node_modules/bootstrap/scss/bootstrap";
-@import 'node_modules/bootstrap-vue/src/components/dropdown/_dropdown.scss';
+@import 'node_modules/bootstrap-vue/src/components/dropdown/_dropdown.scss'; // https://github.com/bootstrap-vue/bootstrap-vue/issues/2951
 
