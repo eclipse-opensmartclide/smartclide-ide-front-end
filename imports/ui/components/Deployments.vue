@@ -1,6 +1,6 @@
 <template>
   <div>
-    DEPLOYMENTS
+    Deployments
   </div>
 </template>
 
@@ -9,7 +9,3 @@ export default {
   name: "Deployments"
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -1,6 +1,11 @@
 <template>
   <div>
-
-    SERVICES
+    Services
   </div>
 </template>
+
+<script>
+export default {
+  name: "Services"
+}
+</script>

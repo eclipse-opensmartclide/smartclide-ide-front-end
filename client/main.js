@@ -1,25 +1,16 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
-import '../imports/ui/plugins'
-import '../styles/variables.scss'
+import VueMeteorTracker from 'vue-meteor-tracker'
 import {BootstrapVue, BootstrapVueIcons, ImagePlugin} from "bootstrap-vue"
+
+import '../styles/variables.scss'
 import App from '../imports/ui/App.vue'
-
 import router from './routes'
+import store from './store'
 
-Vue.use(Vuex)
+Vue.use(VueMeteorTracker)
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(ImagePlugin)
-
-let store = new Vuex.Store({
-  state: {
-    context: "main"
-  },
-  getters: {},
-  mutations: {},
-  actions: {}
-})
 
 Meteor.startup(() => {
   new Vue({

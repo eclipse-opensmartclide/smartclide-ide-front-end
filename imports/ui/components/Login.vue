@@ -1,9 +1,6 @@
-
 <template>
   <BContainer class="vh-100 d-flex justify-content-center align-items-center" >
-
     <div class="login-container d-flex flex-column align-items-center">
-
       <BImg class="main-logo mt-4" src="/assets/SmartClideRGBColor.png"/>
 
       <BForm @submit.prevent="loginWithSmartCLIDE">
@@ -19,13 +16,11 @@
           <div class="btn-text">SmartCLIDE Eclipse Che</div>
         </BButton>
       </BForm>
-
     </div>
   </BContainer>
 </template>
 
 <script>
-
 export default {
   props: ["keycloak"],
   data(){
@@ -38,7 +33,6 @@ export default {
     loginWithSmartCLIDE: function (ev){
       this.$emit("login_clicked", true)
     },
-
     loginWithEclipseChe: function (){
       this.keycloak.init({
         onLoad: 'login-required'
@@ -46,11 +40,9 @@ export default {
     }
   }
 }
-
 </script>
 
 <style scoped>
-
 .login-container{
   background: #E5EEFD;
   width: 351px;
@@ -97,6 +89,5 @@ export default {
   justify-content: center;
   font-size: 14px;
 }
-
 </style>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-grow-1">
     <ContextBar/>
-    <router-view class="flex-grow-1" />
+    <router-view class="flex-grow-1"/>
   </div>
 </template>
 
@@ -15,7 +15,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

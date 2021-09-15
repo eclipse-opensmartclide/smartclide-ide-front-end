@@ -4,7 +4,7 @@
       <header>
         <Header :keycloak="this.keycloak" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser"/>
       </header>
-      <Home :context="this.context"/>
+      <Home/>
     </template>
 
     <template v-else-if="smartCLIDE_login">
@@ -31,7 +31,6 @@ export default {
     Login,
     Home
   },
-
   created() {
     this.keycloak = new Keycloak("http://localhost:8080/keycloak.json");
 
@@ -41,23 +40,23 @@ export default {
       onLoad: 'check-sso',
       loadUserProfileAtStartUp: true
     })
-        .then((authenticated)=>{
-          console.log("authenticated: ", authenticated)
+    .then((authenticated)=>{
+      console.log("authenticated: ", authenticated)
 
-          this.eclipseCheLogin = authenticated
-          // get eclipse che user
-          if(this.keycloak.tokenParsed){
-            this.eclipseCheUser = this.keycloak.tokenParsed
-          }
-        }).catch(function (error){
+      this.eclipseCheLogin = authenticated
+
+      // Get Eclipse Che user
+      if(this.keycloak.tokenParsed)
+        this.eclipseCheUser = this.keycloak.tokenParsed
+    })
+    .catch(function (error){
       console.log(error)
     })
   },
   data() {
     return {
       eclipseCheUser: undefined,
-      smartCLIDE_login: undefined,
-      context: "main"
+      smartCLIDE_login: undefined
     };
   },
   methods: {
@@ -76,8 +75,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-
-</style>
-

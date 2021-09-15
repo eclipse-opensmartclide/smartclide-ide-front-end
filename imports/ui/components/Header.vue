@@ -1,27 +1,24 @@
 <template>
   <div class="header">
-
-    <!-- LOGO -->
+    <!-- Logo -->
     <BCol>
       <RouterLink to="/"> <BImg class="logo" src="/assets/SmartClideRGBColor.png" @click="optionClicked('main')"/></RouterLink>
     </BCol>
-
-    <!-- IDE SETTINGS -->
+    <!-- IDE Settings -->
     <div class="ide float-right" >
       <RouterLink to="/settings"><BIconGear class="icon" @click="optionClicked('settings')"/></RouterLink>
     </div>
-
-    <!-- USER SETTINGS -->
+    <!-- User Settings -->
     <div class="user float-right">
       <BDropdown variant="bg-transparent text-primary" toggle-class="text-decoration-none" no-caret>
         <template #button-content>
           <BIconPersonCircle class="icon"/>
         </template>
         <template v-if="meteorUser">
-          <BDropdownItem>{{meteorUser.username}}</BDropdownItem>
+          <BDropdownHeader>{{meteorUser.username}}</BDropdownHeader>
         </template>
         <template v-if="eclipseCheUser">
-          <BDropdownItem>{{eclipseCheUser.name}}</BDropdownItem>
+          <BDropdownHeader>{{eclipseCheUser.name}}</BDropdownHeader>
         </template>
         <BDropdownDivider/>
         <BDropdownItem @click="optionClicked('my-account')">
@@ -40,12 +37,10 @@ export default {
   methods: {
     logout(){
       // TODO go to initial page
-      if(this.eclipseCheUser){
-        this.keycloak.logout()
-      }
-      else{
+      if(this.eclipseCheUser)
+        this.keycloak.logout();
+      else
         Meteor.logout();
-      }
     },
     optionClicked(option){
       this.$store.state.context = option;

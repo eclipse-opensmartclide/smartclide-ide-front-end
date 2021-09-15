@@ -44,7 +44,6 @@ export default {
 </script>
 
 <style scoped>
-
 .nav{
   width: 200px;
   display: flex;
@@ -57,5 +56,4 @@ export default {
   color: black;
   text-decoration: none;
 }
-
 </style>

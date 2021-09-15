@@ -1,44 +1,35 @@
-
 <template>
   <BContainer class="vh-100 d-flex justify-content-center align-items-center" >
-
     <div class="login-container d-flex flex-column align-items-center">
-
       <BImg class="main-logo mt-4" src="/assets/SmartClideRGBColor.png"/>
 
       <BForm @submit.prevent="login">
-        <!-- username -->
+        <!-- Username -->
         <div class="icon-and-input mt-4">
           <div class="icon-container bg-primary">
             <BIconPerson class="icon p-1"/>
           </div>
           <BFormInput class="form-input" placeholder="Username" v-model="username" required/>
         </div>
-
-        <!-- password -->
+        <!-- Password -->
         <div class="icon-and-input mt-3">
           <div class="icon-container bg-primary">
             <BIconKey class="icon p-1"/>
           </div>
           <BFormInput class="form-input" type="password" placeholder="Password" v-model="password" required/>
         </div>
-
+        <!-- Button -->
         <div class="login mt-3 d-flex justify-content-center">
           <BButton class="bg-primary text-white" name="login" type="submit">Log in</BButton>
         </div>
       </BForm>
-
     </div>
   </BContainer>
 </template>
 
 <script>
-
 export default {
   props: ["keycloak"],
-  components: {
-
-  },
   data(){
     return {
       username: '',
@@ -51,11 +42,9 @@ export default {
     }
   }
 }
-
 </script>
 
 <style scoped>
-
 .login-container{
   background: #E5EEFD;
   width: 351px;
@@ -94,6 +83,5 @@ export default {
   font-size: 14px;
   height: 38px;
 }
-
 </style>
 

@@ -1,6 +1,11 @@
 <template>
   <div>
-
-    WORKFLOWS
+    Workflows
   </div>
 </template>
+
+<script>
+export default {
+  name: "Workflows"
+}
+</script>
