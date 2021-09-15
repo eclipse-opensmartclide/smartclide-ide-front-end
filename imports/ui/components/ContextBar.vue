@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="this.context === 'main'">
+    <template v-if="this.$store.state.context === 'main'">
       <BNav class="nav bg-light" aria-orientation="vertical">
         <RouterLink class="nav_item" to="/workflows">Workflows</RouterLink>
         <RouterLink class="nav_item mt-3" to="/services">Services</RouterLink>
@@ -8,7 +8,7 @@
       </BNav>
     </template>
 
-    <template v-else-if="this.context === 'settings'">
+    <template v-else-if="this.$store.state.context === 'settings'">
       <BNav class="nav bg-light" aria-orientation="vertical">
         <div class="nav_item">Statistics</div>
         <div class="nav_item mt-3">Logs</div>
@@ -17,7 +17,7 @@
       </BNav>
     </template>
 
-    <template v-else-if="this.context === 'my-account'">
+    <template v-else-if="this.$store.state.context === 'my-account'">
       <BNav class="nav bg-light" aria-orientation="vertical">
         <div class="nav_item">Profile</div>
         <div class="nav_item mt-3">Team</div>
@@ -35,7 +35,6 @@ import Deployments from "./Deployments";
 
 export default {
   name: "ContextBar",
-  props: ["context"],
   components: {
     Workflows,
     Services,

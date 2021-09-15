@@ -2,7 +2,7 @@
   <div class="main vh-100 d-flex flex-column">
     <template v-if="meteorUser || this.eclipseCheUser">
       <header>
-        <Header :keycloak="this.keycloak" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser" @header_clicked="header_clicked"/>
+        <Header :keycloak="this.keycloak" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser"/>
       </header>
       <Home :context="this.context"/>
     </template>
@@ -63,9 +63,6 @@ export default {
   methods: {
     login_clicked(state){
       this.smartCLIDE_login = state
-    },
-    header_clicked(option){
-      this.context = option;
     }
   },
   meteor: {

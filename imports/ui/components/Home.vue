@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-grow-1">
-    <ContextBar :context="this.context"/>
+    <ContextBar/>
     <router-view class="flex-grow-1" />
   </div>
 </template>
@@ -10,7 +10,6 @@ import ContextBar from './ContextBar';
 
 export default {
   name: "Home",
-  props: ["context"],
   components: {
     ContextBar
   }

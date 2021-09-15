@@ -48,7 +48,7 @@ export default {
       }
     },
     optionClicked(option){
-      this.$emit('header_clicked', option);
+      this.$store.state.context = option;
     }
   }
 }
