@@ -28,9 +28,6 @@
 
 export default {
   props: ["keycloak"],
-  components: {
-
-  },
   data(){
     return {
       username: '',

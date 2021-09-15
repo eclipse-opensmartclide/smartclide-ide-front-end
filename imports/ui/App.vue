@@ -1,16 +1,13 @@
 <template>
   <div class="main vh-100 d-flex flex-column">
-    <template v-if="meteorUser|| this.eclipseCheUser">
-
-
-
+    <template v-if="meteorUser || this.eclipseCheUser">
       <header>
-        <Header :keycloak="this.keycloak" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser"/>
+        <Header :keycloak="this.keycloak" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser" @header_clicked="header_clicked"/>
       </header>
-      <Home />
+      <Home :context="this.context"/>
     </template>
 
-    <template v-else-if="this.smartCLIDE_login">
+    <template v-else-if="smartCLIDE_login">
       <LoginSmartCLIDE />
     </template>
 
@@ -24,7 +21,6 @@
 import Keycloak from "keycloak-js";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import NavigationBar from "./components/NavigationBar";
 import Header from "./components/Header";
 import LoginSmartCLIDE from "./components/LoginSmartCLIDE";
 
@@ -32,7 +28,6 @@ export default {
   components: {
     LoginSmartCLIDE,
     Header,
-    NavigationBar,
     Login,
     Home
   },
@@ -61,12 +56,16 @@ export default {
   data() {
     return {
       eclipseCheUser: undefined,
-      smartCLIDE_login: undefined
+      smartCLIDE_login: undefined,
+      context: "main"
     };
   },
   methods: {
     login_clicked(state){
       this.smartCLIDE_login = state
+    },
+    header_clicked(option){
+      this.context = option;
     }
   },
   meteor: {

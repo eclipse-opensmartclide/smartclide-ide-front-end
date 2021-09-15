@@ -1,17 +1,18 @@
 <template>
   <div class="d-flex flex-grow-1">
-    <NavigationBar/>
+    <ContextBar :context="this.context"/>
     <router-view class="flex-grow-1" />
   </div>
 </template>
 
 <script>
-import NavigationBar from './NavigationBar';
+import ContextBar from './ContextBar';
 
 export default {
   name: "Home",
+  props: ["context"],
   components: {
-    NavigationBar
+    ContextBar
   }
 }
 </script>

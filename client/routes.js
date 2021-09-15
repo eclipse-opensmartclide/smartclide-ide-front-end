@@ -5,6 +5,8 @@ import Register from "../imports/ui/components/_old/Register";
 import Workflows from "../imports/ui/components/Workflows";
 import Services from "../imports/ui/components/Services";
 import Deployments from "../imports/ui/components/Deployments";
+import Settings from "../imports/ui/components/Settings";
+import MyAccount from "../imports/ui/components/MyAccount";
 
 Vue.use(VueRouter)
 
@@ -33,6 +35,16 @@ const routes = [
         path: "/deployments",
         name: 'Deployments',
         component: Deployments
+    },
+    {
+        path: "/settings",
+        name: 'Settings',
+        component: Settings
+    },
+    {
+        path: "/my-account",
+        name: 'MyAccount',
+        component: MyAccount
     }
 ]
 

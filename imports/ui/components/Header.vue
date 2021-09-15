@@ -3,23 +3,15 @@
 
     <!-- LOGO -->
     <BCol>
-      <RouterLink to="/"> <BImg class="logo" src="/assets/SmartClideRGBColor.png" /></RouterLink>
+      <RouterLink to="/"> <BImg class="logo" src="/assets/SmartClideRGBColor.png" @click="optionClicked('main')"/></RouterLink>
     </BCol>
 
-    <!-- IDE -->
-    <div class="ide float-right">
-      <BDropdown variant="bg-transparent text-primary" toggle-class="text-decoration-none" no-caret>
-        <template #button-content>
-          <BIconGear class="icon"/>
-        </template>
-        <BDropdownItem>Statistics</BDropdownItem>
-        <BDropdownItem>Logs</BDropdownItem>
-        <BDropdownItem>Appearance</BDropdownItem>
-        <BDropdownItem>Help</BDropdownItem>
-      </BDropdown>
+    <!-- IDE SETTINGS -->
+    <div class="ide float-right" >
+      <RouterLink to="/settings"><BIconGear class="icon" @click="optionClicked('settings')"/></RouterLink>
     </div>
 
-    <!-- USER -->
+    <!-- USER SETTINGS -->
     <div class="user float-right">
       <BDropdown variant="bg-transparent text-primary" toggle-class="text-decoration-none" no-caret>
         <template #button-content>
@@ -32,10 +24,9 @@
           <BDropdownItem>{{eclipseCheUser.name}}</BDropdownItem>
         </template>
         <BDropdownDivider/>
-        <BDropdownItem>Profile</BDropdownItem>
-        <BDropdownItem>Team</BDropdownItem>
-        <BDropdownItem>Sources</BDropdownItem>
-        <BDropdownItem>Credentials</BDropdownItem>
+        <BDropdownItem @click="optionClicked('my-account')">
+          <RouterLink class="nav_item" to="/my-account">My Account</RouterLink>
+        </BDropdownItem>
         <BDropdownItem @click="logout">Log out</BDropdownItem>
       </BDropdown>
     </div>
@@ -43,12 +34,7 @@
 </template>
 
 <script>
-import NavigationBar from "./NavigationBar";
-
 export default {
-  components: {
-    NavigationBar,
-  },
   name: "Header",
   props: ["meteorUser", "eclipseCheUser", "keycloak"],
   methods: {
@@ -61,10 +47,11 @@ export default {
         Meteor.logout();
       }
     },
+    optionClicked(option){
+      this.$emit('header_clicked', option);
+    }
   }
 }
-
-
 </script>
 
 <style scoped>
@@ -90,5 +77,10 @@ export default {
   height: 40px;
   color: var(--primary);
 
+}
+
+.nav_item{
+  color: black;
+  text-decoration: none;
 }
 </style>
