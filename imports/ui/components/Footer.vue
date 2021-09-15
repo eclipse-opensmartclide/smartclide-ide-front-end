@@ -8,7 +8,7 @@
           research and innovation programme under grant agreement no. 871177
         </div>
       </div>
-      <small class="privacy ml-3 mr-4 float-right">Privacy Policy</small>
+      <div class="privacy ml-3 mr-4 float-right">Privacy Policy</div>
       <BImg height="34" width="54" src="/assets/SmartClideRGBColor.png" />
     </div>
   </div>
@@ -31,6 +31,7 @@ export default {
   color: #666666;
 }
 .privacy{
+  font-size: 11px;
   color: #666666
 }
 </style>
