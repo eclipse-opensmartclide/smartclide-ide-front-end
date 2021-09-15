@@ -1,6 +1,6 @@
 <template>
   <BNav class="nav bg-light" aria-orientation="vertical">
-    <RouterLink class="nav_item" to="/workflows">Workflows</RouterLink>
+    <RouterLink class="nav_item" to="/workflows" >Workflows</RouterLink>
     <RouterLink class="nav_item mt-3" to="/services">Services</RouterLink>
     <RouterLink class="nav_item mt-3" to="/deployments">Deployments</RouterLink>
   </BNav>
@@ -13,6 +13,7 @@ import Deployments from "./Deployments";
 
 export default {
   name: "NavigationBar",
+  props: ["keycloakToken"],
   components: {
     Workflows,
     Services,

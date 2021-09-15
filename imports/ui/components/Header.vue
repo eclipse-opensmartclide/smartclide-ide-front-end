@@ -1,10 +1,12 @@
 <template>
   <div class="header">
-
     <!-- LOGO -->
-    <BCol>
-      <RouterLink to="/"> <BImg class="logo" src="/assets/SmartClideRGBColor.png" /></RouterLink>
-    </BCol>
+      <div class="logo-container">
+        <RouterLink to="/"> <BImg class="logo" src="/assets/SmartClideRGBColor.png" /></RouterLink>
+      </div>
+
+    <!-- TODO: avoid this -->
+    <div class="dummy"/>
 
     <!-- IDE -->
     <div class="ide float-right">
@@ -26,10 +28,10 @@
           <BIconPersonCircle class="icon"/>
         </template>
         <template v-if="meteorUser">
-          <BDropdownItem>{{meteorUser.username}}</BDropdownItem>
+          <BDropdownItem disabled>{{meteorUser.username}}</BDropdownItem>
         </template>
         <template v-if="eclipseCheUser">
-          <BDropdownItem>{{eclipseCheUser.name}}</BDropdownItem>
+          <BDropdownItem disabled>{{eclipseCheUser.name}}</BDropdownItem>
         </template>
         <BDropdownDivider/>
         <BDropdownItem>Profile</BDropdownItem>
@@ -41,19 +43,13 @@
     </div>
   </div>
 </template>
-
 <script>
-import NavigationBar from "./NavigationBar";
 
 export default {
-  components: {
-    NavigationBar,
-  },
   name: "Header",
   props: ["meteorUser", "eclipseCheUser", "keycloak"],
   methods: {
     logout(){
-      // TODO go to initial page
       if(this.eclipseCheUser){
         this.keycloak.logout()
       }
@@ -68,13 +64,24 @@ export default {
 </script>
 
 <style scoped>
-.logo{
-  width: 122px;
-}
 
 .header{
   display: flex;
   align-items: center;
+}
+
+.logo-container{
+  width: 200px;
+  display: flex;
+  justify-content: center;
+}
+
+.logo{
+  width: 122px;
+}
+
+.dummy{
+  flex-grow: 1;
 }
 
 .ide{
