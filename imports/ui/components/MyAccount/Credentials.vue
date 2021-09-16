@@ -1,14 +1,18 @@
 <template>
   <div>
-    <router-view/>
+    Credentials
   </div>
 </template>
 
 <script>
 export default {
-  name: "MyAccount",
+  name: "Credentials",
   mounted(){
     this.$store.state.context = 'my-account';
   }
 }
 </script>
+
+<style scoped>
+
+</style>

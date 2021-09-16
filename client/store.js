@@ -18,19 +18,19 @@ export default new Vuex.Store({
             {
                 name: 'settings',
                 options: [
-                    { title: 'Statistics', link: '/statistics' },
-                    { title: 'Logs', link: '/logs' },
-                    { title: 'Appearance', link: '/appearance' },
-                    { title: 'Help', link: '/help' }
+                    { title: 'Statistics', link: '/settings/statistics' },
+                    { title: 'Logs', link: '/settings/logs' },
+                    { title: 'Appearance', link: '/settings/appearance' },
+                    { title: 'Help', link: '/settings/help' }
                 ]
             },
             {
                 name: 'my-account',
                 options: [
-                    { title: 'Profile', link: '/profile' },
-                    { title: 'Team', link: '/team' },
-                    { title: 'Sources', link: '/sources' },
-                    { title: 'Credentials', link: '/credentials' }
+                    { title: 'Profile', link: '/my-account/profile' },
+                    { title: 'Team', link: '/my-account/team' },
+                    { title: 'Sources', link: '/my-account/sources' },
+                    { title: 'Credentials', link: '/my-account/credentials' }
                 ]
             },
         ]

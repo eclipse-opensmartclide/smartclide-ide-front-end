@@ -1,15 +1,18 @@
 <template>
   <div>
-    <router-view/>
+    Appearance
   </div>
 </template>
 
 <script>
-
 export default {
-  name: "Settings",
+  name: "Appearance",
   mounted(){
     this.$store.state.context = 'settings';
   }
 }
 </script>
+
+<style scoped>
+
+</style>

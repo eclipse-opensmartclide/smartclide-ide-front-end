@@ -1,14 +1,18 @@
 <template>
   <div>
-    <router-view/>
+    Sources
   </div>
 </template>
 
 <script>
 export default {
-  name: "MyAccount",
+  name: "Sources",
   mounted(){
     this.$store.state.context = 'my-account';
   }
 }
 </script>
+
+<style scoped>
+
+</style>
