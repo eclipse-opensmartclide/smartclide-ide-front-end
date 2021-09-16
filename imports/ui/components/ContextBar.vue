@@ -45,6 +45,7 @@ export default {
 
 <style scoped>
 .nav{
+  height: 100%;
   width: 200px;
   display: flex;
   flex-direction: column;

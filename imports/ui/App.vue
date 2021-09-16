@@ -1,19 +1,21 @@
 <template>
   <div class="main vh-100 d-flex flex-column">
-    <template v-if="meteorUser || this.eclipseCheUser">
+    <template v-if="meteorUser|| this.eclipseCheUser">
       <header>
         <Header :keycloak="this.keycloak" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser"/>
       </header>
-      <Home/>
+      <Home :keycloakToken="this.keycloakToken" />
     </template>
 
-    <template v-else-if="smartCLIDE_login">
+    <template v-else-if="this.smartCLIDE_login">
       <LoginSmartCLIDE />
     </template>
 
     <template v-else>
       <Login :keycloak="this.keycloak" @login_clicked="login_clicked"/>
     </template>
+
+    <Footer/>
   </div>
 </template>
 
@@ -23,9 +25,12 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Header from "./components/Header";
 import LoginSmartCLIDE from "./components/LoginSmartCLIDE";
+import Vue from "vue";
+import Footer from "./components/Footer";
 
 export default {
   components: {
+    Footer,
     LoginSmartCLIDE,
     Header,
     Login,
@@ -40,23 +45,26 @@ export default {
       onLoad: 'check-sso',
       loadUserProfileAtStartUp: true
     })
-    .then((authenticated)=>{
-      console.log("authenticated: ", authenticated)
+        .then((authenticated)=>{
+          console.log("authenticated: ", authenticated)
 
-      this.eclipseCheLogin = authenticated
+          this.eclipseCheLogin = authenticated
+          // this.keycloakToken = this.keycloak.idToken
+          Vue.prototype.$keycloakToken = this.keycloak.idToken // avoid global variable
 
-      // Get Eclipse Che user
-      if(this.keycloak.tokenParsed)
-        this.eclipseCheUser = this.keycloak.tokenParsed
-    })
-    .catch(function (error){
+          // get eclipse che user
+          if(this.keycloak.tokenParsed){
+            this.eclipseCheUser = this.keycloak.tokenParsed
+          }
+        }).catch(function (error){
       console.log(error)
     })
   },
   data() {
     return {
       eclipseCheUser: undefined,
-      smartCLIDE_login: undefined
+      smartCLIDE_login: undefined,
+      keycloakToken: ''
     };
   },
   methods: {

@@ -1,24 +1,30 @@
 <template>
   <div class="header">
-    <!-- Logo -->
-    <BCol>
+
+    <!-- LOGO -->
+    <div class="logo-container">
       <RouterLink to="/"> <BImg class="logo" src="/assets/SmartClideRGBColor.png" @click="optionClicked('main')"/></RouterLink>
-    </BCol>
-    <!-- IDE Settings -->
-    <div class="ide float-right" >
+    </div>
+
+    <!-- TODO: avoid this -->
+    <div class="dummy"/>
+
+    <!-- IDE -->
+    <div class="ide" >
       <RouterLink to="/settings"><BIconGear class="icon" @click="optionClicked('settings')"/></RouterLink>
     </div>
-    <!-- User Settings -->
-    <div class="user float-right">
+
+    <!-- USER -->
+    <div class="user">
       <BDropdown variant="bg-transparent text-primary" toggle-class="text-decoration-none" no-caret>
         <template #button-content>
           <BIconPersonCircle class="icon"/>
         </template>
         <template v-if="meteorUser">
-          <BDropdownHeader>{{meteorUser.username}}</BDropdownHeader>
+          <BDropdownItem disabled>{{meteorUser.username}}</BDropdownItem>
         </template>
         <template v-if="eclipseCheUser">
-          <BDropdownHeader>{{eclipseCheUser.name}}</BDropdownHeader>
+          <BDropdownItem disabled>{{eclipseCheUser.name}}</BDropdownItem>
         </template>
         <BDropdownDivider/>
         <BDropdownItem @click="optionClicked('my-account')">
@@ -29,18 +35,18 @@
     </div>
   </div>
 </template>
-
 <script>
+
 export default {
   name: "Header",
   props: ["meteorUser", "eclipseCheUser", "keycloak"],
   methods: {
     logout(){
-      // TODO go to initial page
       if(this.eclipseCheUser)
         this.keycloak.logout();
-      else
+      else {
         Meteor.logout();
+      }
     },
     optionClicked(option){
       this.$store.state.context = option;
@@ -50,13 +56,24 @@ export default {
 </script>
 
 <style scoped>
-.logo{
-  width: 122px;
-}
 
 .header{
   display: flex;
   align-items: center;
+}
+
+.logo-container{
+  width: 200px;
+  display: flex;
+  justify-content: center;
+}
+
+.logo{
+  width: 122px;
+}
+
+.dummy{
+  flex-grow: 1;
 }
 
 .ide{
