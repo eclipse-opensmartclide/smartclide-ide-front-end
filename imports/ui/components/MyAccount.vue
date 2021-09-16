@@ -6,6 +6,9 @@
 
 <script>
 export default {
-  name: "MyAccount"
+  name: "MyAccount",
+  mounted(){
+    this.$store.state.context = 'my-account';
+  }
 }
 </script>

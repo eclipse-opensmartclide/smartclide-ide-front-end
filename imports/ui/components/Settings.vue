@@ -6,6 +6,9 @@
 
 <script>
 export default {
-  name: "Settings"
+  name: "Settings",
+  mounted(){
+    this.$store.state.context = 'settings';
+  }
 }
 </script>
