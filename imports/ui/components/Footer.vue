@@ -4,7 +4,7 @@
       <BImg height="34" width="54" src="/assets/EU_flag.png" />
       <div class="ml-3 flex-grow-1">
         <div class="text d-inline-block" >
-          i3-Market has received funding from the European Union&apos;s Horizon 2020
+          SmartCLIDE has received funding from the European Union&apos;s Horizon 2020
           research and innovation programme under grant agreement no. 871177
         </div>
       </div>
