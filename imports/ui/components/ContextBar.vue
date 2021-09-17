@@ -1,9 +1,16 @@
 <template>
   <div>
     <BNav class="nav bg-light" aria-orientation="vertical">
-      <RouterLink class="nav_item mt-3" v-for="option in this.$store.getters.getOptions" :to="option.link">
-        {{ option.title }}
-      </RouterLink>
+      <div v-for="category in this.$store.getters.getCategories">
+
+        <div v-if="category.category !== 'root'">{{category.category}}</div>
+          <div v-for="option in category.options">
+            <RouterLink class="nav_item mt-3" :to="option.link">
+              {{ option.title }}
+            </RouterLink>
+          </div>
+      </div>
+
     </BNav>
   </div>
 </template>
