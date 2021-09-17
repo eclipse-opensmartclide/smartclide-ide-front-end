@@ -1,12 +1,13 @@
 <template>
-  <div>
+  <div class="nav_container">
+    <QuickAccess/>
     <BNav class="nav bg-light" aria-orientation="vertical">
       <div v-for="category in this.$store.getters.getCategories">
-        <div v-if="category.category !== 'root'">
+        <div class="category p-2" v-if="category.category !== 'root'">
           {{category.category}}
         </div>
-        <div v-for="option in category.options">
-          <RouterLink class="nav_item mt-3" :to="option.link">
+        <div class="p-2" v-for="option in category.options">
+          <RouterLink class="nav_item" :to="option.link">
             {{ option.title }}
           </RouterLink>
         </div>
@@ -16,23 +17,36 @@
 </template>
 
 <script>
+import QuickAccess from "./QuickAccess";
 export default {
-  name: "ContextBar"
+  name: "ContextBar",
+  components: {
+    QuickAccess
+  }
 }
 </script>
 
 <style scoped>
+
+.nav_container{
+  padding-top: 23px;
+  width: 222px;
+}
+
 .nav{
   height: 100%;
-  width: 200px;
   display: flex;
   flex-direction: column;
-  align-content: center;
-  padding-top: 23px;
 }
 
 .nav_item{
   color: black;
   text-decoration: none;
+  margin-left: 8px;
+}
+
+.category{
+  margin-left: 8px;
+  font-weight: bold;
 }
 </style>
