@@ -32,13 +32,15 @@
 import Workflows from "./Workflows";
 import Services from "./Services";
 import Deployments from "./Deployments";
+import QuickAccess from "./QuickAccess";
 
 export default {
   name: "ContextBar",
   components: {
     Workflows,
     Services,
-    Deployments
+    Deployments,
+    QuickAccess
   }
 }
 </script>

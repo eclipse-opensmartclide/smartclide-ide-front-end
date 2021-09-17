@@ -17,6 +17,8 @@
 
     <Footer/>
   </div>
+<!--  <QuickAccess/>-->
+
 </template>
 
 <script>
@@ -27,9 +29,11 @@ import Header from "./components/Header";
 import LoginSmartCLIDE from "./components/LoginSmartCLIDE";
 import Vue from "vue";
 import Footer from "./components/Footer";
+import QuickAccess from "./components/QuickAccess";
 
 export default {
   components: {
+    QuickAccess,
     Footer,
     LoginSmartCLIDE,
     Header,
