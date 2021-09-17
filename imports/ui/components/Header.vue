@@ -27,8 +27,9 @@
           <BDropdownItem disabled>{{eclipseCheUser.name}}</BDropdownItem>
         </template>
         <BDropdownDivider/>
-        <BDropdownItem @click="optionClicked('my-account')">
-          <RouterLink class="nav_item" to="/my-account">My Account</RouterLink>
+        <BDropdownItem router to="/my-account" @click="optionClicked('my-account')">
+<!--          <RouterLink class="nav_item" to="/my-account">My Account</RouterLink>-->
+          My Account
         </BDropdownItem>
         <BDropdownItem @click="logout">Log out</BDropdownItem>
       </BDropdown>
