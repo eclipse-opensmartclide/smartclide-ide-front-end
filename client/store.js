@@ -45,15 +45,6 @@ export default new Vuex.Store({
                             { title: 'Sources', link: '/my-account/sources' },
                             { title: 'Credentials', link: '/my-account/credentials' }
                         ]
-                    },
-                    {
-                        category: "bananas",
-                        options: [
-                            { title: 'a', link: '/my-account/a' },
-                            { title: 'b', link: '/my-account/b' },
-                            { title: 'c', link: '/my-account/c' },
-                            { title: 'd', link: '/my-account/d' }
-                        ]
                     }
                 ]
             },
@@ -61,10 +52,7 @@ export default new Vuex.Store({
     },
     getters: {
         getCategories: state => {
-            return state.contextBars.filter(el => el.name === state.context)[0].categories;
-        },
-        getOptions: state => {
-            return state.contextBars.filter(contextBar => contextBar.name === state.context)[0].options;
+            return state.contextBars.filter(contextBar => contextBar.name === state.context)[0].categories;
         }
     },
     mutations: {},
