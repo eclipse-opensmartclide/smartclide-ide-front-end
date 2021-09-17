@@ -28,10 +28,9 @@
         </template>
         <BDropdownDivider/>
         <BDropdownItem router to="/my-account" @click="optionClicked('my-account')">
-<!--          <RouterLink class="nav_item" to="/my-account">My Account</RouterLink>-->
           My Account
         </BDropdownItem>
-        <BDropdownItem @click="logout">Log out</BDropdownItem>
+        <BDropdownItem router to="/" @click="logout">Log out</BDropdownItem>
       </BDropdown>
     </div>
   </div>
