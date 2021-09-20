@@ -12,7 +12,6 @@
       </BCol>
       <BCol>
         <div class="d-flex flex-column w-100">
-
           <div class="started text-primary">
             Get Started
           </div>
@@ -26,37 +25,17 @@
       </BCol>
     </div>
 
-
     <!-- Grid -->
-    <smart-widget-grid class="mt-4" :layout="layout">
-      <smart-widget slot="0" title="Workflows">
+    <smart-widget-grid class="mt-4" :layout="cards">
+      <smart-widget v-for="card in cards" :slot="card.i" :title="card.category">
         <template slot="toolbar">
           <div style="margin: 0 12px;">
-            <BIconTrash class="widget-button" @click="remove"/>
+            <BIconTrash class="widget-button" @click="remove(card.i)"/>
           </div>
         </template>
         <div class="layout-center">
-          <BTable striped hover :items="workflows" :fields="wk_fields" :filter-function="wk_filter"></BTable>
-        </div>
-      </smart-widget>
-      <smart-widget slot="1" title="Deployments">
-        <template slot="toolbar">
-          <div style="margin: 0 12px;">
-            <BIconTrash class="widget-button" @click="remove"/>
-          </div>
-        </template>
-        <div class="layout-center">
-          <BTable striped hover :items="deployments" :fields="deploy_fields" :filter-function="deploy_filter"></BTable>
-        </div>
-      </smart-widget>
-      <smart-widget slot="2" title="Services">
-        <template slot="toolbar">
-          <div style="margin: 0 12px;">
-            <BIconTrash class="widget-button" @click="remove"/>
-          </div>
-        </template>
-        <div class="layout-center">
-          <BTable striped hover :items="services" :fields="serv_fields" :filter-function="serv_filter"></BTable>
+<!--          <BTable striped hover :items="card.items" :fields="card.fields" :filter-function="filterFields"></BTable>-->
+          <BTable striped hover :items="items[card.category]" :fields="card.fields"></BTable>
         </div>
       </smart-widget>
     </smart-widget-grid>
@@ -66,44 +45,36 @@
 
 <script>
 import workflows from "/public/workflows.json";
-import deployments from "/public/deployments.json";
 import services from "/public/services.json";
+import deployments from "/public/deployments.json";
+
 export default {
   name: "Dashboard",
   data () {
     return {
-      layout: [
-        { x: 0, y: 0, w: 4, h: 6, i: '0' },
-        { x: 4, y: 0, w: 8, h: 6, i: '1' },
-        { x: 0, y: 0, w: 4, h: 6, i: '2' },
+      id: 3,
+      cards: [
+        { x: 0, y: 0, w: 6, h: 5, i: 0, category: 'Workflows', fields:  ["name", "template", "updatedAt"]},
+        { x: 6, y: 0, w: 6, h: 5, i: 1, category: 'Services', fields: ["name", "licence", "updatedAt"]},
+        { x: 0, y: 5, w: 12, h: 6, i: 2, category: 'Deployments', fields: ["name", "workflow_service", "version", "state", "updatedAt"]}
       ],
-      workflows: workflows,
-      deployments: deployments,
-      services: services,
-      wk_fields: ["name", "template", "updatedAt"],
-      deploy_fields: ["name", "workflow_service", "version", "state", "updatedAt"],
-      serv_fields: ["name", "licence", "updatedAt"],
+      items: {
+        "Workflows": workflows,
+        "Services": services,
+        "Deployments": deployments
+      }
     }
   },
   methods: {
-    wk_filter(item, filter) {
-      return this.deployments.some( key => {
+    // REVER ESTE METODO
+    filterFields(item, filter) {
+      return this.items.Workflows.some( key => {
         return String(item[key]).indexOf(filter || '') > -1
       })
     },
-    deploy_filter(item, filter) {
-      return this.deployments.some( key => {
-        return String(item[key]).indexOf(filter || '') > -1
-      })
-    },
-    serv_filter(item, filter) {
-      return this.services.some( key => {
-        return String(item[key]).indexOf(filter || '') > -1
-      })
-    },
-    remove(item) {
-      let index = this.layout.map(card => card.x).indexOf(item.x);
-      this.layout.splice(index, 1)
+    remove(cardID) {
+      let index = this.cards.map(card => card.i).indexOf(cardID);
+      this.cards.splice(index, 1);
     }
   }
 }
