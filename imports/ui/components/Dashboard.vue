@@ -18,7 +18,7 @@
           </div>
           <div class="d-flex w-100">
             <BRow class="w-100">
-              <BCol>Create New..</BCol>
+              <BCol>Create New...</BCol>
               <BCol>Recent</BCol>
             </BRow>
           </div>
@@ -102,7 +102,8 @@ export default {
       })
     },
     remove(item) {
-      console.log("Remove table: " + item)
+      let index = this.layout.map(card => card.x).indexOf(item.x);
+      this.layout.splice(index, 1)
     }
   }
 }
