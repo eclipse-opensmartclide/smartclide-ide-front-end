@@ -29,8 +29,7 @@ export default {
 <style scoped>
 
 .nav_container{
-  padding-top: 23px;
-  width: 222px;
+  width: 250px;
 }
 
 .nav{
@@ -49,4 +48,5 @@ export default {
   margin-left: 8px;
   font-weight: bold;
 }
+
 </style>
