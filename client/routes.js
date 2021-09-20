@@ -15,14 +15,15 @@ import Profile from "../imports/ui/components/MyAccount/Profile";
 import Team from "../imports/ui/components/MyAccount/Team";
 import Sources from "../imports/ui/components/MyAccount/Sources";
 import Credentials from "../imports/ui/components/MyAccount/Credentials";
+import Dashboard from "../imports/ui/components/Dashboard";
 
 Vue.use(VueRouter)
 
 const routes = [
     {
-        path: "/index",
-        name: "Home",
-        component: Home
+        path: "/",
+        name: "Dashboard",
+        component: Dashboard
     },
     {
         path: "/register",
