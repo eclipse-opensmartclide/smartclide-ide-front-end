@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BImg class="main-logo mt-4" src="/assets/EclipseTheiaInstance.png"/>
+    <BImg class="main-logo" src="/assets/EclipseTheiaInstance.png"/>
   </div>
 </template>
 

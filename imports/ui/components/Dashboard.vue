@@ -1,12 +1,7 @@
 <template>
   <div>
-    <div class="dashboard">
-      <div class="title text-primary">Dashboard</div>
-      <BIconPlusCircle class="text-primary add"/>
-    </div>
-
     <!-- Welcome / Get Started -->
-    <div class="d-flex mt-4">
+    <div class="d-flex">
       <BCol>
         <BImg class="welcome" src="/assets/SmartCLIDE_welcome.png"/>
       </BCol>
@@ -27,6 +22,10 @@
           </div>
         </div>
       </BCol>
+      <div class="add">
+        <BIconPlusCircle class="text-primary add-icon"/>
+      </div>
+
     </div>
 
     <!-- Grid -->
@@ -94,6 +93,10 @@ export default {
 }
 
 .add{
+
+}
+
+.add-icon{
   width: 20px;
   height: 20px;
 

@@ -1,30 +1,70 @@
 <template>
+<!--  <BContainer class="vh-100 d-flex justify-content-center align-items-center" >-->
+<!--    <div class="login-container d-flex flex-column align-items-center">-->
+<!--      <BImg class="main-logo " src="/assets/SmartCLIDE_logo.png"/>-->
+
+<!--      <BForm @submit.prevent="login">-->
+<!--        &lt;!&ndash; Username &ndash;&gt;-->
+<!--        <div class="icon-and-input mt-4">-->
+<!--          <div class="icon-container bg-primary">-->
+<!--            <BIconPerson class="icon p-1"/>-->
+<!--          </div>-->
+<!--          <BFormInput class="form-input" placeholder="Username" v-model="username" required/>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; Password &ndash;&gt;-->
+<!--        <div class="icon-and-input mt-3">-->
+<!--          <div class="icon-container bg-primary">-->
+<!--            <BIconKey class="icon p-1"/>-->
+<!--          </div>-->
+<!--          <BFormInput class="form-input" type="password" placeholder="Password" v-model="password" required/>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; Button &ndash;&gt;-->
+<!--        <div class="login mt-3 d-flex justify-content-center">-->
+<!--          <BButton class="bg-primary text-white" name="login" type="submit">Log in</BButton>-->
+<!--        </div>-->
+<!--      </BForm>-->
+<!--    </div>-->
+<!--  </BContainer>-->
+
   <BContainer class="vh-100 d-flex justify-content-center align-items-center" >
     <div class="login-container d-flex flex-column align-items-center">
-      <BImg class="main-logo mt-4" src="/assets/SmartClideRGBColor.png"/>
 
-      <BForm @submit.prevent="login">
-        <!-- Username -->
-        <div class="icon-and-input mt-4">
-          <div class="icon-container bg-primary">
-            <BIconPerson class="icon p-1"/>
+      <BRow class="h-50">
+        <BImg class="main-logo" src="/assets/SmartCLIDE_logo.png"/>
+      </BRow>
+
+      <BRow class="h-50">
+        <BForm @submit.prevent="login">
+          <!-- Username -->
+          <div class="icon-and-input mt-4">
+            <div class="icon-container bg-primary">
+              <BIconPerson class="icon p-1"/>
+            </div>
+            <BFormInput class="form-input" placeholder="Username" v-model="username" required/>
           </div>
-          <BFormInput class="form-input" placeholder="Username" v-model="username" required/>
-        </div>
-        <!-- Password -->
-        <div class="icon-and-input mt-3">
-          <div class="icon-container bg-primary">
-            <BIconKey class="icon p-1"/>
+          <!-- Password -->
+          <div class="icon-and-input mt-3">
+            <div class="icon-container bg-primary">
+              <BIconKey class="icon p-1"/>
+            </div>
+            <BFormInput class="form-input" type="password" placeholder="Password" v-model="password" required/>
           </div>
-          <BFormInput class="form-input" type="password" placeholder="Password" v-model="password" required/>
-        </div>
-        <!-- Button -->
-        <div class="login mt-3 d-flex justify-content-center">
-          <BButton class="bg-primary text-white" name="login" type="submit">Log in</BButton>
-        </div>
-      </BForm>
+          <!-- Button -->
+          <div class="login mt-3 d-flex justify-content-center">
+            <BButton class="bg-primary text-white" name="login" type="submit">Log in</BButton>
+          </div>
+        </BForm>
+      </BRow>
+
+
+
+
+
     </div>
   </BContainer>
+
+
+
 </template>
 
 <script>
@@ -50,10 +90,12 @@ export default {
   width: 351px;
   height: 397px;
   border-radius: 10px;
+  justify-content: center;
 }
 
 .main-logo{
   width: 274px;
+  object-fit: contain;
 }
 
 .icon-and-input{

@@ -39,7 +39,7 @@ export default {
 <style scoped>
 
 .nav_container{
-  width: 250px;
+  width: 200px;
 }
 
 .nav{
