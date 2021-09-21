@@ -12,7 +12,6 @@
     <template v-else>
       <Login :keycloak="this.keycloak" @login_clicked="login_clicked"/>
     </template>
-
     <!--      <Footer/>-->
   </div>
 
