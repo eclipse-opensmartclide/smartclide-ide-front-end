@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-flex flex-column">
     <div class="dashboard">
       <div class="title text-primary">Dashboard</div>
       <BIconPlusCircle class="text-primary add"/>
@@ -8,7 +8,7 @@
     <!-- Welcome / Get Started -->
     <div class="d-flex mt-4">
       <BCol>
-        <BImg class="welcome" src="/assets/SmartCLIDE_welcome.png"/>
+        <BImg class="welcome"  src="/assets/SmartCLIDE_welcome.png"/>
       </BCol>
       <BCol>
         <div class="d-flex flex-column w-100">
@@ -28,7 +28,7 @@
 
 
     <!-- Grid -->
-    <smart-widget-grid class="mt-4" :layout="layout">
+    <smart-widget-grid class="grid" :layout="layout">
       <smart-widget slot="0" title="Workflows">
         <template slot="toolbar">
           <div style="margin: 0 12px;">
@@ -73,8 +73,8 @@ export default {
   data () {
     return {
       layout: [
-        { x: 0, y: 0, w: 4, h: 6, i: '0' },
-        { x: 4, y: 0, w: 8, h: 6, i: '1' },
+        { x: 0, y: 0, w: 4, h: 6, i: '0' , static: true},
+        { x: 4, y: 0, w: 8, h: 6, i: '1', static: true},
         { x: 0, y: 0, w: 4, h: 6, i: '2' },
       ],
       workflows: workflows,
@@ -127,6 +127,8 @@ export default {
   position: relative;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .welcome{
@@ -145,5 +147,8 @@ export default {
   cursor: pointer;
 }
 
+.grid{
+  margin: 15px;
+}
 
 </style>

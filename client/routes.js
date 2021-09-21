@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '/imports/ui/components/Home'
 import Register from "../imports/ui/components/_old/Register";
 import Workflows from "../imports/ui/components/Workflows";
 import Services from "../imports/ui/components/Services";
