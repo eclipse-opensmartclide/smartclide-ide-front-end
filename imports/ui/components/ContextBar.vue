@@ -1,6 +1,8 @@
 <template>
   <div class="nav_container">
-    <QuickAccess/>
+    <template v-if="this.$store.state.context === 'project'">
+      <QuickAccess/>
+    </template>
     <BNav class="nav bg-light" aria-orientation="vertical">
       <div v-for="category in this.$store.getters.getCategories">
         <div class="category p-2" v-if="category.category !== 'root'">
@@ -8,7 +10,9 @@
         </div>
         <div class="p-2" v-for="option in category.options">
           <RouterLink class="nav_item" :to="option.link">
-            {{ option.title }}
+            <span @click="optionClicked(option.title)">
+              {{ option.title }}
+            </span>
           </RouterLink>
         </div>
       </div>
@@ -22,6 +26,12 @@ export default {
   name: "ContextBar",
   components: {
     QuickAccess
+  },
+  methods: {
+    optionClicked(option){
+      if(option === 'Close Project')
+        this.$store.state.context = 'main';
+    }
   }
 }
 </script>

@@ -1,5 +1,4 @@
 <template>
-
   <div class="quick_access">
     <div class="d-flex align-items-center">
       <div class="option p-2">

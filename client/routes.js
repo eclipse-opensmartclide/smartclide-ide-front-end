@@ -16,6 +16,7 @@ import Team from "../imports/ui/components/MyAccount/Team";
 import Sources from "../imports/ui/components/MyAccount/Sources";
 import Credentials from "../imports/ui/components/MyAccount/Credentials";
 import Dashboard from "../imports/ui/components/Dashboard";
+import Project from "../imports/ui/components/Project"
 
 Vue.use(VueRouter)
 
@@ -98,6 +99,11 @@ const routes = [
                 component: Credentials
             },
         ]
+    },
+    {
+        path: '/project-page',
+        name: 'Project',
+        component: Project
     }
 ]
 

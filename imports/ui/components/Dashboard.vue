@@ -18,7 +18,11 @@
           <div class="d-flex w-100">
             <BRow class="w-100">
               <BCol>Create New...</BCol>
-              <BCol>Recent</BCol>
+              <BCol>
+                <RouterLink to="/project-page">
+                  <div @click="optionClicked('project')">Recent</div>
+                </RouterLink>
+              </BCol>
             </BRow>
           </div>
         </div>
@@ -75,6 +79,9 @@ export default {
     remove(cardID) {
       let index = this.cards.map(card => card.i).indexOf(cardID);
       this.cards.splice(index, 1);
+    },
+    optionClicked(option){
+      this.$store.state.context = option;
     }
   }
 }

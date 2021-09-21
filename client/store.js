@@ -48,6 +48,35 @@ export default new Vuex.Store({
                     }
                 ]
             },
+            {
+                name: 'project',
+                categories: [
+                    {
+                        category: "Testing",
+                        options: [
+                            { title: 'New Test', link: '' },
+                            { title: 'Define Pipelines', link: '' },
+                            { title: 'Check Pipelines', link: '' },
+                            { title: 'Check Security Analysis', link: '' }
+                        ]
+                    },
+                    {
+                        category: "Deployment",
+                        options: [
+                            { title: 'New Deployment', link: '' },
+                            { title: 'Check Deployments', link: '' },
+                            { title: 'Cost Calculator', link: '' }
+                        ]
+                    },
+                    {
+                        category: "Project",
+                        options: [
+                            { title: 'Edit Project Settings', link: '' },
+                            { title: 'Close Project', link: '/' }
+                        ]
+                    }
+                ]
+            },
         ]
     },
     getters: {
@@ -55,6 +84,5 @@ export default new Vuex.Store({
             return state.contextBars.filter(contextBar => contextBar.name === state.context)[0].categories;
         }
     },
-    mutations: {},
     actions: {}
 })
