@@ -3,7 +3,7 @@
 
     <!-- LOGO -->
     <div class="logo-container">
-      <RouterLink to="/"> <BImg class="logo" src="/assets/SmartClideRGBColor.png" @click="optionClicked('main')"/></RouterLink>
+      <RouterLink to="/"> <BImg class="logo" src="/assets/SmartCLIDE_logo.png" @click="optionClicked('main')"/></RouterLink>
     </div>
 
     <!-- TODO: avoid this -->
@@ -66,10 +66,12 @@ export default {
   width: 200px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .logo{
-  width: 122px;
+  width: 200px;
+  padding: 4px;
 }
 
 .dummy{

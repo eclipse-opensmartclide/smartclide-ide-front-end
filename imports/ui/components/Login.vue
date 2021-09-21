@@ -1,7 +1,7 @@
 <template>
   <BContainer class="vh-100 d-flex justify-content-center align-items-center" >
     <div class="login-container d-flex flex-column align-items-center">
-      <BImg class="main-logo mt-4" src="/assets/SmartClideRGBColor.png"/>
+      <BImg class="main-logo mt-4" src="/assets/SmartCLIDE_logo.png"/>
 
       <BForm @submit.prevent="loginWithSmartCLIDE">
         <BButton class="smartCLIDE bg-primary mt-4" name="login" type="submit">
@@ -48,6 +48,7 @@ export default {
   width: 351px;
   height: 397px;
   border-radius: 10px;
+  justify-content: center;
 }
 
 .main-logo{

@@ -1,6 +1,6 @@
 <template>
   <div class="nav_container">
-    <QuickAccess/>
+<!--    <QuickAccess/>-->
     <BNav class="nav bg-light" aria-orientation="vertical">
       <div v-for="category in this.$store.getters.getCategories">
         <div class="category p-2" v-if="category.category !== 'root'">
@@ -29,7 +29,7 @@ export default {
 <style scoped>
 
 .nav_container{
-  width: 250px;
+  width: 200px;
 }
 
 .nav{

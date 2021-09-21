@@ -7,12 +7,14 @@
 
     <template v-else-if="this.smartCLIDE_login">
       <LoginSmartCLIDE />
+      <Footer/>
     </template>
 
     <template v-else>
       <Login :keycloak="this.keycloak" @login_clicked="login_clicked"/>
+      <Footer/>
     </template>
-    <!--      <Footer/>-->
+
   </div>
 
 </template>

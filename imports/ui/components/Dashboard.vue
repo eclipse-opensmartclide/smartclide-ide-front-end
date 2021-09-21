@@ -1,9 +1,9 @@
 <template>
   <div class="d-flex flex-column">
-    <div class="dashboard">
-      <div class="title text-primary">Dashboard</div>
-      <BIconPlusCircle class="text-primary add"/>
-    </div>
+<!--    <div class="dashboard">-->
+<!--      <div class="title text-primary">Dashboard</div>-->
+<!--      <BIconPlusCircle class="text-primary add"/>-->
+<!--    </div>-->
 
     <!-- Welcome / Get Started -->
     <div class="d-flex mt-4">
@@ -23,7 +23,13 @@
             </BRow>
           </div>
         </div>
+        <div class="add">
+          <BIconPlusCircle class="text-primary add-icon"/>
+        </div>
+
       </BCol>
+
+
     </div>
 
 
@@ -115,6 +121,10 @@ export default {
 }
 
 .add{
+
+}
+
+.add-icon{
   width: 20px;
   height: 20px;
 
