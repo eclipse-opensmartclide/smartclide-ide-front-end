@@ -9,7 +9,6 @@ export default {
   name: "Project",
   mounted(){
     this.$store.state.context = 'project';
-    console.log(this.$route.params.id)
   }
 }
 </script>

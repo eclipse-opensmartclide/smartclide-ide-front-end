@@ -24,7 +24,7 @@
           <!-- recent -->
           <BCol>
             <BRow class="recent mb-2">Recent</BRow>
-            <BRow v-for="project in recentProjects.slice(0,3)">
+            <BRow v-for="project in this.items.recent">
               <RouterLink class="project" :to="{ path: `/project/${project.workspaceID}`}">
                 {{project.name}} ({{project.type}})
               </RouterLink>
@@ -56,40 +56,45 @@
 </template>
 
 <script>
-import workflows from "/public/workflows.json";
-import services from "/public/services.json";
-import deployments from "/public/deployments.json";
-import recentProjects from "/public/mostRecentProjects.json"
 import Connector from 'connector-smartclide'
 
 export default {
   name: "Dashboard",
   created() {
-    this.connector = new Connector()
+    this.connector = new Connector();
   },
   mounted(){
     this.$store.state.context = 'main';
+    this.getItems();
   },
   data () {
     return {
       id: 3,
       cards: [
-        { x: 0, y: 0, w: 6, h: 5, i: 0, category: 'Workflows', fields:  ["name", "template", "updatedAt"]},
-        { x: 6, y: 0, w: 6, h: 5, i: 1, category: 'Services', fields: ["name", "licence", "updatedAt"]},
-        { x: 0, y: 5, w: 12, h: 6, i: 2, category: 'Deployments', fields: ["name", "workflow_service", "version", "state", "updatedAt"]}
+        { x: 0, y: 0, w: 6, h: 5, i: 0, category: 'workflows', fields:  ["name", "template", "updatedAt"]},
+        { x: 6, y: 0, w: 6, h: 5, i: 1, category: 'services', fields: ["name", "licence", "updatedAt"]},
+        { x: 0, y: 5, w: 12, h: 6, i: 2, category: 'deployments', fields: ["name", "workflow_service", "version", "state", "updatedAt"]}
       ],
-      items: {
-        "Workflows": workflows,
-        "Services": services,
-        "Deployments": deployments
-      },
-      recentProjects: recentProjects
+      items: {}
     }
   },
   methods: {
-    remove(cardID) {
+    remove(cardID){
       let index = this.cards.map(card => card.i).indexOf(cardID);
       this.cards.splice(index, 1);
+    },
+    async getItems() {
+      let workflows = await this.connector.getMostRecentWorkflows();
+      let services = await this.connector.getMostRecentServices();
+      let deployments = await this.connector.getMostRecentDeployments();
+      let recent = await this.connector.getMostRecentProjects();
+
+      this.items = {
+        workflows,
+        services,
+        deployments,
+        recent
+      };
     }
   }
 }
@@ -143,10 +148,4 @@ export default {
 .smartwidget{
   border-radius: 10px;
 }
-
-.remove{
-  cursor: pointer;
-}
-
-
 </style>
