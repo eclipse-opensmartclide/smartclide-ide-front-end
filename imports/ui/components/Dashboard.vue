@@ -15,7 +15,8 @@
               <BCol>Create New...</BCol>
               <BCol>
                 <RouterLink to="/project-page">
-                  <div @click="optionClicked('project')">Recent</div>
+<!--                  <div @click="optionClicked('project')">Recent</div>-->
+                  Recent
                 </RouterLink>
               </BCol>
             </BRow>
@@ -37,7 +38,6 @@
           </div>
         </template>
         <div class="layout-center">
-<!--          <BTable striped hover :items="card.items" :fields="card.fields" :filter-function="filterFields"></BTable>-->
           <BTable striped hover :items="items[card.category]" :fields="card.fields"></BTable>
         </div>
       </smart-widget>
@@ -68,19 +68,13 @@ export default {
       }
     }
   },
+  mounted(){
+    this.$store.state.context = 'main';
+  },
   methods: {
-    // REVER ESTE METODO
-    filterFields(item, filter) {
-      return this.items.Workflows.some( key => {
-        return String(item[key]).indexOf(filter || '') > -1
-      })
-    },
     remove(cardID) {
       let index = this.cards.map(card => card.i).indexOf(cardID);
       this.cards.splice(index, 1);
-    },
-    optionClicked(option){
-      this.$store.state.context = option;
     }
   }
 }

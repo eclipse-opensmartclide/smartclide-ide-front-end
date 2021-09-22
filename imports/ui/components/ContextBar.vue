@@ -10,9 +10,7 @@
         </div>
         <div class="p-2" v-for="option in category.options">
           <RouterLink class="nav_item" :to="option.link">
-            <span @click="optionClicked(option.title)">
-              {{ option.title }}
-            </span>
+            {{ option.title }}
           </RouterLink>
         </div>
       </div>
@@ -26,12 +24,6 @@ export default {
   name: "ContextBar",
   components: {
     QuickAccess
-  },
-  methods: {
-    optionClicked(option){
-      if(option === 'Close Project')
-        this.$store.state.context = 'main';
-    }
   }
 }
 </script>
