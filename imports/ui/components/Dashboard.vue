@@ -16,18 +16,17 @@
           <!-- create -->
           <BCol>
             <BRow class="create mb-2">Create New...</BRow>
-            <BRow><RouterLink to="/createService">Service</RouterLink></BRow>
             <BRow><RouterLink to="/createWorkflow">Workflow</RouterLink></BRow>
+            <BRow><RouterLink to="/createService">Service</RouterLink></BRow>
             <BRow><RouterLink to="/createDeployment">Deployment</RouterLink></BRow>
           </BCol>
 
           <!-- recent -->
           <BCol>
             <BRow class="recent mb-2">Recent</BRow>
-
             <BRow v-for="project in recentProjects.slice(0,3)">
-              <RouterLink class="project" :to="{ name: project.type, params: { ID: project.workspaceID }}">
-                {{project.type}}: {{ project.name}}
+              <RouterLink class="project" :to="{ path: `/project/${project.workspaceID}`}">
+                {{project.name}} ({{project.type}})
               </RouterLink>
             </BRow>
           </BCol>
@@ -44,7 +43,7 @@
       <smart-widget v-for="card in cards" :slot="card.i" :title="card.category">
         <template slot="toolbar">
           <div style="margin: 0 12px;">
-            <BIconTrash class="widget-button" @click="remove(card.i)"/>
+            <BIconTrash class="widget-button" @click="remove(card.i)" style="cursor: pointer"/>
           </div>
         </template>
         <div class="layout-center">
@@ -68,6 +67,9 @@ export default {
   created() {
     this.connector = new Connector()
   },
+  mounted(){
+    this.$store.state.context = 'main';
+  },
   data () {
     return {
       id: 3,
@@ -88,9 +90,6 @@ export default {
     remove(cardID) {
       let index = this.cards.map(card => card.i).indexOf(cardID);
       this.cards.splice(index, 1);
-    },
-    optionClicked(option){
-      this.$store.state.context = option;
     }
   }
 }

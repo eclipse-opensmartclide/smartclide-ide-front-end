@@ -115,7 +115,7 @@ const routes = [
         ]
     },
     {
-        path: '/project-page',
+        path: '/project/:id',
         name: 'Project',
         component: Project
     }
