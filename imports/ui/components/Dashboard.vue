@@ -6,27 +6,32 @@
         <BImg class="welcome" src="/assets/SmartCLIDE_welcome.png"/>
       </BCol>
       <BCol>
-        <div class="d-flex flex-column w-100">
+        <BRow>
           <div class="started text-primary">
             Get Started
           </div>
-          <div class="d-flex w-100">
-            <BRow class="w-100">
-              <BCol>
-                <BRow class="mb-2">Create New...</BRow>
-                <BRow>Service</BRow>
-                <BRow>Workflow</BRow>
-                <BRow>Deployment</BRow>
+        </BRow>
 
-              </BCol>
-              <BCol>
-                <RouterLink to="/project-page">
-                  <div @click="optionClicked('project')">Recent</div>
-                </RouterLink>
-              </BCol>
+        <BRow class="mt-2">
+          <!-- create -->
+          <BCol>
+            <BRow class="create mb-2">Create New...</BRow>
+            <BRow><RouterLink to="/createService">Service</RouterLink></BRow>
+            <BRow><RouterLink to="/createWorkflow">Workflow</RouterLink></BRow>
+            <BRow><RouterLink to="/createDeployment">Deployment</RouterLink></BRow>
+          </BCol>
+
+          <!-- recent -->
+          <BCol>
+            <BRow class="recent mb-2">Recent</BRow>
+
+            <BRow v-for="project in recentProjects.slice(0,3)">
+              <RouterLink class="project" :to="{ name: project.type, params: { ID: project.workspaceID }}">
+                {{project.type}}: {{ project.name}}
+              </RouterLink>
             </BRow>
-          </div>
-        </div>
+          </BCol>
+        </BRow>
       </BCol>
       <div class="add">
         <BIconPlusCircle class="text-primary add-icon"/>
@@ -55,6 +60,7 @@
 import workflows from "/public/workflows.json";
 import services from "/public/services.json";
 import deployments from "/public/deployments.json";
+import recentProjects from "/public/mostRecentProjects.json"
 
 export default {
   name: "Dashboard",
@@ -70,7 +76,8 @@ export default {
         "Workflows": workflows,
         "Services": services,
         "Deployments": deployments
-      }
+      },
+      recentProjects: recentProjects
     }
   },
   methods: {
@@ -92,7 +99,7 @@ export default {
 }
 
 .add{
-
+  position: relative;
 }
 
 .add-icon{
@@ -100,8 +107,8 @@ export default {
   height: 20px;
 
   position: absolute;
-  top: 10px;
-  right: 100px;
+  right: 10px;
+  bottom: 0;
 }
 
 .dashboard {
@@ -116,6 +123,18 @@ export default {
 
 .started{
   font-size: 40px;
+}
+
+.create{
+  font-size: 20px;
+}
+
+.recent{
+  font-size: 20px;
+}
+
+.project{
+  text-transform: capitalize;
 }
 
 .smartwidget{

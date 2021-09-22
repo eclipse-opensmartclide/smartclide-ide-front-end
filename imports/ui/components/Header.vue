@@ -80,11 +80,11 @@ export default {
 }
 
 .ide{
-  margin-right: 50px;
+  margin-right: 8px;
 }
 
 .user {
-  margin-right: 100px;
+  margin-right: 10px;
 }
 
 .icon{
