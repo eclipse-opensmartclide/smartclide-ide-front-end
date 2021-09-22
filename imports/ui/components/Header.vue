@@ -60,6 +60,7 @@ export default {
 .header{
   display: flex;
   align-items: center;
+  height: 60px;
 }
 
 .logo-container{
@@ -87,8 +88,8 @@ export default {
 }
 
 .icon{
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   color: var(--primary);
 
 }

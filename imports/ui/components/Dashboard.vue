@@ -12,7 +12,13 @@
           </div>
           <div class="d-flex w-100">
             <BRow class="w-100">
-              <BCol>Create New...</BCol>
+              <BCol>
+                <BRow class="mb-2">Create New...</BRow>
+                <BRow>Service</BRow>
+                <BRow>Workflow</BRow>
+                <BRow>Deployment</BRow>
+
+              </BCol>
               <BCol>
                 <RouterLink to="/project-page">
                   <div @click="optionClicked('project')">Recent</div>
@@ -37,7 +43,6 @@
           </div>
         </template>
         <div class="layout-center">
-<!--          <BTable striped hover :items="card.items" :fields="card.fields" :filter-function="filterFields"></BTable>-->
           <BTable striped hover :items="items[card.category]" :fields="card.fields"></BTable>
         </div>
       </smart-widget>
@@ -69,12 +74,6 @@ export default {
     }
   },
   methods: {
-    // REVER ESTE METODO
-    filterFields(item, filter) {
-      return this.items.Workflows.some( key => {
-        return String(item[key]).indexOf(filter || '') > -1
-      })
-    },
     remove(cardID) {
       let index = this.cards.map(card => card.i).indexOf(cardID);
       this.cards.splice(index, 1);
