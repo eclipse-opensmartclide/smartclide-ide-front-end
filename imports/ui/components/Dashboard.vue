@@ -61,9 +61,13 @@ import workflows from "/public/workflows.json";
 import services from "/public/services.json";
 import deployments from "/public/deployments.json";
 import recentProjects from "/public/mostRecentProjects.json"
+import Connector from 'connector-smartclide'
 
 export default {
   name: "Dashboard",
+  created() {
+    this.connector = new Connector()
+  },
   data () {
     return {
       id: 3,
