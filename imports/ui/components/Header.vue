@@ -60,6 +60,7 @@ export default {
 .header{
   display: flex;
   align-items: center;
+  height: 60px;
 }
 
 .logo-container{
@@ -79,16 +80,16 @@ export default {
 }
 
 .ide{
-  margin-right: 50px;
+  margin-right: 8px;
 }
 
 .user {
-  margin-right: 100px;
+  margin-right: 10px;
 }
 
 .icon{
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   color: var(--primary);
 
 }

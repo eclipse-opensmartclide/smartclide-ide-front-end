@@ -6,21 +6,32 @@
         <BImg class="welcome" src="/assets/SmartCLIDE_welcome.png"/>
       </BCol>
       <BCol>
-        <div class="d-flex flex-column w-100">
+        <BRow>
           <div class="started text-primary">
             Get Started
           </div>
-          <div class="d-flex w-100">
-            <BRow class="w-100">
-              <BCol>Create New...</BCol>
-              <BCol>
-                <RouterLink to="/project-page">
-                  Recent
-                </RouterLink>
-              </BCol>
+        </BRow>
+
+        <BRow class="mt-2">
+          <!-- create -->
+          <BCol>
+            <BRow class="create mb-2">Create New...</BRow>
+            <BRow><RouterLink to="/createService">Service</RouterLink></BRow>
+            <BRow><RouterLink to="/createWorkflow">Workflow</RouterLink></BRow>
+            <BRow><RouterLink to="/createDeployment">Deployment</RouterLink></BRow>
+          </BCol>
+
+          <!-- recent -->
+          <BCol>
+            <BRow class="recent mb-2">Recent</BRow>
+
+            <BRow v-for="project in recentProjects.slice(0,3)">
+              <RouterLink class="project" :to="{ name: project.type, params: { ID: project.workspaceID }}">
+                {{project.type}}: {{ project.name}}
+              </RouterLink>
             </BRow>
-          </div>
-        </div>
+          </BCol>
+        </BRow>
       </BCol>
       <div class="add">
         <BIconPlusCircle class="text-primary add-icon"/>
@@ -33,7 +44,7 @@
       <smart-widget v-for="card in cards" :slot="card.i" :title="card.category">
         <template slot="toolbar">
           <div style="margin: 0 12px;">
-            <BIconTrash class="widget-button" @click="remove(card.i)" style="cursor: pointer"/>
+            <BIconTrash class="widget-button" @click="remove(card.i)"/>
           </div>
         </template>
         <div class="layout-center">
@@ -49,9 +60,14 @@
 import workflows from "/public/workflows.json";
 import services from "/public/services.json";
 import deployments from "/public/deployments.json";
+import recentProjects from "/public/mostRecentProjects.json"
+import Connector from 'connector-smartclide'
 
 export default {
   name: "Dashboard",
+  created() {
+    this.connector = new Connector()
+  },
   data () {
     return {
       id: 3,
@@ -64,16 +80,17 @@ export default {
         "Workflows": workflows,
         "Services": services,
         "Deployments": deployments
-      }
+      },
+      recentProjects: recentProjects
     }
-  },
-  mounted(){
-    this.$store.state.context = 'main';
   },
   methods: {
     remove(cardID) {
       let index = this.cards.map(card => card.i).indexOf(cardID);
       this.cards.splice(index, 1);
+    },
+    optionClicked(option){
+      this.$store.state.context = option;
     }
   }
 }
@@ -86,7 +103,7 @@ export default {
 }
 
 .add{
-
+  position: relative;
 }
 
 .add-icon{
@@ -94,8 +111,8 @@ export default {
   height: 20px;
 
   position: absolute;
-  top: 10px;
-  right: 100px;
+  right: 10px;
+  bottom: 0;
 }
 
 .dashboard {
@@ -110,6 +127,18 @@ export default {
 
 .started{
   font-size: 40px;
+}
+
+.create{
+  font-size: 20px;
+}
+
+.recent{
+  font-size: 20px;
+}
+
+.project{
+  text-transform: capitalize;
 }
 
 .smartwidget{
