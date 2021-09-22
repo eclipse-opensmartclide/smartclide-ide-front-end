@@ -15,7 +15,6 @@
               <BCol>Create New...</BCol>
               <BCol>
                 <RouterLink to="/project-page">
-<!--                  <div @click="optionClicked('project')">Recent</div>-->
                   Recent
                 </RouterLink>
               </BCol>
@@ -34,7 +33,7 @@
       <smart-widget v-for="card in cards" :slot="card.i" :title="card.category">
         <template slot="toolbar">
           <div style="margin: 0 12px;">
-            <BIconTrash class="widget-button" @click="remove(card.i)"/>
+            <BIconTrash class="widget-button" @click="remove(card.i)" style="cursor: pointer"/>
           </div>
         </template>
         <div class="layout-center">
