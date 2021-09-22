@@ -33,7 +33,7 @@ export default {
 
 .main{
   display: flex;
-  margin-top: 80px;
+  margin-top: 60px;
   position: fixed;
   width: 100%;
   height: calc(100% - 80px);
