@@ -35,31 +35,16 @@ const routes = [
         name: "Workflows",
         component: Workflows
     },
-    // {
-    //     path: "/workflow/:id",
-    //     name: "Workflow",
-    //     component: Workflow
-    // },
     {
         path: "/services",
         name: 'Services',
         component: Services
     },
-    // {
-    //     path: "/service/:id",
-    //     name: 'Service',
-    //     component: Service
-    // },
     {
         path: "/deployments",
         name: 'Deployments',
         component: Deployments
     },
-    // {
-    //     path: "/deployment/:id",
-    //     name: 'Deployment',
-    //     component: Deployment
-    // },
     {
         path: "/settings",
         name: 'Settings',
