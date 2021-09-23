@@ -27,7 +27,7 @@
             <BRow v-for="project in this.items.recent">
               <RouterLink class="project" :to="{ path: `/project/${project.workspaceID}`}">
                 {{project.name}} ({{project.type}})
-              </RouterLink>
+              </RouterLink> 
             </BRow>
           </BCol>
         </BRow>
