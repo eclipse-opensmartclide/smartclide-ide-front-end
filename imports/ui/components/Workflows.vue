@@ -6,21 +6,23 @@
 
 <script>
 import Vue from "vue";
-import axios from "axios";
 
 export default {
   name: "Workflows",
   created() {
-    axios.get(`https://che-smartclide-che.che.smartclide.eu/api/workspace`, {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${Vue.prototype.$keycloakToken}`,
-      },
-    })
-    .then((response) => {
-      console.log("response", response.data)
-      // setWorkspaces(response.data);
-    })
+    const headers = new Headers()
+    headers.append("Accept", "application/json")
+    headers.append("Authorization", "Bearer " + Vue.prototype.$keycloakToken)
+
+    const requestOptions = {
+      method: 'GET',
+      headers: headers,
+      redirect: 'follow'
+    };
+
+    fetch("https://che-smartclide-che.che.smartclide.eu/api/workspace", requestOptions)
+    .then(response => response.json())
+    .then(result => console.log(result))
     .catch(() => {
       // setError(true);
       // setWorkspaces(undefined);
