@@ -38,7 +38,7 @@
     </div>
 
     <!-- Grid -->
-    <smart-widget-grid class="mt-4" :layout="cards">
+    <smart-widget-grid class="mt-4" :layout.sync="cards" @resized="cardResized" @container-resized="cardResized">
       <smart-widget class="title" v-for="card in cards" :slot="card.i" :title="card.category" :loading="!itemsLoaded">
         <template slot="toolbar">
           <div style="margin: 0 12px;">
@@ -104,6 +104,10 @@ export default {
         recent
       };
       this.itemsLoaded = true;
+    },
+    cardResized(card){
+      console.log(card.i)
+      // ATUALIZAR FIELDS PARA MOSTRAR APENAS AS COLUNAS QUE CABEM NO CARTÃO
     }
   }
 }
