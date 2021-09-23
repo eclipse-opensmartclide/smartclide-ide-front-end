@@ -40,7 +40,7 @@
 
     <!-- Grid -->
     <smart-widget-grid class="mt-4" :layout="cards">
-      <smart-widget v-for="card in cards" :slot="card.i" :title="card.category">
+      <smart-widget v-for="card in cards" :slot="card.i" :title="capitalise(card.category)">
         <template slot="toolbar">
           <div style="margin: 0 12px;">
             <BIconTrash class="widget-button" @click="remove(card.i)" style="cursor: pointer"/>
@@ -83,7 +83,7 @@ export default {
       let index = this.cards.map(card => card.i).indexOf(cardID);
       this.cards.splice(index, 1);
     },
-    async getItems() {
+    async getItems(){
       let workflows = await this.connector.getMostRecentWorkflows();
       let services = await this.connector.getMostRecentServices();
       let deployments = await this.connector.getMostRecentDeployments();
@@ -95,6 +95,10 @@ export default {
         deployments,
         recent
       };
+    },
+    capitalise(string){
+      let lowerCase = string.toString().toLowerCase();
+      return lowerCase.charAt(0).toUpperCase() + lowerCase.slice(1);
     }
   }
 }
