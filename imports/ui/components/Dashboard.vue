@@ -27,7 +27,7 @@
             <BRow v-for="project in this.items.recent">
               <RouterLink class="project" :to="{ path: `/project/${project.workspaceID}`}">
                 {{project.name}} ({{project.type}})
-              </RouterLink> 
+              </RouterLink>
             </BRow>
           </BCol>
         </BRow>
@@ -39,7 +39,7 @@
 
     <!-- Grid -->
     <smart-widget-grid class="mt-4" :layout="cards">
-      <smart-widget class="title" v-for="card in cards" :slot="card.i" :title="card.category">
+      <smart-widget class="title" v-for="card in cards" :slot="card.i" :title="card.category" :loading="!itemsLoaded">
         <template slot="toolbar">
           <div style="margin: 0 12px;">
             <BIconTrash class="widget-button" @click="remove(card.i)" style="cursor: pointer"/>
@@ -55,12 +55,11 @@
         </div>
       </smart-widget>
     </smart-widget-grid>
-
   </div>
 </template>
 
 <script>
-import Connector from 'connector-smartclide'
+import Connector from 'connector-smartclide';
 import moment from "moment";
 
 export default {
@@ -79,7 +78,8 @@ export default {
         { x: 6, y: 0, w: 6, h: 5, i: 1, category: 'services', fields: ["name", "licence", "updatedAt"]},
         { x: 0, y: 5, w: 12, h: 6, i: 2, category: 'deployments', fields: ["name", "workflow_service", "version", "state", "updatedAt"]}
       ],
-      items: {}
+      items: {},
+      itemsLoaded: false
     }
   },
   methods: {
@@ -91,6 +91,7 @@ export default {
       return moment(date).format('DD-MMM-YYYY HH:mm');
     },
     async getItems() {
+      this.itemsLoaded = false;
       let workflows = await this.connector.getMostRecentWorkflows();
       let services = await this.connector.getMostRecentServices();
       let deployments = await this.connector.getMostRecentDeployments();
@@ -102,6 +103,7 @@ export default {
         deployments,
         recent
       };
+      this.itemsLoaded = true;
     }
   }
 }
