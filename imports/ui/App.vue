@@ -1,9 +1,7 @@
 <template>
   <div class="main vh-100 d-flex flex-column">
     <template v-if="meteorUser|| this.eclipseCheUser">
-<!--      <Main/>-->
       <Main :keycloak="this.keycloak" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser"/>
-
     </template>
 
     <template v-else-if="this.smartCLIDE_login">
@@ -52,8 +50,7 @@ export default {
           console.log("authenticated: ", authenticated)
 
           this.eclipseCheLogin = authenticated
-          // this.keycloakToken = this.keycloak.idToken
-          Vue.prototype.$keycloakToken = this.keycloak.idToken // avoid global variable
+          this.$store.state.keycloakToken = this.keycloak.idToken
 
           // get eclipse che user
           if(this.keycloak.tokenParsed){

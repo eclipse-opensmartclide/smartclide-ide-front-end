@@ -1,37 +1,48 @@
 <template>
-  <div>
-    Workflows
-  </div>
+
+
+
+
+
+<!--    <iframe style="height: 500px; width: 500px" src="https://che-smartclide-che.che.smartclide.eu/dashboard/#/ide/marcio.mateus@unparallel.pt/SmartCLIDE"></iframe>-->
+<!--sim-->
+  <embed src="https://che-smartclide-che.che.smartclide.eu/dashboard/#/ide/marcio.mateus@unparallel.pt/SmartCLIDE">
+
+
+
 </template>
 
 <script>
-import Vue from "vue";
+import Connector from 'connector-smartclide'
 
 export default {
   name: "Workflows",
   created() {
-    const headers = new Headers()
-    headers.append("Accept", "application/json")
-    headers.append("Authorization", "Bearer " + Vue.prototype.$keycloakToken)
+    this.connector = new Connector()
+    this.getInfo()
+  },
+  methods:{
+    async getInfo() {
+      // const token = this.$store.state.keycloakToken
+      //
+      // const list = await this.connector.getWorkspaces(token)
+      // console.log(list)
+      //
+      // // stop running workspaces
+      // const started = list.filter(el=>el.status === "RUNNING")
+      // for(let i = 0; i < started.length; i++){
+      //   await this.connector.stopWorkspace(token, started[i].id)
+      // }
 
-    const requestOptions = {
-      method: 'GET',
-      headers: headers,
-      redirect: 'follow'
-    };
+      //
+      // const start = await this.connector.startWorkspace(token, "workspace4ktvem2me5pzhwr9")
+      // console.log(start)
 
-    fetch("https://che-smartclide-che.che.smartclide.eu/api/workspace", requestOptions)
-    .then(response => response.json())
-    .then(result => console.log(result))
-    .catch(() => {
-      // setError(true);
-      // setWorkspaces(undefined);
-      console.log("error")
-    })
-    .finally(() =>
-        // setFetching(false)
-        console.log("finally")
-    );
+
+
+
+
+    }
   }
 }
 </script>

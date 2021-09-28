@@ -106,7 +106,7 @@ export default {
       this.itemsLoaded = true;
     },
     cardResized(card){
-      console.log(card.i)
+      // console.log(card.i)
       // ATUALIZAR FIELDS PARA MOSTRAR APENAS AS COLUNAS QUE CABEM NO CARTÃO
     }
   }
