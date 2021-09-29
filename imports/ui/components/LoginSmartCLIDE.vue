@@ -1,36 +1,9 @@
 <template>
-<!--  <BContainer class="vh-100 d-flex justify-content-center align-items-center" >-->
-<!--    <div class="login-container d-flex flex-column align-items-center">-->
-<!--      <BImg class="main-logo " src="/assets/SmartCLIDE_logo.png"/>-->
-
-<!--      <BForm @submit.prevent="login">-->
-<!--        &lt;!&ndash; Username &ndash;&gt;-->
-<!--        <div class="icon-and-input mt-4">-->
-<!--          <div class="icon-container bg-primary">-->
-<!--            <BIconPerson class="icon p-1"/>-->
-<!--          </div>-->
-<!--          <BFormInput class="form-input" placeholder="Username" v-model="username" required/>-->
-<!--        </div>-->
-<!--        &lt;!&ndash; Password &ndash;&gt;-->
-<!--        <div class="icon-and-input mt-3">-->
-<!--          <div class="icon-container bg-primary">-->
-<!--            <BIconKey class="icon p-1"/>-->
-<!--          </div>-->
-<!--          <BFormInput class="form-input" type="password" placeholder="Password" v-model="password" required/>-->
-<!--        </div>-->
-<!--        &lt;!&ndash; Button &ndash;&gt;-->
-<!--        <div class="login mt-3 d-flex justify-content-center">-->
-<!--          <BButton class="bg-primary text-white" name="login" type="submit">Log in</BButton>-->
-<!--        </div>-->
-<!--      </BForm>-->
-<!--    </div>-->
-<!--  </BContainer>-->
-
   <BContainer class="vh-100 d-flex justify-content-center align-items-center" >
     <div class="login-container d-flex flex-column align-items-center">
 
       <BRow class="h-50">
-        <BImg class="main-logo" src="/assets/SmartCLIDE_logo.png"/>
+        <BImg class="main-logo" src="/assets/SmartClideRGBColor.png"/>
       </BRow>
 
       <BRow class="h-50">
@@ -55,15 +28,8 @@
           </div>
         </BForm>
       </BRow>
-
-
-
-
-
     </div>
   </BContainer>
-
-
 
 </template>
 

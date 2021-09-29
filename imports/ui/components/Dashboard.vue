@@ -25,8 +25,8 @@
           <BCol>
             <BRow class="recent mb-2">Recent</BRow>
             <BRow v-for="project in this.items.recent">
-              <RouterLink class="project" :to="{ path: `/project/${project.workspaceID}`}">
-                {{project.name}} ({{project.type}})
+              <RouterLink class="project" :to="{ path: `/project/${project.id}`}">
+                {{project.devfile.metadata.name}}
               </RouterLink>
             </BRow>
           </BCol>
@@ -39,7 +39,7 @@
 
     <!-- Grid -->
     <smart-widget-grid class="mt-4" :layout.sync="cards" @resized="cardResized" @container-resized="cardResized">
-      <smart-widget class="title" v-for="card in cards" :slot="card.i" :title="card.category" :loading="!itemsLoaded">
+      <smart-widget class="title" v-for="card in cards" :slot="card.i" :title="card.category">
         <template slot="toolbar">
           <div style="margin: 0 12px;">
             <BIconTrash class="widget-button" @click="remove(card.i)" style="cursor: pointer"/>
@@ -91,11 +91,13 @@ export default {
       return moment(date).format('DD-MMM-YYYY HH:mm');
     },
     async getItems() {
+      const token = this.$store.state.keycloak.idToken
       this.itemsLoaded = false;
       let workflows = await this.connector.getMostRecentWorkflows();
       let services = await this.connector.getMostRecentServices();
       let deployments = await this.connector.getMostRecentDeployments();
-      let recent = await this.connector.getMostRecentProjects(3);
+      // let recent = await this.connector.getMostRecentProjects(3);
+      let recent = await this.connector.getRecentWorkspace(token, 3)
 
       this.items = {
         workflows,

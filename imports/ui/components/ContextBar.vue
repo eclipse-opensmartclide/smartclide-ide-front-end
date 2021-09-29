@@ -32,11 +32,14 @@ export default {
   methods: {
     click(option) {
       if(option.title === "Close Project"){
-        // this.closeWorkspace(workspaceId)
+        this.closeWorkspace()
       }
     },
-    async closeWorkspace(workspaceId){
-      await this.connector.stopWorkspace(this.$store.state.keycloak.idToken, workspaceId)
+    async closeWorkspace(){
+      const token = this.$store.state.keycloak.idToken
+      const workspaceId = this.$store.state.currentWorkspace
+      await this.connector.stopWorkspace(token, workspaceId)
+      this.$store.state.currentWorkspace = undefined
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="name text-primary">{{details.name}} ({{details.type}})</div>
+    <div class="name text-primary">{{this.details.devfile.metadata.name}}</div>
     <iframe class="w-100 h-100" :src="workspaceUrl"/>
   </div>
 </template>
@@ -15,6 +15,7 @@ export default {
   },
   mounted(){
     this.$store.state.context = 'project';
+    this.$store.state.currentWorkspace = this.$route.params.id
     this.getDetails()
   },
   data(){
@@ -26,12 +27,14 @@ export default {
   },
   methods:{
     async getDetails(){
-      const projectId = this.$route.params.id
-      this.details = await this.connector.getProjectDetails(projectId) // TODO will be replaced with correct method
+      const token = this.$store.state.keycloak.idToken
+      const workspaceId = this.$store.state.currentWorkspace
+
+      this.details = await this.connector.getWorkspace(token, workspaceId)
 
       this.workspaceUrl = "https://che-smartclide-che.che.smartclide.eu/dashboard/#/ide/" +
           this.$store.state.keycloak.tokenParsed.email + "/" +
-          this.details.name
+          this.details.devfile.metadata.name
     }
   }
 }

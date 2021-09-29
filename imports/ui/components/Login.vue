@@ -1,7 +1,7 @@
 <template>
   <BContainer class="vh-100 d-flex justify-content-center align-items-center" >
     <div class="login-container d-flex flex-column align-items-center">
-      <BImg class="main-logo mb-5" src="/assets/SmartCLIDE_logo.png"/>
+      <BImg class="main-logo mb-5" src="/assets/SmartClideRGBColor.png"/>
 
       <BForm @submit.prevent="loginWithSmartCLIDE">
         <BButton class="smartCLIDE bg-primary mt-4" name="login" type="submit">
