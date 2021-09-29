@@ -3,7 +3,7 @@
     <!-- Welcome / Get Started -->
     <div class="d-flex">
       <BCol>
-        <BImg class="welcome" src="/assets/SmartCLIDE_welcome.png"/>
+        <BImg class="welcome" src="/assets/cartao_welcome.png"/>
       </BCol>
       <BCol>
         <BRow>

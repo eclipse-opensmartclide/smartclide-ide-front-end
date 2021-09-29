@@ -3,7 +3,7 @@
 
     <!-- LOGO -->
     <div class="logo-container">
-      <RouterLink to="/"> <BImg class="logo" src="/assets/SmartCLIDE_logo.png" @click="optionClicked('main')"/></RouterLink>
+      <RouterLink to="/"> <BImg class="logo" src="/assets/SmartClideRGBColor.png" @click="optionClicked('main')"/></RouterLink>
     </div>
 
     <!-- TODO: avoid this -->
@@ -71,7 +71,7 @@ export default {
 }
 
 .logo{
-  width: 200px;
+  width: 100px;
   padding: 4px;
 }
 
