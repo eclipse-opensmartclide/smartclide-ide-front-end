@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="name text-primary">{{details.name}} ({{details.type}})</div>
-    <BImg class="main-logo w-100" src="/assets/EclipseTheiaInstance.png"/>
+    <iframe class="w-100 h-100" :src="workspaceUrl"/>
   </div>
 </template>
 
@@ -19,14 +19,19 @@ export default {
   },
   data(){
     return{
-      details: {}
+      details: {},
+      workspaceUrl: ''
     }
 
   },
   methods:{
     async getDetails(){
       const projectId = this.$route.params.id
-      this.details = await this.connector.getProjectDetails(projectId)
+      this.details = await this.connector.getProjectDetails(projectId) // TODO will be replaced with correct method
+
+      this.workspaceUrl = "https://che-smartclide-che.che.smartclide.eu/dashboard/#/ide/" +
+          this.$store.state.keycloak.tokenParsed.email + "/" +
+          this.details.name
     }
   }
 }

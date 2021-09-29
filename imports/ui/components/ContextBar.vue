@@ -9,7 +9,7 @@
           {{category.category}}
         </div>
         <div class="p-2" v-for="option in category.options">
-          <RouterLink class="nav_item" :to="option.link">
+          <RouterLink class="nav_item" :to="option.link" v-on:click.native="click(option)">
             {{ option.title }}
           </RouterLink>
         </div>
@@ -20,10 +20,24 @@
 
 <script>
 import QuickAccess from "./QuickAccess";
+import Connector from "connector-smartclide";
 export default {
   name: "ContextBar",
   components: {
     QuickAccess
+  },
+  created() {
+    this.connector = new Connector();
+  },
+  methods: {
+    click(option) {
+      if(option.title === "Close Project"){
+        // this.closeWorkspace(workspaceId)
+      }
+    },
+    async closeWorkspace(workspaceId){
+      await this.connector.stopWorkspace(this.$store.state.keycloak.idToken, workspaceId)
+    }
   }
 }
 </script>

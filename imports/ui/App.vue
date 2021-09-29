@@ -50,7 +50,7 @@ export default {
           console.log("authenticated: ", authenticated)
 
           this.eclipseCheLogin = authenticated
-          this.$store.state.keycloakToken = this.keycloak.idToken
+          this.$store.state.keycloak = this.keycloak
 
           // get eclipse che user
           if(this.keycloak.tokenParsed){

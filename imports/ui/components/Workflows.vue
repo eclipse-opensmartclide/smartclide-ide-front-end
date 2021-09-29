@@ -1,15 +1,7 @@
 <template>
-
-
-
-
-
-<!--    <iframe style="height: 500px; width: 500px" src="https://che-smartclide-che.che.smartclide.eu/dashboard/#/ide/marcio.mateus@unparallel.pt/SmartCLIDE"></iframe>-->
-<!--sim-->
-  <embed src="https://che-smartclide-che.che.smartclide.eu/dashboard/#/ide/marcio.mateus@unparallel.pt/SmartCLIDE">
-
-
-
+  <div>
+    Workflows
+  </div>
 </template>
 
 <script>
