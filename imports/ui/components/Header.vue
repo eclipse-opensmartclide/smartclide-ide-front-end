@@ -61,6 +61,7 @@ export default {
   display: flex;
   align-items: center;
   height: 60px;
+  border-bottom: 1px solid #e7ebf3;
 }
 
 .logo-container{
