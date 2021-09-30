@@ -92,7 +92,7 @@ export default {
     },
     async getItems() {
       const token = this.$store.state.keycloak.idToken
-      this.itemsLoaded = false;
+
       let workflows = await this.connector.getMostRecentWorkflows();
       let services = await this.connector.getMostRecentServices();
       let deployments = await this.connector.getMostRecentDeployments();
@@ -105,7 +105,6 @@ export default {
         deployments,
         recent
       };
-      this.itemsLoaded = true;
     },
     cardResized(card){
       // console.log(card.i)
