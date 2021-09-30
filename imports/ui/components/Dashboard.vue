@@ -46,7 +46,7 @@
           </div>
         </template>
         <div class="layout-center">
-          <BTable class="custom_table" hover :items="items[card.category]" :fields="card.fields" >
+          <BTable class="custom_table" hover bordered :items="items[card.category]" :fields="card.fields" >
             <!-- format date -->
             <template #cell(updatedAt)="data">
               {{convertDate(new Date(data.value))}}
@@ -74,9 +74,9 @@ export default {
   data () {
     return {
       cards: [
-        { x: 0, y: 0, w: 6, h: 5, i: 0, category: 'workflows', fields: ["name", "template", "updatedAt"]},
-        { x: 6, y: 0, w: 6, h: 5, i: 1, category: 'services', fields: ["name", "licence", "updatedAt"]},
-        { x: 0, y: 5, w: 12, h: 6, i: 2, category: 'deployments', fields: ["name", "workflow_service", "version", "state", "updatedAt"]}
+        { x: 0, y: 0, w: 6, h: 4, i: 0, category: 'workflows', fields: ["name", "template", "updatedAt"]},
+        { x: 6, y: 0, w: 6, h: 4, i: 1, category: 'services', fields: ["name", "licence", "updatedAt"]},
+        { x: 0, y: 5, w: 12, h: 5, i: 2, category: 'deployments', fields: ["name", "workflow_service", "version", "state", "updatedAt"]}
       ],
       items: {},
       itemsLoaded: false
@@ -171,6 +171,12 @@ export default {
 /deep/ .custom_table thead{
   background: #E5EEFD;
   text-align: center;
+}
+
+/deep/ .custom_table thead th{
+  padding: 0;
+  height: 26px!important;
+  font-weight: normal;
 }
 
 /deep/ .custom_table tbody{
