@@ -39,14 +39,14 @@
 
     <!-- Grid -->
     <smart-widget-grid class="mt-4" :layout.sync="cards" @resized="cardResized" @container-resized="cardResized">
-      <smart-widget class="title" v-for="card in cards" :slot="card.i" :title="card.category">
+      <smart-widget class="title text-primary" v-for="card in cards" :slot="card.i" :title="card.category">
         <template slot="toolbar">
           <div style="margin: 0 12px;">
             <BIconTrash class="widget-button" @click="remove(card.i)" style="cursor: pointer"/>
           </div>
         </template>
         <div class="layout-center">
-          <BTable striped hover :items="items[card.category]" :fields="card.fields">
+          <BTable class="custom_table" hover :items="items[card.category]" :fields="card.fields" >
             <!-- format date -->
             <template #cell(updatedAt)="data">
               {{convertDate(new Date(data.value))}}
@@ -147,6 +147,7 @@ export default {
 
 .title{
   text-transform: capitalize;
+  /*background: #F8FAFB;*/
 }
 
 .project{
@@ -156,4 +157,24 @@ export default {
 .smartwidget{
   border-radius: 10px;
 }
+
+/deep/ .widget-header{
+  background: #F8FAFB;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/deep/ .smartwidget .widget-body .widget-body__content{
+  padding: 0!important;
+}
+
+/deep/ .custom_table thead{
+  background: #E5EEFD;
+  text-align: center;
+}
+
+/deep/ .custom_table tbody{
+  text-align: center;
+}
+
 </style>
