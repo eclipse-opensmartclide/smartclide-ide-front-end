@@ -27,29 +27,32 @@ export default {
 
 .header{
   position: fixed;
-  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
   z-index: 4000;
 }
 
 .main{
-  display: flex;
-  margin-top: 60px;
-  position: fixed;
-  width: 100%;
-  height: calc(100% - 80px);
-  overflow-y: auto;
-  bottom: 0;
-  top: 0;
+  overflow-y: hidden;
 }
 
 .context{
-  position: sticky;
+  margin-top: 60px;
+  position: fixed;
   top: 0;
+  left: 0;
+  bottom: 0;
 }
 
 .content{
-  width: calc(100% - 250px);
-  margin-bottom: 90px;
+  margin-top: 60px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 200px;
+  bottom: 0;
+  overflow-y: auto;
 }
 
 </style>

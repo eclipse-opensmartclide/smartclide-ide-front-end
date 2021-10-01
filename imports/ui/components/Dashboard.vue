@@ -38,8 +38,8 @@
     </div>
 
     <!-- Grid -->
-    <smart-widget-grid class="mt-4" :layout.sync="cards" @resized="cardResized" @container-resized="cardResized">
-      <smart-widget class="title text-primary" v-for="card in cards" :slot="card.i" :title="card.category">
+    <smart-widget-grid :layout.sync="cards" @resized="cardResized" @container-resized="cardResized" :margin="[25, 25]" >
+      <smart-widget class="title text-primary" v-for="card in cards" :slot="card.i" :title="card.category" :padding="[0,0]" >
         <template slot="toolbar">
           <div style="margin: 0 12px;">
             <BIconTrash class="widget-button" @click="remove(card.i)" style="cursor: pointer"/>
@@ -146,7 +146,6 @@ export default {
 
 .title{
   text-transform: capitalize;
-  /*background: #F8FAFB;*/
 }
 
 .project{
@@ -159,27 +158,27 @@ export default {
 
 /deep/ .widget-header{
   background: #F8FAFB;
+  height: 37px!important;
+  line-height: 37px!important;
+  padding-left: 10px;
+  align-items: center;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
 
-/deep/ .smartwidget .widget-body .widget-body__content{
-  padding: 0!important;
-}
 
 /deep/ .custom_table thead{
   background: #E5EEFD;
   text-align: center;
 }
 
-/deep/ .custom_table thead th{
-  padding: 0;
-  height: 26px!important;
-  font-weight: normal;
-}
+/*/deep/ .custom_table thead th{*/
+/*  height: 26px!important;*/
+/*  font-weight: normal;*/
+/*}*/
 
-/deep/ .custom_table tbody{
-  text-align: center;
-}
+/*/deep/ .custom_table tbody{*/
+/*  text-align: center;*/
+/*}*/
 
 </style>
