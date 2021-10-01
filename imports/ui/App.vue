@@ -23,7 +23,6 @@ import Keycloak from "keycloak-js";
 import Login from "./components/Login";
 import Header from "./components/Header";
 import LoginSmartCLIDE from "./components/LoginSmartCLIDE";
-import Vue from "vue";
 import Footer from "./components/Footer";
 import QuickAccess from "./components/QuickAccess";
 import Main from "./components/Main";
@@ -38,8 +37,8 @@ export default {
     Login,
   },
   created() {
-    this.keycloak = new Keycloak("http://localhost:8080/keycloak.json");
-
+    this.keycloak = new Keycloak("/keycloak.json");
+    
     console.log("SmartCLIDE Login: " + this.smartCLIDE_login)
 
     this.keycloak.init({
