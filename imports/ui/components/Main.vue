@@ -24,7 +24,6 @@ export default {
 </script>
 
 <style scoped>
-
 .header{
   position: fixed;
   left: 0;
@@ -54,5 +53,4 @@ export default {
   bottom: 0;
   overflow-y: auto;
 }
-
 </style>

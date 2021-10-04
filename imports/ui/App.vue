@@ -1,11 +1,11 @@
 <template>
   <div class="main vh-100 d-flex flex-column">
-    <template v-if="meteorUser|| this.eclipseCheUser">
+    <template v-if="meteorUser || this.eclipseCheUser">
       <Main :keycloak="this.keycloak" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser"/>
     </template>
 
     <template v-else-if="this.smartCLIDE_login">
-      <LoginSmartCLIDE />
+      <LoginSmartCLIDE/>
       <Footer/>
     </template>
 
@@ -13,9 +13,7 @@
       <Login :keycloak="this.keycloak" @login_clicked="login_clicked"/>
       <Footer/>
     </template>
-
   </div>
-
 </template>
 
 <script>
@@ -23,7 +21,6 @@ import Keycloak from "keycloak-js";
 import Login from "./components/Login";
 import Header from "./components/Header";
 import LoginSmartCLIDE from "./components/LoginSmartCLIDE";
-import Vue from "vue";
 import Footer from "./components/Footer";
 import QuickAccess from "./components/QuickAccess";
 import Main from "./components/Main";
@@ -36,6 +33,14 @@ export default {
     LoginSmartCLIDE,
     Header,
     Login,
+  },
+  data() {
+    return {
+      eclipseCheUser: undefined,
+      smartCLIDE_login: undefined,
+      keycloakToken: '',
+      load: false
+    };
   },
   created() {
     this.keycloak = new Keycloak("http://localhost:8080/keycloak.json");
@@ -60,25 +65,22 @@ export default {
       console.log(error)
     })
   },
-  data() {
-    return {
-      eclipseCheUser: undefined,
-      smartCLIDE_login: undefined,
-      keycloakToken: ''
-    };
+  mounted(){
+    setTimeout(() => this.load = true, 5000);
   },
   methods: {
     login_clicked(state){
-      this.smartCLIDE_login = state
+      this.smartCLIDE_login = state;
     }
   },
   meteor: {
     meteorUser(){
       const meteorUser = Meteor.user();
-      if(meteorUser){
-        this.smartCLIDE_login = false
-        return meteorUser
-      }
+
+      if(meteorUser)
+        this.smartCLIDE_login = false;
+
+      return meteorUser;
     }
   }
 };

@@ -20,11 +20,8 @@
           <template #button-content>
             <BIconPersonCircle class="icon"/>
           </template>
-          <template v-if="meteorUser">
-            <BDropdownItem disabled>{{meteorUser.username}}</BDropdownItem>
-          </template>
-          <template v-if="eclipseCheUser">
-            <BDropdownItem disabled>{{eclipseCheUser.name}}</BDropdownItem>
+          <template>
+            <BDropdownItem disabled>{{meteorUser ? meteorUser.username : eclipseCheUser.name}}</BDropdownItem>
           </template>
           <BDropdownDivider/>
           <BDropdownItem router to="/my-account" @click="optionClicked('my-account')">
@@ -44,9 +41,8 @@ export default {
     logout(){
       if(this.eclipseCheUser)
         this.keycloak.logout();
-      else {
+      else
         Meteor.logout();
-      }
     },
     optionClicked(option){
       this.$store.state.context = option;

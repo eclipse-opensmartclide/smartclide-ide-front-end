@@ -1,5 +1,5 @@
 <template>
-  <BContainer class="vh-100 d-flex justify-content-center align-items-center" >
+  <BContainer class="vh-100 d-flex justify-content-center align-items-center">
     <div class="login-container d-flex flex-column align-items-center">
       <BImg class="main-logo mb-5" src="/assets/SmartClideRGBColor.png"/>
 
@@ -30,10 +30,10 @@ export default {
     }
   },
   methods: {
-    loginWithSmartCLIDE: function (ev){
+    loginWithSmartCLIDE(){
       this.$emit("login_clicked", true)
     },
-    loginWithEclipseChe: function (){
+    loginWithEclipseChe(){
       this.keycloak.init({
         onLoad: 'login-required'
       })
