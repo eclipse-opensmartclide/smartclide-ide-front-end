@@ -22,7 +22,6 @@
 
 <script>
 export default {
-  props: ["keycloak"],
   data(){
     return {
       username: '',
@@ -31,10 +30,10 @@ export default {
   },
   methods: {
     loginWithSmartCLIDE(){
-      this.$emit("login_clicked", true)
+      this.$emit("SmartCLIDELogin")
     },
     loginWithEclipseChe(){
-      this.keycloak.init({
+      this.$store.state.keycloak.init({
         onLoad: 'login-required'
       })
     }

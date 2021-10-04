@@ -4,14 +4,17 @@ import '../imports/api/_old/publications'
 import { Meteor } from 'meteor/meteor';
 import { Accounts} from "meteor/accounts-base";
 
-const USERNAME = 'Admin';
-const PASSWORD = 'Admin';
+const credentials = [
+    {
+        username: 'Admin',
+        password: 'Admin'
+    }
+];
 
 Meteor.startup(() => {
-    if (!Accounts.findUserByUsername((USERNAME))) {
-        Accounts.createUser({
-            username: USERNAME,
-            password: PASSWORD
-        });
-    }
+    credentials.forEach(user => {
+        if (!Accounts.findUserByUsername((user.username))) {
+            Accounts.createUser(user);
+        }
+    });
 })

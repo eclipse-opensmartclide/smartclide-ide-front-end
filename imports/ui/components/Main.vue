@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column">
-    <Header class="header" :keycloak="this.keycloak" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser"/>
+    <Header class="header" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser"/>
 
     <div class="main">
       <ContextBar class="context"/>
@@ -19,7 +19,7 @@ import Footer from "./Footer";
 export default {
   name: "Main",
   components: {Footer, Content, ContextBar, Header},
-  props: ["meteorUser", "eclipseCheUser", "keycloak"],
+  props: ["meteorUser", "eclipseCheUser"],
 }
 </script>
 

@@ -9,12 +9,12 @@
     <!-- TODO: avoid this -->
     <div class="dummy"/>
 
-      <!-- IDE -->
+      <!-- IDE SETTINGS -->
       <div class="ide" >
         <RouterLink to="/settings"><BIconGear class="icon" @click="optionClicked('settings')"/></RouterLink>
       </div>
 
-      <!-- USER -->
+      <!-- USER SETTINGS -->
       <div class="user">
         <BDropdown variant="bg-transparent text-primary" toggle-class="text-decoration-none" no-caret>
           <template #button-content>
@@ -36,11 +36,11 @@
 
 export default {
   name: "Header",
-  props: ["meteorUser", "eclipseCheUser", "keycloak"],
+  props: ["meteorUser", "eclipseCheUser"],
   methods: {
     logout(){
       if(this.eclipseCheUser)
-        this.keycloak.logout();
+        this.$store.state.keycloak.logout();
       else
         Meteor.logout();
     },
