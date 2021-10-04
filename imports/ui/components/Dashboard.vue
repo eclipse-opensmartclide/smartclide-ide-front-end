@@ -38,8 +38,8 @@
     </div>
 
     <!-- Grid -->
-    <smart-widget-grid :layout.sync="cards" @resized="cardResized" @container-resized="cardResized" :margin="[25, 25]" >
-      <smart-widget class="title text-primary" v-for="card in cards" :slot="card.i" :title="card.category" :padding="[0,0]" >
+    <smart-widget-grid :layout.sync="cards" @resized="cardResized" @container-resized="cardResized" :margin="[25, 25]">
+      <smart-widget class="title text-primary" v-for="card in cards" :slot="card.i" :title="card.category" :padding="[0,0]" :loading="!itemsLoaded">
         <template slot="toolbar">
           <div style="margin: 0 12px;">
             <BIconTrash class="widget-button" @click="remove(card.i)" style="cursor: pointer"/>
@@ -81,7 +81,7 @@ export default {
         { x: 0, y: 5, w: 12, h: 5, i: 2, category: 'deployments', fields: ["name", "workflow_service", "version", "state", "updatedAt"]}
       ],
       items: {},
-      itemsLoaded: false
+      itemsLoaded: true
     }
   },
   methods: {
@@ -93,6 +93,7 @@ export default {
       return moment(date).format('DD-MMM-YYYY HH:mm');
     },
     async getItems() {
+      this.itemsLoaded = false;
       const token = this.$store.state.keycloak.idToken
 
       let workflows = await this.connector.getMostRecentWorkflows();
@@ -107,6 +108,7 @@ export default {
         deployments,
         recent
       };
+      this.itemsLoaded = true;
     },
     cardResized(card){
       // console.log(card.i)
