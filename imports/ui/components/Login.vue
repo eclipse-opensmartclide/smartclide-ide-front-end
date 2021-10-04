@@ -3,14 +3,14 @@
     <div class="login-container d-flex flex-column align-items-center">
       <BImg class="main-logo mb-5" src="/assets/SmartClideRGBColor.png"/>
 
-      <BForm @submit.prevent="loginWithSmartCLIDE">
+      <BForm @submit.prevent="loginWithSmartCLIDE()">
         <BButton class="smartCLIDE bg-primary mt-4" name="login" type="submit">
           <BImg class="smartCLIDE_icon" src="/assets/icon_smartclide.png"/>
           <div class="btn-text">Username or Email</div>
         </BButton>
       </BForm>
 
-      <BForm @submit.prevent="loginWithEclipseChe">
+      <BForm @submit.prevent="loginWithEclipseChe()">
         <BButton class="che mt-3" name="loginEclipseChe" type="submit">
           <BImg class="eclipse_icon" src="/assets/icon_eclipse.png"/>
           <div class="btn-text">SmartCLIDE Eclipse Che</div>

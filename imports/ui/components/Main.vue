@@ -14,11 +14,10 @@
 import Header from "./Header";
 import ContextBar from "./ContextBar";
 import Content from "./Content";
-import Footer from "./Footer";
 
 export default {
   name: "Main",
-  components: {Footer, Content, ContextBar, Header},
+  components: {Header, ContextBar, Content},
   props: ["meteorUser", "eclipseCheUser"],
 }
 </script>
