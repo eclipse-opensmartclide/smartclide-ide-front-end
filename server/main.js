@@ -2,9 +2,9 @@ import '../imports/api/_old/fixtures'
 import '../imports/api/_old/methods'
 import '../imports/api/_old/publications'
 import { Meteor } from 'meteor/meteor';
-import { Accounts} from "meteor/accounts-base";
+import { Accounts } from "meteor/accounts-base";
 
-const credentials = [
+const users = [
     {
         username: 'Admin',
         password: 'Admin'
@@ -12,8 +12,8 @@ const credentials = [
 ];
 
 Meteor.startup(() => {
-    credentials.forEach(user => {
-        if (!Accounts.findUserByUsername((user.username))) {
+    users.forEach(user => {
+        if (!Accounts.findUserByUsername(user.username)) {
             Accounts.createUser(user);
         }
     });

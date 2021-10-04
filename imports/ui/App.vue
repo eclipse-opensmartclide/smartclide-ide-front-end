@@ -1,6 +1,6 @@
 <template>
   <div class="main vh-100 d-flex flex-column">
-    <template v-if="existsMeteorUser || this.eclipseCheUser">
+    <template v-if="isLoggedIn || this.eclipseCheUser">
       <Main :meteorUser="getMeteorUser" :eclipseCheUser="eclipseCheUser"/>
     </template>
 
@@ -45,7 +45,7 @@ export default {
       onLoad: 'check-sso',
       loadUserProfileAtStartUp: true
     }).then(authenticated => {
-      console.log("authenticated: ", authenticated)
+      console.log("authenticated: ", authenticated);
 
       this.eclipseCheLogin = authenticated
       this.$store.state.keycloak = keycloak
@@ -53,6 +53,8 @@ export default {
       // Get Eclipse Che user
       if(keycloak.tokenParsed)
         this.eclipseCheUser = keycloak.tokenParsed
+
+      console.log(keycloak)
     }).catch(error => {
       console.log(error)
     })
@@ -71,7 +73,7 @@ export default {
 
       return meteorUser;
     },
-    existsMeteorUser(){
+    isLoggedIn(){
       return !!Meteor.userId();
     }
   }
