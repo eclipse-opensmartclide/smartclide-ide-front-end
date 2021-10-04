@@ -69,7 +69,9 @@ export default {
   },
   mounted(){
     this.$store.state.context = 'main';
-    this.getItems();
+    this.$store.state.keycloak.updateToken(30).then(() => {
+      this.getItems();
+    })
   },
   data () {
     return {
