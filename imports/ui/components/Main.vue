@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column">
-    <Header class="header" :keycloak="this.keycloak" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser"/>
+    <Header class="header" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser"/>
 
     <div class="main">
       <ContextBar class="context"/>
@@ -14,17 +14,15 @@
 import Header from "./Header";
 import ContextBar from "./ContextBar";
 import Content from "./Content";
-import Footer from "./Footer";
 
 export default {
   name: "Main",
-  components: {Footer, Content, ContextBar, Header},
-  props: ["meteorUser", "eclipseCheUser", "keycloak"],
+  components: {Header, ContextBar, Content},
+  props: ["meteorUser", "eclipseCheUser"],
 }
 </script>
 
 <style scoped>
-
 .header{
   position: fixed;
   left: 0;
@@ -54,5 +52,4 @@ export default {
   bottom: 0;
   overflow-y: auto;
 }
-
 </style>

@@ -1,83 +1,80 @@
 <template>
   <div class="main vh-100 d-flex flex-column">
-    <template v-if="meteorUser|| this.eclipseCheUser">
-      <Main :keycloak="this.keycloak" :meteorUser="meteorUser" :eclipseCheUser="eclipseCheUser"/>
+    <template v-if="isLoggedIn || this.eclipseCheUser">
+      <Main :meteorUser="getMeteorUser" :eclipseCheUser="eclipseCheUser"/>
     </template>
 
-    <template v-else-if="this.smartCLIDE_login">
-      <LoginSmartCLIDE />
+    <template v-else-if="this.SmartCLIDELogin">
+      <LoginSmartCLIDE/>
       <Footer/>
     </template>
 
     <template v-else>
-      <Login :keycloak="this.keycloak" @login_clicked="login_clicked"/>
+      <Login @SmartCLIDELogin="loginWithSmartCLIDE()"/>
       <Footer/>
     </template>
-
   </div>
-
 </template>
 
 <script>
 import Keycloak from "keycloak-js";
 import Login from "./components/Login";
-import Header from "./components/Header";
 import LoginSmartCLIDE from "./components/LoginSmartCLIDE";
-import Footer from "./components/Footer";
-import QuickAccess from "./components/QuickAccess";
+import Header from "./components/Header";
 import Main from "./components/Main";
+import Footer from "./components/Footer";
 
 export default {
   components: {
-    Main,
-    QuickAccess,
-    Footer,
+    Login,
     LoginSmartCLIDE,
     Header,
-    Login,
-  },
-  created() {
-    this.keycloak = new Keycloak("/keycloak.json");
-    
-    console.log("SmartCLIDE Login: " + this.smartCLIDE_login)
-
-    this.keycloak.init({
-      onLoad: 'check-sso',
-      loadUserProfileAtStartUp: true
-    })
-        .then((authenticated)=>{
-          console.log("authenticated: ", authenticated)
-
-          this.eclipseCheLogin = authenticated
-          this.$store.state.keycloak = this.keycloak
-
-          // get eclipse che user
-          if(this.keycloak.tokenParsed){
-            this.eclipseCheUser = this.keycloak.tokenParsed
-          }
-        }).catch(function (error){
-      console.log(error)
-    })
+    Main,
+    Footer
   },
   data() {
     return {
       eclipseCheUser: undefined,
-      smartCLIDE_login: undefined,
-      keycloakToken: ''
+      SmartCLIDELogin: undefined
     };
   },
+  created(){
+    const keycloak = new Keycloak("http://localhost:8080/keycloak.json");
+
+    keycloak.init({
+      onLoad: 'check-sso',
+      loadUserProfileAtStartUp: true
+    }).then(authenticated => {
+      console.log("authenticated: ", authenticated);
+
+      this.eclipseCheLogin = authenticated
+      this.$store.state.keycloak = keycloak
+
+      // Get Eclipse Che user
+      if(keycloak.tokenParsed)
+        this.eclipseCheUser = keycloak.tokenParsed
+
+      console.log(keycloak)
+    }).catch(error => {
+      console.log(error)
+    })
+  },
   methods: {
-    login_clicked(state){
-      this.smartCLIDE_login = state
+    loginWithSmartCLIDE(){
+      this.SmartCLIDELogin = true;
     }
   },
   meteor: {
-    meteorUser(){
+    getMeteorUser(){
       const meteorUser = Meteor.user();
-      if(meteorUser){
-        this.smartCLIDE_login = false
-        return meteorUser
-      }
+
+      if(meteorUser)
+        this.SmartCLIDELogin = false;
+
+      return meteorUser;
+    },
+    isLoggedIn(){
+      return !!Meteor.userId();
     }
   }
 };

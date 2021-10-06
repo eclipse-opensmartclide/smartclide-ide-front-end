@@ -35,7 +35,6 @@
 
 <script>
 export default {
-  props: ["keycloak"],
   data(){
     return {
       username: '',
@@ -43,7 +42,7 @@ export default {
     }
   },
   methods: {
-    login: function (ev){
+    login(){
       Meteor.loginWithPassword(this.username, this.password)
     }
   }
