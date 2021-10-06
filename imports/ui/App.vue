@@ -43,7 +43,8 @@ export default {
 
     keycloak.init({
       onLoad: 'check-sso',
-      loadUserProfileAtStartUp: true
+      loadUserProfileAtStartUp: true,
+      checkLoginIframe: false
     }).then(authenticated => {
       console.log("authenticated: ", authenticated);
 
@@ -53,8 +54,6 @@ export default {
       // Get Eclipse Che user
       if(keycloak.tokenParsed)
         this.eclipseCheUser = keycloak.tokenParsed
-
-      console.log(keycloak)
     }).catch(error => {
       console.log(error)
     })

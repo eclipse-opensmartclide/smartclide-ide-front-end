@@ -69,9 +69,18 @@ export default {
   },
   mounted(){
     this.$store.state.context = 'main';
-    this.$store.state.keycloak.updateToken(30).then(() => {
-      this.getItems();
-    })
+
+    const keycloak = this.$store.state.keycloak
+    if(keycloak.isTokenExpired(30)){
+      keycloak.updateToken(30).then(() => {
+        console.log("Token updated...")
+        this.getItems()
+      }).catch(error => {
+        console.log(error)
+      })
+    }else{
+      this.getItems()
+    }
   },
   data () {
     return {
@@ -93,13 +102,14 @@ export default {
       return moment(date).format('DD-MMM-YYYY HH:mm');
     },
     async getItems() {
+
+      // TODO load each card independently
       this.itemsLoaded = false;
       const token = this.$store.state.keycloak.idToken
 
       let workflows = await this.connector.getMostRecentWorkflows();
       let services = await this.connector.getMostRecentServices();
       let deployments = await this.connector.getMostRecentDeployments();
-      // let recent = await this.connector.getMostRecentProjects(3);
       let recent = await this.connector.getRecentWorkspace(token, 3)
 
       this.items = {
