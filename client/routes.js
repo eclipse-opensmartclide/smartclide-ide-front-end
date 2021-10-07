@@ -16,6 +16,7 @@ import Sources from "../imports/ui/components/MyAccount/Sources";
 import Credentials from "../imports/ui/components/MyAccount/Credentials";
 import Dashboard from "../imports/ui/components/Dashboard";
 import Project from "../imports/ui/components/Project"
+import NotImplemented from "../imports/ui/components/NotImplemented";
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,11 @@ const routes = [
         path: "/",
         name: "Dashboard",
         component: Dashboard
+    },
+    {
+        path: "/notImplemented",
+        name: "Not Implemented",
+        component: NotImplemented
     },
     {
         path: "/register",

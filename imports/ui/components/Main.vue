@@ -41,6 +41,7 @@ export default {
   top: 0;
   left: 0;
   bottom: 0;
+  z-index: 3000; /* for Quick Access navigation panel show above main content page */
 }
 
 .content{

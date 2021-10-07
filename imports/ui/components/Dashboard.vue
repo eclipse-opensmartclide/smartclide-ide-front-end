@@ -16,9 +16,9 @@
           <!-- create new -->
           <BCol>
             <BRow class="create mb-2">Create New...</BRow>
-            <BRow><RouterLink to="/createWorkflow">Workflow</RouterLink></BRow>
-            <BRow><RouterLink to="/createService">Service</RouterLink></BRow>
-            <BRow><RouterLink to="/createDeployment">Deployment</RouterLink></BRow>
+            <BRow><RouterLink to="/notImplemented">Workflow</RouterLink></BRow>
+            <BRow><RouterLink to="/notImplemented">Service</RouterLink></BRow>
+            <BRow><RouterLink to="/notImplemented">Deployment</RouterLink></BRow>
           </BCol>
 
           <!-- recent projects -->
@@ -33,7 +33,7 @@
         </BRow>
       </BCol>
       <div class="add">
-        <BIconPlusCircle class="text-primary add-icon"/>
+        <BIconPlusCircle class="text-primary add-icon" @click="addWidget"/>
       </div>
     </div>
 
@@ -123,6 +123,9 @@ export default {
     cardResized(card){
       // console.log(card.i)
       // ATUALIZAR FIELDS PARA MOSTRAR APENAS AS COLUNAS QUE CABEM NO CARTÃO
+    },
+    addWidget(){
+      alert("Not implemented")
     }
   }
 }
@@ -140,6 +143,7 @@ export default {
   position: absolute;
   right: 10px;
   bottom: 0;
+  cursor: pointer
 }
 
 .welcome{
