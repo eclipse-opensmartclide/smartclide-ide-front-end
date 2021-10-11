@@ -102,7 +102,6 @@ export default {
       return moment(date).format('DD-MMM-YYYY HH:mm');
     },
     async getItems() {
-
       // TODO load each card independently
       this.itemsLoaded = false;
       const token = this.$store.state.keycloak.idToken
@@ -110,7 +109,7 @@ export default {
       let workflows = await this.connector.getMostRecentWorkflows();
       let services = await this.connector.getMostRecentServices();
       let deployments = await this.connector.getMostRecentDeployments();
-      let recent = await this.connector.getRecentWorkspace(token, 3)
+      let recent = await this.connector.getRecentWorkspaces(token, 3)
 
       this.items = {
         workflows,
