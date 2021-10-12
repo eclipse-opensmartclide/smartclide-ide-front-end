@@ -1,4 +1,4 @@
-# IDE
+# SmartCLIDE IDE
 
 The base project of the SmartCLIDE IDE User Interface
 
@@ -21,7 +21,7 @@ npm install -g meteor
 ### Clone the project from GitLab 
 
 ```shell
-git clone https://gitlab.com/UNPARALLEL/H2020/smartclide/ide
+git clone git@github.com:eclipse-researchlabs/smartclide-ide-front-end.git
 ```
 
 ### Install dependencies and run the project
