@@ -59,28 +59,14 @@
 </template>
 
 <script>
-import Connector from 'connector-smartclide';
 import moment from "moment";
+import utils from "../utils"
 
 export default {
   name: "Dashboard",
-  created() {
-    this.connector = new Connector();
-  },
   mounted(){
     this.$store.state.context = 'main';
-
-    const keycloak = this.$store.state.keycloak
-    if(keycloak.isTokenExpired(30)){
-      keycloak.updateToken(30).then(() => {
-        console.log("Token updated...")
-        this.getItems()
-      }).catch(error => {
-        console.log(error)
-      })
-    }else{
-      this.getItems()
-    }
+    this.getItems()
   },
   data () {
     return {
@@ -101,27 +87,16 @@ export default {
     convertDate: function (date) {
       return moment(date).format('DD-MMM-YYYY HH:mm');
     },
-    async getItems() {
+    async getItems(){
       // TODO load each card independently
+      const keycloak = this.$store.state.keycloak
       this.itemsLoaded = false;
-      const token = this.$store.state.keycloak.idToken
-
-      let workflows = await this.connector.getMostRecentWorkflows();
-      let services = await this.connector.getMostRecentServices();
-      let deployments = await this.connector.getMostRecentDeployments();
-      let recent = await this.connector.getRecentWorkspaces(token, 3)
-
-      this.items = {
-        workflows,
-        services,
-        deployments,
-        recent
-      };
+      this.items = await utils.getWorkspaces(keycloak)
       this.itemsLoaded = true;
     },
     cardResized(card){
       // console.log(card.i)
-      // ATUALIZAR FIELDS PARA MOSTRAR APENAS AS COLUNAS QUE CABEM NO CARTÃO
+      // TODO update fields to show only the columns that fit in card
     },
     addWidget(){
       alert("Not implemented")

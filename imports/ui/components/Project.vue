@@ -1,18 +1,15 @@
 <template>
   <div>
     <div class="name text-primary">{{this.name}}</div>
-    <iframe id="iframe" class="w-100 h-100" :src="workspaceUrl" sandbox="allow-scripts allow-same-origin"/>
+    <iframe id="iframe" class="w-100 h-100" :src="workspaceUrl" />
   </div>
 </template>
 
 <script>
-import Connector from "connector-smartclide";
+import utils from "../utils"
 
 export default {
   name: "Project",
-  created() {
-    this.connector = new Connector();
-  },
   mounted(){
     this.$store.state.context = 'project';
     this.$store.state.currentWorkspace = this.$route.params.id
@@ -27,16 +24,20 @@ export default {
   },
   methods:{
     async getDetails(){
-      const token = this.$store.state.keycloak.idToken
+      const keycloak = this.$store.state.keycloak
       const workspaceId = this.$store.state.currentWorkspace
 
-      const ws = await this.connector.getWorkspace(token, workspaceId)
+      const ws = await utils.getWorkspace(keycloak, workspaceId)
       this.name = ws.devfile.metadata.name
+      console.log("Status: " + ws.status)
 
-      if(ws.status === "RUNNING"){
+      if (ws.status === "STOPPED") {
+        await utils.startWorkspace(keycloak, workspaceId)
+        await this.fetchWorkspaceUrl(keycloak, workspaceId)
+      } else if (ws.status === "RUNNING") {
         const machines = ws.runtime.machines
-        for(key in machines){
-          if(key.includes("theia-ide")){
+        for (key in machines) {
+          if (key.includes("theia-ide")) {
             this.workspaceUrl = machines[key].servers.theia.url
             console.log(this.workspaceUrl)
             break
@@ -44,14 +45,12 @@ export default {
         }
       }
       else{
-        console.log(ws.status)
-        await this.connector.startWorkspace(token, workspaceId)
-        await this.fetchWorkspaceUrl(token, workspaceId)
+        await this.fetchWorkspaceUrl(keycloak, workspaceId)
       }
     },
-    fetchWorkspaceUrl(token, workspaceId){
+    fetchWorkspaceUrl(keycloak, workspaceId){
       this.workspaceLoaded = setInterval( () => {
-        this.connector.getWorkspace(token, workspaceId).then(ws => {
+        utils.getWorkspace(keycloak, workspaceId).then(ws => {
           this.name = ws.devfile.metadata.name
           if(ws.status === "RUNNING"){
             const machines = ws.runtime.machines
