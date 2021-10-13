@@ -1,7 +1,14 @@
 <template>
-  <div>
+  <div class="d-flex flex-column">
     <div class="name text-primary">{{this.name}}</div>
-    <iframe id="iframe" class="w-100 h-100" :src="workspaceUrl" />
+    <div class="container">
+      <div class="iframe_container">
+        <iframe id="iframe" :src="workspaceUrl" />
+      </div>
+      <div class="loading d-flex justify-content-center align-items-center">
+        <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -39,7 +46,7 @@ export default {
         for (key in machines) {
           if (key.includes("theia-ide")) {
             this.workspaceUrl = machines[key].servers.theia.url
-            console.log(this.workspaceUrl)
+            $(".loading").remove()
             break
           }
         }
@@ -57,6 +64,7 @@ export default {
             for(key in machines){
               if(key.includes("theia-ide")){
                 this.workspaceUrl = machines[key].servers.theia.url
+                $(".loading").remove()
                 break
               }
             }
@@ -79,5 +87,27 @@ export default {
     padding-left: 15px;
     text-transform: capitalize;
   }
-
+  .container {
+    width: 100%;
+    height: 100%;
+  }
+  .iframe_container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 28px;
+    left: 0;
+  }
+  #iframe{
+    border: 0;
+    height: 100%;
+    width: 100%;
+  }
+  .loading {
+    z-index: 9;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+  }
 </style>
