@@ -11,7 +11,6 @@ module.exports = {
         await this.checkToken(keycloak)
 
         const connector = new Connector()
-
         const workflows = await connector.getMostRecentWorkflows();
         const services = await connector.getMostRecentServices();
         const deployments = await connector.getMostRecentDeployments();
