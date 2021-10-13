@@ -31,6 +31,8 @@ export default {
   },
   methods:{
     async getDetails(){
+      $(".loading").removeClass("d-none")
+      $(".loading").addClass("d-flex")
       const keycloak = this.$store.state.keycloak
       const workspaceId = this.$store.state.currentWorkspace
 
@@ -46,7 +48,8 @@ export default {
         for (key in machines) {
           if (key.includes("theia-ide")) {
             this.workspaceUrl = machines[key].servers.theia.url
-            $(".loading").remove()
+            $(".loading").removeClass("d-flex")
+            $(".loading").addClass("d-none")
             break
           }
         }
@@ -64,7 +67,9 @@ export default {
             for(key in machines){
               if(key.includes("theia-ide")){
                 this.workspaceUrl = machines[key].servers.theia.url
-                $(".loading").remove()
+                // $(".loading").remove()
+                $(".loading").removeClass("d-flex")
+                $(".loading").addClass("d-none")
                 break
               }
             }
