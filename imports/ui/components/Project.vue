@@ -5,8 +5,11 @@
       <div class="iframe_container">
         <iframe id="iframe" :src="workspaceUrl" />
       </div>
-      <div class="loading d-flex justify-content-center align-items-center">
+      <div class="loading d-flex justify-content-center align-items-center flex-column">
         <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
+        <div class="text-primary">
+          <br>Loading... Please wait
+        </div>
       </div>
     </div>
   </div>
