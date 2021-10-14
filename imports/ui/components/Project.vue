@@ -118,4 +118,7 @@ export default {
     position: absolute;
     left: 0;
   }
+  .spinner-border{
+    animation: 1.75s linear infinite spinner-border;
+  }
 </style>
