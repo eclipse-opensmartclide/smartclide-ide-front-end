@@ -32,6 +32,9 @@ export default {
       workspaceLoaded: undefined
     }
   },
+  beforeDestroy () {
+    clearInterval(this.workspaceLoaded)
+  },
   methods:{
     async getDetails(){
       $(".loading").removeClass("d-none")
@@ -70,13 +73,12 @@ export default {
             for(key in machines){
               if(key.includes("theia-ide")){
                 this.workspaceUrl = machines[key].servers.theia.url
-                // $(".loading").remove()
                 $(".loading").removeClass("d-flex")
                 $(".loading").addClass("d-none")
                 break
               }
             }
-            clearInterval(this.workspaceLoaded);
+            clearInterval(this.workspaceLoaded)
           }
         })
       }, 5000);
