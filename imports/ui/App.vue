@@ -45,7 +45,6 @@ export default {
       onLoad: 'check-sso',
       loadUserProfileAtStartUp: true,
       checkLoginIframe: false,
-      // silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
     }).then(authenticated => {
       console.log("authenticated: ", authenticated);
 
