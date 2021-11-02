@@ -29,11 +29,13 @@ export default new Vuex.Store({
                             // { title: 'Statistics', link: '/settings/statistics' },
                             // { title: 'Logs', link: '/settings/logs' },
                             // { title: 'Appearance', link: '/settings/appearance' },
-                            // { title: 'Help', link: '/settings/help' }
+                            // { title: 'Help', link: '/settings/help' },
+                            // { title: 'About', link: '/settings/about' }
                             { title: 'Statistics', link: '/notImplemented' },
                             { title: 'Logs', link: '/notImplemented' },
                             { title: 'Appearance', link: '/notImplemented' },
-                            { title: 'Help', link: '/notImplemented' }
+                            { title: 'Help', link: '/notImplemented' },
+                            { title: 'About', link: '/notImplemented' }
                         ]
                     }
                 ]

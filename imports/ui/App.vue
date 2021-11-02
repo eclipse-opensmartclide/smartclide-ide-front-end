@@ -39,12 +39,12 @@ export default {
     };
   },
   created(){
-    const keycloak = new Keycloak("http://localhost:8080/keycloak.json");
+    const keycloak = new Keycloak("/keycloak.json");
 
     keycloak.init({
       onLoad: 'check-sso',
       loadUserProfileAtStartUp: true,
-      checkLoginIframe: false
+      checkLoginIframe: false,
     }).then(authenticated => {
       console.log("authenticated: ", authenticated);
 

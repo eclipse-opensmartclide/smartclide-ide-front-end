@@ -1,18 +1,25 @@
 <template>
-  <div>
+  <div class="d-flex flex-column">
     <div class="name text-primary">{{this.name}}</div>
-    <iframe class="w-100 h-100" :src="workspaceUrl"/>
+    <div class="container">
+      <div class="iframe_container">
+        <iframe id="iframe" :src="workspaceUrl" />
+      </div>
+      <div class="loading d-flex justify-content-center align-items-center flex-column">
+        <b-spinner class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
+        <div class="text-primary">
+          <br>Loading... Please wait
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import Connector from "connector-smartclide";
+import utils from "../utils"
 
 export default {
   name: "Project",
-  created() {
-    this.connector = new Connector();
-  },
   mounted(){
     this.$store.state.context = 'project';
     this.$store.state.currentWorkspace = this.$route.params.id
@@ -21,20 +28,60 @@ export default {
   data(){
     return{
       name: '',
-      workspaceUrl: ''
+      workspaceUrl: '',
+      workspaceLoaded: undefined
     }
+  },
+  beforeDestroy () {
+    clearInterval(this.workspaceLoaded)
   },
   methods:{
     async getDetails(){
-      const token = this.$store.state.keycloak.idToken
+      $(".loading").removeClass("d-none")
+      $(".loading").addClass("d-flex")
+      const keycloak = this.$store.state.keycloak
       const workspaceId = this.$store.state.currentWorkspace
 
-      const ws = await this.connector.getWorkspace(token, workspaceId)
+      const ws = await utils.getWorkspace(keycloak, workspaceId)
       this.name = ws.devfile.metadata.name
+      console.log("Status: " + ws.status)
 
-      this.workspaceUrl = "https://che-smartclide-che.che.smartclide.eu/dashboard/#/ide/" +
-          this.$store.state.keycloak.tokenParsed.email + "/" +
-          this.name
+      if (ws.status === "STOPPED") {
+        await utils.startWorkspace(keycloak, workspaceId)
+        await this.fetchWorkspaceUrl(keycloak, workspaceId)
+      } else if (ws.status === "RUNNING") {
+        const machines = ws.runtime.machines
+        for (key in machines) {
+          if (key.includes("theia-ide")) {
+            this.workspaceUrl = machines[key].servers.theia.url
+            $(".loading").removeClass("d-flex")
+            $(".loading").addClass("d-none")
+            break
+          }
+        }
+      }
+      else{
+        await this.fetchWorkspaceUrl(keycloak, workspaceId)
+      }
+    },
+    fetchWorkspaceUrl(keycloak, workspaceId){
+      this.workspaceLoaded = setInterval( () => {
+        utils.getWorkspace(keycloak, workspaceId).then(ws => {
+          this.name = ws.devfile.metadata.name
+          if(ws.status === "RUNNING"){
+            const machines = ws.runtime.machines
+            for(key in machines){
+              if(key.includes("theia-ide")){
+                this.workspaceUrl = machines[key].servers.theia.url
+                $(".loading").removeClass("d-flex")
+                $(".loading").addClass("d-none")
+                break
+              }
+            }
+            clearInterval(this.workspaceLoaded)
+          }
+        })
+      }, 5000);
     }
   }
 }
@@ -50,5 +97,30 @@ export default {
     padding-left: 15px;
     text-transform: capitalize;
   }
-
+  .container {
+    width: 100%;
+    height: 100%;
+  }
+  .iframe_container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 28px;
+    left: 0;
+  }
+  #iframe{
+    border: 0;
+    height: 100%;
+    width: 100%;
+  }
+  .loading {
+    z-index: 9;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+  }
+  .spinner-border{
+    animation: 1.75s linear infinite spinner-border;
+  }
 </style>
