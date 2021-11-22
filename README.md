@@ -74,7 +74,7 @@ of movable widgets.
 By clicking a project in the "Recent" section, the project view is presented. There, the code of the previously
 configured workspace can be edited.
 
-[Insert Picture]
+![](readme-pictures/Project.png)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
