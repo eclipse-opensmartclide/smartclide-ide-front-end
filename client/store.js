@@ -26,11 +26,6 @@ export default new Vuex.Store({
                     {
                         category: "root",
                         options: [
-                            // { title: 'Statistics', link: '/settings/statistics' },
-                            // { title: 'Logs', link: '/settings/logs' },
-                            // { title: 'Appearance', link: '/settings/appearance' },
-                            // { title: 'Help', link: '/settings/help' },
-                            // { title: 'About', link: '/settings/about' }
                             { title: 'Statistics', link: '/notImplemented' },
                             { title: 'Logs', link: '/notImplemented' },
                             { title: 'Appearance', link: '/notImplemented' },
@@ -46,10 +41,6 @@ export default new Vuex.Store({
                     {
                         category: "root",
                         options: [
-                            // { title: 'Profile', link: '/my-account/profile' },
-                            // { title: 'Team', link: '/my-account/team' },
-                            // { title: 'Sources', link: '/my-account/sources' },
-                            // { title: 'Credentials', link: '/my-account/credentials' }
                             { title: 'Profile', link: '/notImplemented' },
                             { title: 'Team', link: '/notImplemented' },
                             { title: 'Sources', link: '/notImplemented' },
