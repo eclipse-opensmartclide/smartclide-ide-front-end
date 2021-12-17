@@ -4,7 +4,7 @@
 
     <div class="d-flex h-100">
       <iframe id="iframe" :src="workspaceUrl" />
-      
+
       <div class="loading d-flex justify-content-center align-items-center flex-column">
         <b-spinner class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
         <div class="text-primary">
@@ -65,6 +65,7 @@ export default {
       }
     },
     fetchWorkspaceUrl(keycloak, workspaceId){
+      // wait until get the server theia url
       this.workspaceLoaded = setInterval( () => {
         utils.getWorkspace(keycloak, workspaceId).then(ws => {
           this.name = ws.devfile.metadata.name
