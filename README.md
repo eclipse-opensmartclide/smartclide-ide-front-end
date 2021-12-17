@@ -1,7 +1,7 @@
 # SmartCLIDE IDE
 
 This is the base project of the SmartCLIDE IDE User Interface where all the SmartCLIDE components will be integrated
-and made available to the users.
+and their functionalities made available to the users.
 
 The current version provides:
 
@@ -9,7 +9,7 @@ The current version provides:
 - User authentication with previously created Eclipse Che accounts
 - Dashboard with some widget's examples
 - Opening and closing existing workspaces
-- Developing code using an instance of Eclipse Che Theia
+- Code development using an instance of Eclipse Che Theia (if the IDE and Keycloak are deployed in the same domain)
 
 The upcoming features will include:
 
@@ -18,7 +18,7 @@ The upcoming features will include:
 - Complete workspace management tools
 - Support for complete development flows
 
-## Instructions to run the project ##
+## Running the project's code
 
 ### Install Meteor on your computer
 
@@ -37,7 +37,7 @@ npm install -g meteor
 ### Clone the project from GitLab 
 
 ```shell
-git clone git@github.com:eclipse-researchlabs/smartclide-ide-front-end.git
+git clone https://github.com/eclipse-researchlabs/smartclide-ide-front-end.git
 ```
 
 ### Install dependencies and run the project
@@ -48,6 +48,28 @@ meteor npm install
 meteor --port 8080
 ```
 
+### Access the IDE at http://localhost:8080
+
+## Running the official Docker image
+
+### Clone the project repository
+
+```shell
+git clone https://github.com/eclipse-researchlabs/smartclide-ide-front-end.git
+```
+
+### From the root, run the docker-compose file
+
+```shell
+docker-compose up
+```
+
+### Access the IDE at http://localhost:8080
+
+## Accessing the online version
+
+### Navigate to https://ide.che.smartclide.eu.
+
 ## Main Pages
 
 ### Login
@@ -57,8 +79,8 @@ Users can log in by providing:
 1) SmartCLIDE credentials (i.e., username/email and password) - is intended for development uses only.
 2) SmartCLIDE Eclipse Che credentials - all users are expected to use this option.
 
-Keep in mind that signing up will only become available in future versions, i.e., only previously defined credentials
-can be used at the moment.
+Keep in mind that signing up will only become available in future versions, i.e., you need to request an account in
+order to access the IDE.
 
 ![](public/assets/readme-pictures/Login.png)
 
@@ -73,6 +95,9 @@ of movable widgets.
 
 By clicking a project in the "Recent" section, the project view is presented. There, the code of the previously
 configured workspace can be edited.
+
+Since project creation is not supported yet, new workflows must be created using
+[Che's Dashboard](https://che-smartclide-che.che.smartclide.eu/dashboard/#/workspaces) before being accessed in the IDE.
 
 ![](public/assets/readme-pictures/Project.png)
 
