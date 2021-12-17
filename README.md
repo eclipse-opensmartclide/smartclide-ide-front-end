@@ -60,21 +60,21 @@ Users can log in by providing:
 Keep in mind that signing up will only become available in future versions, i.e., only previously defined credentials
 can be used at the moment.
 
-![](readme-pictures/Login.png)
+![](public/assets/readme-pictures/Login.png)
 
 ### Dashboard
 
 After logging in, the user is redirected to the dashboard where they can see an overview of their work through a set
 of movable widgets.
 
-![](readme-pictures/Dashboard.png)
+![](public/assets/readme-pictures/Dashboard.png)
 
 ### Project View
 
 By clicking a project in the "Recent" section, the project view is presented. There, the code of the previously
 configured workspace can be edited.
 
-![](readme-pictures/Project.png)
+![](public/assets/readme-pictures/Project.png)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
