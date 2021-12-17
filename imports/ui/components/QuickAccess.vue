@@ -96,7 +96,7 @@ export default {
     },
 
     commandClick(shortcut){
-      console.log("Clicked on " + shortcut.plugin+"-"+shortcut.command)
+
     }
   },
 
