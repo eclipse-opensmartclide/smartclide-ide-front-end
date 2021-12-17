@@ -18,7 +18,7 @@ The upcoming features will include:
 - Complete workspace management tools
 - Support for complete development flows
 
-## Running the project's code
+## Running the project from code
 
 ### Install Meteor on your computer
 
@@ -48,7 +48,7 @@ meteor npm install
 meteor --port 8080
 ```
 
-### Access the IDE at http://localhost:8080
+Access the IDE at http://localhost:8080
 
 ## Running the official Docker image
 
@@ -64,11 +64,11 @@ git clone https://github.com/eclipse-researchlabs/smartclide-ide-front-end.git
 docker-compose up
 ```
 
-### Access the IDE at http://localhost:8080
+Access the IDE at http://localhost:8080
 
 ## Accessing the online version
 
-### Navigate to https://ide.che.smartclide.eu.
+Navigate to https://ide.che.smartclide.eu.
 
 ## Main Pages
 
@@ -79,8 +79,7 @@ Users can log in by providing:
 1) SmartCLIDE credentials (i.e., username/email and password) - is intended for development uses only.
 2) SmartCLIDE Eclipse Che credentials - all users are expected to use this option.
 
-Keep in mind that signing up will only become available in future versions, i.e., you need to request an account in
-order to access the IDE.
+Keep in mind that signing up will only become available in future versions. At the current time users need to request an account for [SmartCLIDE Che Dashboard](http://che-smartclide-che.che.smartclide.eu/) to use the IDE.
 
 ![](public/assets/readme-pictures/Login.png)
 
@@ -97,7 +96,7 @@ By clicking a project in the "Recent" section, the project view is presented. Th
 configured workspace can be edited.
 
 Since project creation is not supported yet, new workflows must be created using
-[Che's Dashboard](https://che-smartclide-che.che.smartclide.eu/dashboard/#/workspaces) before being accessed in the IDE.
+[SmartCLIDE's Che Dashboard](https://che-smartclide-che.che.smartclide.eu/dashboard/#/workspaces) before being accessed in the IDE.
 
 ![](public/assets/readme-pictures/Project.png)
 
