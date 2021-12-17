@@ -1,0 +1,32 @@
+name: ide-publish
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+'
+
+jobs:
+  publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # extract the tag name from GITHUB_REF - e.g. refs/tags/1.0.0 --> 1.0.0
+      - name: Get Tag Name
+        id: get_tag_name
+        run: echo ::set-output name=TAG_NAME::${GITHUB_REF#refs/tags/}
+
+      - name: Build and Publish Docker Image
+        env:
+          CONTAINER_IMAGE: ghcr.io/eclipse-researchlabs/smartclide/smartclide-ide:${{ steps.get_tag_name.outputs.TAG_NAME }}
+        run: |
+          echo "Building and publishing image: ${CONTAINER_IMAGE}"
+          # login to GitHub Container Registry
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${GITHUB_ACTOR} --password-stdin
+          # build image
+          docker build . --tag ${CONTAINER_IMAGE}
+          # push image
+          docker push ${CONTAINER_IMAGE}
