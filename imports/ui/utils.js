@@ -23,6 +23,12 @@ module.exports = {
             recent
         }
     },
+    getWorkspacesWithType: async function(keycloak, type){
+        await this.checkToken(keycloak)
+
+        const connector = new Connector()
+        return connector.getWorkspacesWithType(keycloak.idToken, type)
+    },
     getWorkspace: async function(keycloak, workspaceId){
         await this.checkToken(keycloak)
 

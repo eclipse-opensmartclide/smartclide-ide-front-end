@@ -9,7 +9,7 @@
           {{category.category}}
         </div>
         <div class="p-2" v-for="option in category.options">
-          <RouterLink class="nav_item" :to="option.link" v-on:click.native="click(option)">
+          <RouterLink class="nav_item text-primary" :to="option.link" v-on:click.native="click(option)">
             {{ option.title }}
           </RouterLink>
         </div>

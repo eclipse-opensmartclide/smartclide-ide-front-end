@@ -1,12 +1,15 @@
 <template>
   <div class="d-flex flex-column">
     <div class="name text-primary">{{this.name}}</div>
-    <div class="container">
-      <div class="iframe_container">
-        <iframe id="iframe" :src="workspaceUrl" />
-      </div>
-      <div class="loading d-flex justify-content-center align-items-center">
-        <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
+
+    <div class="d-flex h-100">
+      <iframe id="iframe" :src="workspaceUrl" />
+      
+      <div class="loading d-flex justify-content-center align-items-center flex-column">
+        <b-spinner class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
+        <div class="text-primary">
+          <br>Loading... Please wait
+        </div>
       </div>
     </div>
   </div>
@@ -28,6 +31,9 @@ export default {
       workspaceUrl: '',
       workspaceLoaded: undefined
     }
+  },
+  beforeDestroy () {
+    clearInterval(this.workspaceLoaded)
   },
   methods:{
     async getDetails(){
@@ -67,13 +73,12 @@ export default {
             for(key in machines){
               if(key.includes("theia-ide")){
                 this.workspaceUrl = machines[key].servers.theia.url
-                // $(".loading").remove()
                 $(".loading").removeClass("d-flex")
                 $(".loading").addClass("d-none")
                 break
               }
             }
-            clearInterval(this.workspaceLoaded);
+            clearInterval(this.workspaceLoaded)
           }
         })
       }, 5000);
@@ -92,17 +97,6 @@ export default {
     padding-left: 15px;
     text-transform: capitalize;
   }
-  .container {
-    width: 100%;
-    height: 100%;
-  }
-  .iframe_container {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 28px;
-    left: 0;
-  }
   #iframe{
     border: 0;
     height: 100%;
@@ -113,6 +107,9 @@ export default {
     width: 100%;
     height: 100%;
     position: absolute;
-    left: 0;
+    bottom: 28px;
+  }
+  .spinner-border{
+    animation: 1.75s linear infinite spinner-border;
   }
 </style>

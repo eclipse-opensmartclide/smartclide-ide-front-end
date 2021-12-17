@@ -1,10 +1,10 @@
 <template>
   <div class="main vh-100 d-flex flex-column">
-    <template v-if="isLoggedIn || this.eclipseCheUser">
+    <template v-if="isLoggedIn || eclipseCheUser">
       <Main :meteorUser="getMeteorUser" :eclipseCheUser="eclipseCheUser"/>
     </template>
 
-    <template v-else-if="this.SmartCLIDELogin">
+    <template v-else-if="SmartCLIDELogin">
       <LoginSmartCLIDE/>
       <Footer/>
     </template>
@@ -14,6 +14,7 @@
       <Footer/>
     </template>
   </div>
+
 </template>
 
 <script>
@@ -32,29 +33,25 @@ export default {
     Main,
     Footer
   },
+
   data() {
     return {
       eclipseCheUser: undefined,
       SmartCLIDELogin: undefined
     };
   },
-  created(){
-    const keycloak = new Keycloak("/keycloak.json");
+  created() {
+    this.$store.state.keycloak = new Keycloak("/keycloak.json")
 
-    keycloak.init({
+    this.$store.state.keycloak.init({
       onLoad: 'check-sso',
-      loadUserProfileAtStartUp: true,
       checkLoginIframe: false,
-      // silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
+      loadUserProfileAtStartUp: true
     }).then(authenticated => {
-      console.log("authenticated: ", authenticated);
-
-      this.eclipseCheLogin = authenticated
-      this.$store.state.keycloak = keycloak
-
+      console.log("Login: " + authenticated)
       // Get Eclipse Che user
-      if(keycloak.tokenParsed)
-        this.eclipseCheUser = keycloak.tokenParsed
+      if(this.$store.state.keycloak.tokenParsed)
+        this.eclipseCheUser = this.$store.state.keycloak.tokenParsed
     }).catch(error => {
       console.log(error)
     })
@@ -62,7 +59,7 @@ export default {
   methods: {
     loginWithSmartCLIDE(){
       this.SmartCLIDELogin = true;
-    }
+    },
   },
   meteor: {
     getMeteorUser(){

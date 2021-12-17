@@ -21,6 +21,7 @@
 </template>
 
 <script>
+
 export default {
   data(){
     return {
@@ -33,9 +34,7 @@ export default {
       this.$emit("SmartCLIDELogin")
     },
     loginWithEclipseChe(){
-      this.$store.state.keycloak.init({
-        onLoad: 'login-required'
-      })
+      this.$store.state.keycloak.login()
     }
   }
 }
