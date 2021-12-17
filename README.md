@@ -1,7 +1,7 @@
 # SmartCLIDE IDE
 
 This is the base project of the SmartCLIDE IDE User Interface where all the SmartCLIDE components will be integrated
-and made available to the users.
+and their functionalities made available to the users.
 
 The current version provides:
 
@@ -65,6 +65,10 @@ docker-compose up
 ```
 
 ### Access the IDE at http://localhost:8080
+
+## Accessing the online version
+
+### Navigate to https://ide.che.smartclide.eu.
 
 ## Main Pages
 
