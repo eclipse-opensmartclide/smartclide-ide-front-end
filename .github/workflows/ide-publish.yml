@@ -27,6 +27,6 @@ jobs:
           # login to GitHub Container Registry
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${GITHUB_ACTOR} --password-stdin
           # build image
-          docker build docker --tag ${CONTAINER_IMAGE}
+          docker build .docker --tag ${CONTAINER_IMAGE}
           # push image
           docker push ${CONTAINER_IMAGE}
