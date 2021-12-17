@@ -44,7 +44,6 @@ export default {
 
       const ws = await utils.getWorkspace(keycloak, workspaceId)
       this.name = ws.devfile.metadata.name
-      console.log("Status: " + ws.status)
 
       if (ws.status === "STOPPED") {
         await utils.startWorkspace(keycloak, workspaceId)
