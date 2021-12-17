@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 
 services:
   app:
@@ -14,17 +14,17 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.50
+          cpus: '0.50'
           memory: 256M
         reservations:
-          cpus: 0.25
+          cpus: '0.25'
           memory: 128M
   mongo:
     image: mongo:4.0.27-xenial
     command:
       - --storageEngine=wiredTiger
     volumes:
-      - data:/data/db
+      - mongodata:/data/db
 
 volumes:
-  data:
+  mongodata:
