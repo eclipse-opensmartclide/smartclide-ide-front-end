@@ -80,7 +80,7 @@ Users can log in by providing:
 2) SmartCLIDE Eclipse Che credentials - all users are expected to use this option.
 
 Keep in mind that signing up will only become available in future versions, i.e., you need to request an account in
-order to use the access the IDE.
+order to access the IDE.
 
 ![](public/assets/readme-pictures/Login.png)
 
