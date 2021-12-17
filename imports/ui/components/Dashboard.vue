@@ -88,15 +88,13 @@ export default {
       return moment(date).format('DD-MMM-YYYY HH:mm');
     },
     async getItems(){
-      // TODO load each card independently
       const keycloak = this.$store.state.keycloak
       this.itemsLoaded = false;
       this.items = await utils.getWorkspaces(keycloak)
       this.itemsLoaded = true;
     },
     cardResized(card){
-      // console.log(card.i)
-      // TODO update fields to show only the columns that fit in card
+
     },
     addWidget(){
       alert("Not implemented")
@@ -158,19 +156,9 @@ export default {
   border-top-right-radius: 10px;
 }
 
-
 /deep/ .custom_table thead{
   background: #E5EEFD;
   text-align: center;
 }
-
-/*/deep/ .custom_table thead th{*/
-/*  height: 26px!important;*/
-/*  font-weight: normal;*/
-/*}*/
-
-/*/deep/ .custom_table tbody{*/
-/*  text-align: center;*/
-/*}*/
 
 </style>

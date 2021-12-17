@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Register from "../imports/ui/components/_old/Register";
 import Workflows from "../imports/ui/components/Workflows";
 import Services from "../imports/ui/components/Services";
 import Deployments from "../imports/ui/components/Deployments";
@@ -9,13 +8,14 @@ import Statistics from "../imports/ui/components/Settings/Statistics";
 import Logs from "../imports/ui/components/Settings/Logs";
 import Appearance from "../imports/ui/components/Settings/Appearance";
 import Help from "../imports/ui/components/Settings/Help";
+import About from "../imports/ui/components/Settings/About";
 import MyAccount from "../imports/ui/components/MyAccount";
 import Profile from "../imports/ui/components/MyAccount/Profile";
 import Team from "../imports/ui/components/MyAccount/Team";
 import Sources from "../imports/ui/components/MyAccount/Sources";
 import Credentials from "../imports/ui/components/MyAccount/Credentials";
 import Dashboard from "../imports/ui/components/Dashboard";
-import Project from "../imports/ui/components/Project"
+import Project from "../imports/ui/components/Project";
 import NotImplemented from "../imports/ui/components/NotImplemented";
 
 Vue.use(VueRouter)
@@ -30,11 +30,6 @@ const routes = [
         path: "/notImplemented",
         name: "Not Implemented",
         component: NotImplemented
-    },
-    {
-        path: "/register",
-        name: "Register",
-        component: Register
     },
     {
         path: "/workflows",
@@ -75,6 +70,11 @@ const routes = [
                 path: "help",
                 name: 'Help',
                 component: Help
+            },
+            {
+                path: "about",
+                name: 'About',
+                component: About
             }
         ]
     },
