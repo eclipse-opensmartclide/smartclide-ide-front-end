@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Register from "../imports/ui/components/_old/Register";
 import Workflows from "../imports/ui/components/Workflows";
 import Services from "../imports/ui/components/Services";
 import Deployments from "../imports/ui/components/Deployments";
@@ -31,11 +30,6 @@ const routes = [
         path: "/notImplemented",
         name: "Not Implemented",
         component: NotImplemented
-    },
-    {
-        path: "/register",
-        name: "Register",
-        component: Register
     },
     {
         path: "/workflows",
