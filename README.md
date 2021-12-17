@@ -9,7 +9,7 @@ The current version provides:
 - User authentication with previously created Eclipse Che accounts
 - Dashboard with some widget's examples
 - Opening and closing existing workspaces
-- Developing code using an instance of Eclipse Che Theia
+- Code development using an instance of Eclipse Che Theia (if the IDE and Keycloak are deployed in the same domain)
 
 The upcoming features will include:
 
@@ -18,7 +18,7 @@ The upcoming features will include:
 - Complete workspace management tools
 - Support for complete development flows
 
-## Running the project's code ##
+## Running the project's code
 
 ### Install Meteor on your computer
 
@@ -48,26 +48,23 @@ meteor npm install
 meteor --port 8080
 ```
 
-Access the IDE at http://localhost:8080.
+### Access the IDE at http://localhost:8080
 
-## Running the official Docker image ##
+## Running the official Docker image
 
-### Clone the project repository ###
+### Clone the project repository
 
 ```shell
 git clone https://github.com/eclipse-researchlabs/smartclide-ide-front-end.git
 ```
 
-### From the root, run the docker-compose file ###
+### From the root, run the docker-compose file
 
 ```shell
 docker-compose up
 ```
 
-Access the IDE at http://localhost:8080.
-
-Currently, the SmartCLIDE IDE frontend must be deployed in the same domain as the Keycloak instance in order to access
-the code editor functionalities.
+### Access the IDE at http://localhost:8080
 
 ## Main Pages
 
