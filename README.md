@@ -101,4 +101,4 @@ Since project creation is not supported yet, new workflows must be created using
 ![](public/assets/readme-pictures/Project.png)
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+[Eclipse Public License 2.0](https://choosealicense.com/licenses/epl-2.0/)
