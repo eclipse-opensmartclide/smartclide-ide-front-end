@@ -13,7 +13,7 @@
     <div class="name text-primary">{{this.name}}</div>
 
     <div class="d-flex h-100">
-      <iframe id="iframe" :src="workspaceUrl" />
+      <iframe id="iframe" :src="workspaceUrl"/>
 
       <div class="loading d-flex justify-content-center align-items-center flex-column">
         <b-spinner class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
@@ -32,8 +32,15 @@ export default {
   name: "Project",
   mounted(){
     this.$store.state.context = 'project';
-    this.$store.state.currentWorkspace = this.$route.params.id
-    this.getDetails()
+    this.$store.state.currentWorkspace = this.$route.params.id;
+    this.getDetails();
+
+    //TODO MUST CHECK WHETHER THE EXTENSIONS HAVE BEEN LOADED BEFORE SENDING THE TOKEN TO THE IFRAME
+    // this.sendTokenToIframe()
+
+    this.$store.state.keycloak.onAuthRefreshSuccess = () => {
+      this.sendTokenToIframe();
+    };
   },
   data(){
     return{
@@ -92,6 +99,20 @@ export default {
           }
         })
       }, 5000);
+    },
+    sendTokenToIframe(){
+      const keycloak = this.$store.state.keycloak;
+      const iframe = document.getElementById("iframe");
+
+      try {
+        const data = {
+          message: keycloak.idToken,
+          type: "iframe-communication"
+        };
+        iframe.contentWindow.postMessage(data, "*");
+      }catch (e){
+        console.log(e);
+      }
     }
   }
 }
