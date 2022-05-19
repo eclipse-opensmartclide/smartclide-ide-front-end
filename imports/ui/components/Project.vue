@@ -35,7 +35,8 @@ export default {
     this.$store.state.currentWorkspace = this.$route.params.id;
     this.getDetails();
 
-    //TODO MUST CHECK WHETHER THE EXTENSIONS HAVE BEEN LOADED BEFORE SENDING THE TOKEN TO THE IFRAME
+    //TODO IMPROVE THE WAY WE CHECK WHETHER THE EXTENSIONS HAVE BEEN LOADED BEFORE SENDING THE TOKEN TO THE IFRAME
+    // CURRENTLY WE WAIT FOR 30s BEFORE SENDING
     // this.sendTokenToIframe()
 
     this.$store.state.keycloak.onAuthRefreshSuccess = () => {
@@ -72,6 +73,10 @@ export default {
             this.workspaceUrl = machines[key].servers.theia.url
             $(".loading").removeClass("d-flex")
             $(".loading").addClass("d-none")
+
+            setTimeout(() => {
+              this.sendTokenToIframe();
+            }, 30000);
             break
           }
         }
@@ -92,6 +97,10 @@ export default {
                 this.workspaceUrl = machines[key].servers.theia.url
                 $(".loading").removeClass("d-flex")
                 $(".loading").addClass("d-none")
+
+                setTimeout(() => {
+                  this.sendTokenToIframe();
+                }, 30000);
                 break
               }
             }
