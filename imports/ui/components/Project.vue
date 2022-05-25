@@ -34,14 +34,7 @@ export default {
     this.$store.state.context = 'project';
     this.$store.state.currentWorkspace = this.$route.params.id;
     this.getDetails();
-
-    //TODO IMPROVE THE WAY WE CHECK WHETHER THE EXTENSIONS HAVE BEEN LOADED BEFORE SENDING THE TOKEN TO THE IFRAME
-    // CURRENTLY WE WAIT FOR 30s BEFORE SENDING
-    // this.sendTokenToIframe()
-
-    this.$store.state.keycloak.onAuthRefreshSuccess = () => {
-      this.sendTokenToIframe();
-    };
+    this.setupIframeCommunication();
   },
   data(){
     return{
@@ -51,7 +44,8 @@ export default {
     }
   },
   beforeDestroy () {
-    clearInterval(this.workspaceLoaded)
+    clearInterval(this.workspaceLoaded);
+    this.$store.state.keycloak.onAuthRefreshSuccess = null;
   },
   methods:{
     async getDetails(){
@@ -119,9 +113,17 @@ export default {
           type: "iframe-communication"
         };
         iframe.contentWindow.postMessage(data, "*");
-      }catch (e){
+        console.log("SENT", data.message);
+      }catch (e) {
         console.log(e);
       }
+    },
+    setupIframeCommunication(){
+      // TODO ADD HANDLER FOR WHEN THE TOKEN REQUEST IS RECEIVED (CURRENTLY WE WAIT FOR 30s BEFORE SENDING)
+
+      this.$store.state.keycloak.onAuthRefreshSuccess = () => {
+        this.sendTokenToIframe();
+      };
     }
   }
 }
