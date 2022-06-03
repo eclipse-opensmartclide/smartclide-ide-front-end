@@ -27,6 +27,7 @@
 
 <script>
 import utils from "../utils"
+import {messageTypes, buildMessage} from "@unparallel/smartclide-frontend-comm";
 
 export default {
   name: "Project",
@@ -45,7 +46,7 @@ export default {
   },
   beforeDestroy () {
     clearInterval(this.workspaceLoaded);
-    this.$store.state.keycloak.onAuthRefreshSuccess = null;
+    this.cancelIframeCommunication();
   },
   methods:{
     async getDetails(){
@@ -67,10 +68,6 @@ export default {
             this.workspaceUrl = machines[key].servers.theia.url
             $(".loading").removeClass("d-flex")
             $(".loading").addClass("d-none")
-
-            setTimeout(() => {
-              this.sendTokenToIframe();
-            }, 30000);
             break
           }
         }
@@ -91,10 +88,6 @@ export default {
                 this.workspaceUrl = machines[key].servers.theia.url
                 $(".loading").removeClass("d-flex")
                 $(".loading").addClass("d-none")
-
-                setTimeout(() => {
-                  this.sendTokenToIframe();
-                }, 30000);
                 break
               }
             }
@@ -108,22 +101,30 @@ export default {
       const iframe = document.getElementById("iframe");
 
       try {
-        const data = {
-          message: keycloak.idToken,
-          type: "iframe-communication"
-        };
-        iframe.contentWindow.postMessage(data, "*");
-        console.log("SENT", data.message);
+        const message = buildMessage(messageTypes.TOKEN_INFO, keycloak.idToken)
+        iframe.contentWindow.postMessage(message, "*");
+        console.log("SENT", message.content);
       }catch (e) {
         console.log(e);
       }
     },
     setupIframeCommunication(){
-      // TODO ADD HANDLER FOR WHEN THE TOKEN REQUEST IS RECEIVED (CURRENTLY WE WAIT FOR 30s BEFORE SENDING)
+      window.addEventListener("message", ({data}) => {
+        switch(data.type){
+          case messageTypes.COMPONENT_HELLO:
+            console.log(JSON.stringify(data, undefined, 4));
+            this.sendTokenToIframe();
+            break;
+          default:
+        }
+      });
 
       this.$store.state.keycloak.onAuthRefreshSuccess = () => {
         this.sendTokenToIframe();
       };
+    },
+    cancelIframeCommunication(){
+      this.$store.state.keycloak.onAuthRefreshSuccess = null;
     }
   }
 }
