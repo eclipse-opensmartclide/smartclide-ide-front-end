@@ -107,9 +107,6 @@ export default {
             const keycloak = this.$store.state.keycloak;
             message = buildMessage(messageType, keycloak.idToken);
             break;
-          case messageTypes.TOKEN_REVOKE:
-            message = buildMessage(messageType);
-            break;
           default:
         }
 
@@ -122,7 +119,7 @@ export default {
     onReceiveMessage({data}){
       switch(data.type){
         case messageTypes.COMPONENT_HELLO:
-          console.log(JSON.stringify(data, undefined, 4));
+          console.log("RECEIVED", JSON.stringify(data, undefined, 4));
           this.sendMessageToIframe(messageTypes.TOKEN_INFO);
           break;
         default:
@@ -136,8 +133,6 @@ export default {
       };
     },
     cancelIframeCommunication(){
-      this.sendMessageToIframe(messageTypes.TOKEN_REVOKE); //TODO WHEN THIS RUNS, THE IFRAME IS NO LONGER THERE
-
       window.removeEventListener("message", this.onReceiveMessage);
 
       this.$store.state.keycloak.onAuthRefreshSuccess = null;
