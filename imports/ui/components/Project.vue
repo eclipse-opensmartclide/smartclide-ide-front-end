@@ -96,34 +96,50 @@ export default {
         })
       }, 5000);
     },
-    sendTokenToIframe(){
-      const keycloak = this.$store.state.keycloak;
+    sendMessageToIframe(messageType){
       const iframe = document.getElementById("iframe");
 
       try {
-        const message = buildMessage(messageTypes.TOKEN_INFO, keycloak.idToken)
+        let message;
+
+        switch (messageType){
+          case messageTypes.TOKEN_INFO:
+            const keycloak = this.$store.state.keycloak;
+            message = buildMessage(messageType, keycloak.idToken);
+            break;
+          case messageTypes.TOKEN_REVOKE:
+            message = buildMessage(messageType);
+            break;
+          default:
+        }
+
         iframe.contentWindow.postMessage(message, "*");
-        console.log("SENT", message.content);
+        console.log("SENT", JSON.stringify(message, undefined, 4));
       }catch (e) {
         console.log(e);
       }
     },
+    onReceiveMessage({data}){
+      switch(data.type){
+        case messageTypes.COMPONENT_HELLO:
+          console.log(JSON.stringify(data, undefined, 4));
+          this.sendMessageToIframe(messageTypes.TOKEN_INFO);
+          break;
+        default:
+      }
+    },
     setupIframeCommunication(){
-      window.addEventListener("message", ({data}) => {
-        switch(data.type){
-          case messageTypes.COMPONENT_HELLO:
-            console.log(JSON.stringify(data, undefined, 4));
-            this.sendTokenToIframe();
-            break;
-          default:
-        }
-      });
+      window.addEventListener("message", this.onReceiveMessage);
 
       this.$store.state.keycloak.onAuthRefreshSuccess = () => {
-        this.sendTokenToIframe();
+        this.sendMessageToIframe(messageTypes.TOKEN_INFO);
       };
     },
     cancelIframeCommunication(){
+      this.sendMessageToIframe(messageTypes.TOKEN_REVOKE); //TODO WHEN THIS RUNS, THE IFRAME IS NO LONGER THERE
+
+      window.removeEventListener("message", this.onReceiveMessage);
+
       this.$store.state.keycloak.onAuthRefreshSuccess = null;
     }
   }
