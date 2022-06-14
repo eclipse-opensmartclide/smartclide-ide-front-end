@@ -44,9 +44,12 @@ export default {
       workspaceLoaded: undefined
     }
   },
+  beforeRouteLeave(to, from, next){
+    this.cancelIframeCommunication();
+    next();
+  },
   beforeDestroy () {
     clearInterval(this.workspaceLoaded);
-    this.cancelIframeCommunication();
   },
   methods:{
     async getDetails(){
@@ -107,6 +110,9 @@ export default {
             const keycloak = this.$store.state.keycloak;
             message = buildMessage(messageType, keycloak.idToken);
             break;
+          case messageTypes.TOKEN_REVOKE:
+            message = buildMessage(messageType);
+            break;
           default:
         }
 
@@ -119,11 +125,12 @@ export default {
     onReceiveMessage({data}){
       switch(data.type){
         case messageTypes.COMPONENT_HELLO:
-          console.log("RECEIVED", JSON.stringify(data, undefined, 4));
           this.sendMessageToIframe(messageTypes.TOKEN_INFO);
           break;
         default:
+          break;
       }
+      console.log("RECEIVED", JSON.stringify(data, undefined, 4));
     },
     setupIframeCommunication(){
       window.addEventListener("message", this.onReceiveMessage);
@@ -133,6 +140,8 @@ export default {
       };
     },
     cancelIframeCommunication(){
+      this.sendMessageToIframe(messageTypes.TOKEN_REVOKE)
+
       window.removeEventListener("message", this.onReceiveMessage);
 
       this.$store.state.keycloak.onAuthRefreshSuccess = null;
