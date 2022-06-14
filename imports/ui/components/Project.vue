@@ -13,7 +13,7 @@
     <div class="name text-primary">{{this.name}}</div>
 
     <div class="d-flex h-100">
-      <iframe id="iframe" :src="workspaceUrl" />
+      <iframe id="iframe" :src="workspaceUrl"/>
 
       <div class="loading d-flex justify-content-center align-items-center flex-column">
         <b-spinner class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
@@ -27,13 +27,15 @@
 
 <script>
 import utils from "../utils"
+import {messageTypes, buildMessage} from "@unparallel/smartclide-frontend-comm";
 
 export default {
   name: "Project",
   mounted(){
     this.$store.state.context = 'project';
-    this.$store.state.currentWorkspace = this.$route.params.id
-    this.getDetails()
+    this.$store.state.currentWorkspace = this.$route.params.id;
+    this.getDetails();
+    this.setupIframeCommunication();
   },
   data(){
     return{
@@ -42,8 +44,12 @@ export default {
       workspaceLoaded: undefined
     }
   },
+  beforeRouteLeave(to, from, next){
+    this.cancelIframeCommunication();
+    next();
+  },
   beforeDestroy () {
-    clearInterval(this.workspaceLoaded)
+    clearInterval(this.workspaceLoaded);
   },
   methods:{
     async getDetails(){
@@ -92,6 +98,54 @@ export default {
           }
         })
       }, 5000);
+    },
+    sendMessageToIframe(messageType){
+      const iframe = document.getElementById("iframe");
+
+      try {
+        let message;
+
+        switch (messageType){
+          case messageTypes.TOKEN_INFO:
+            const keycloak = this.$store.state.keycloak;
+            message = buildMessage(messageType, keycloak.idToken);
+            break;
+          case messageTypes.TOKEN_REVOKE:
+            message = buildMessage(messageType);
+            break;
+          default:
+        }
+
+        iframe.contentWindow.postMessage(message, "*");
+        console.log("SENT", JSON.stringify(message, undefined, 4));
+      }catch (e) {
+        console.log(e);
+      }
+    },
+    onReceiveMessage({data}){
+      switch(data.type){
+        case messageTypes.COMPONENT_HELLO:
+          console.log("RECEIVED", JSON.stringify(data, undefined, 4));
+          this.sendMessageToIframe(messageTypes.TOKEN_INFO);
+          break;
+        default:
+          break;
+      }
+
+    },
+    setupIframeCommunication(){
+      window.addEventListener("message", this.onReceiveMessage);
+
+      this.$store.state.keycloak.onAuthRefreshSuccess = () => {
+        this.sendMessageToIframe(messageTypes.TOKEN_INFO);
+      };
+    },
+    cancelIframeCommunication(){
+      this.sendMessageToIframe(messageTypes.TOKEN_REVOKE)
+
+      window.removeEventListener("message", this.onReceiveMessage);
+
+      this.$store.state.keycloak.onAuthRefreshSuccess = null;
     }
   }
 }

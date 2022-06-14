@@ -18,7 +18,7 @@ module.exports = {
         }
     },
     getWorkspaces: async function(keycloak){
-        await this.checkToken(keycloak)
+        // await this.checkToken(keycloak)
 
         const connector = new Connector()
         const workflows = await connector.getMostRecentWorkflows();
@@ -34,25 +34,25 @@ module.exports = {
         }
     },
     getWorkspacesWithType: async function(keycloak, type){
-        await this.checkToken(keycloak)
+        // await this.checkToken(keycloak)
 
         const connector = new Connector()
         return connector.getWorkspacesWithType(keycloak.idToken, type)
     },
     getWorkspace: async function(keycloak, workspaceId){
-        await this.checkToken(keycloak)
+        // await this.checkToken(keycloak)
 
         const connector = new Connector()
         return connector.getWorkspace(keycloak.idToken, workspaceId)
     },
     startWorkspace: async function(keycloak, workspaceId){
-        await this.checkToken(keycloak)
+        // await this.checkToken(keycloak)
 
         const connector = new Connector()
         await connector.startWorkspace(keycloak.idToken, workspaceId)
     },
     stopWorkspace: async function(keycloak, workspaceId){
-        await this.checkToken(keycloak)
+        // await this.checkToken(keycloak)
 
         const connector = new Connector()
         await connector.stopWorkspace(keycloak.idToken, workspaceId)

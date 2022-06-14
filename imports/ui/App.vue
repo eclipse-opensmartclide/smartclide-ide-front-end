@@ -34,6 +34,7 @@ import LoginSmartCLIDE from "./components/LoginSmartCLIDE";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
+import utils from "./utils";
 
 export default {
   components: {
@@ -51,7 +52,7 @@ export default {
     };
   },
   created() {
-    this.$store.state.keycloak = new Keycloak("/keycloak.json")
+    this.$store.state.keycloak = new Keycloak("/keycloak.json");
 
     this.$store.state.keycloak.init({
       onLoad: 'check-sso',
@@ -64,7 +65,11 @@ export default {
         this.eclipseCheUser = this.$store.state.keycloak.tokenParsed
     }).catch(error => {
       console.log(error)
-    })
+    });
+
+    this.$store.state.keycloak.onTokenExpired = () => {
+      this.$store.state.keycloak.updateToken(30);
+    };
   },
   methods: {
     loginWithSmartCLIDE(){
