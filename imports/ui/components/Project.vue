@@ -125,12 +125,13 @@ export default {
     onReceiveMessage({data}){
       switch(data.type){
         case messageTypes.COMPONENT_HELLO:
+          console.log("RECEIVED", JSON.stringify(data, undefined, 4));
           this.sendMessageToIframe(messageTypes.TOKEN_INFO);
           break;
         default:
           break;
       }
-      console.log("RECEIVED", JSON.stringify(data, undefined, 4));
+
     },
     setupIframeCommunication(){
       window.addEventListener("message", this.onReceiveMessage);
