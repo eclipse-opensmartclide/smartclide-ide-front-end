@@ -14,7 +14,7 @@
     "connector-smartclide": "^1.0.28",
     "keycloak-js": "^10.0.2",
     "meteor-node-stubs": "^1.0.3",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "popper.js": "^1.16.1-lts",
     "@unparallel/smartclide-frontend-comm": "^0.4.0",
     "vue": "^2.6.14",
