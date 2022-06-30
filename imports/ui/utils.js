@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  ********************************************************************************/
 
-import Connector from 'connector-smartclide'
+import { Connector } from '@unparallel/smartclide-che-rest-client'
 
 module.exports = {
     checkToken: async function(keycloak){
