@@ -10,6 +10,7 @@
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from "meteor/accounts-base";
+import SmartCLIDEBackendConnector from "@unparallel/smartclide-backend-connector";
 
 const users = [
     {
@@ -24,4 +25,12 @@ Meteor.startup(() => {
             Accounts.createUser(user);
         }
     });
-})
+});
+
+Meteor.methods({
+    async requestDB(configuration){
+        let connector = await new SmartCLIDEBackendConnector("https://raw.githubusercontent.com/goncalorolo/swagger-json/main/smartCLIDE_DB_API_swagger.json");
+
+        return await connector.call(configuration);
+    }
+});
