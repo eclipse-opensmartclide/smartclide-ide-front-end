@@ -51,10 +51,10 @@ export default new Vuex.Store({
                     {
                         category: "root",
                         options: [
-                            { title: 'Profile', link: '/notImplemented' },
+                            { title: 'Profile', link: '/profile' },
                             { title: 'Team', link: '/notImplemented' },
                             { title: 'Sources', link: '/notImplemented' },
-                            { title: 'Credentials', link: '/notImplemented' }
+                            { title: 'Credentials', link: '/credentials' }
                         ]
                     }
                 ]
