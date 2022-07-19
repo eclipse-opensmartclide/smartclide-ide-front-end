@@ -108,7 +108,7 @@ export default {
         switch (messageType){
           case messageTypes.TOKEN_INFO:
             const keycloak = this.$store.state.keycloak;
-            message = buildMessage(messageType, keycloak.idToken);
+            message = buildMessage(messageType, keycloak.token);
             break;
           case messageTypes.TOKEN_REVOKE:
             message = buildMessage(messageType);

@@ -58,22 +58,43 @@ export default {
       checkLoginIframe: false,
       loadUserProfileAtStartUp: true
     }).then(authenticated => {
-      console.log("Login: " + authenticated)
       // Get Eclipse Che user
       if(this.$store.state.keycloak.tokenParsed)
-        this.eclipseCheUser = this.$store.state.keycloak.tokenParsed
+        this.eclipseCheUser = this.$store.state.keycloak.tokenParsed;
+
+      this.addUserToDB();
     }).catch(error => {
-      console.log(error)
+      console.log(error);
     });
 
     this.$store.state.keycloak.onTokenExpired = () => {
       this.$store.state.keycloak.updateToken(30);
     };
+
+    // setInterval(() => {
+    //   console.log(this.$store.state.keycloak.token);
+    // }, 5000);
   },
   methods: {
     loginWithSmartCLIDE(){
       this.SmartCLIDELogin = true;
     },
+    addUserToDB(){
+      Meteor.call("exists", "users", this.$store.state.keycloak.subject, this.$store.state.keycloak.token,
+        (error, result) => {
+          if(!result)
+            Meteor.call("request",{
+              operationId: "postusers",
+              requestBody: {
+                id: this.$store.state.keycloak.subject,
+                email: this.eclipseCheUser.email,
+                team_id: null
+              },
+              token: this.$store.state.keycloak.token
+            });
+        }
+      );
+    }
   },
   meteor: {
     getMeteorUser(){
