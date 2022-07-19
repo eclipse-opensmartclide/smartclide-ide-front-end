@@ -62,27 +62,27 @@ const routes = [
         component: Settings,
         children: [
             {
-                path: "statistics",
+                path: "/statistics",
                 name: 'Statistics',
                 component: Statistics
             },
             {
-                path: "logs",
+                path: "/logs",
                 name: 'Logs',
                 component: Logs
             },
             {
-                path: "appearance",
+                path: "/appearance",
                 name: 'Appearance',
                 component: Appearance
             },
             {
-                path: "help",
+                path: "/help",
                 name: 'Help',
                 component: Help
             },
             {
-                path: "about",
+                path: "/about",
                 name: 'About',
                 component: About
             }
@@ -94,22 +94,22 @@ const routes = [
         component: MyAccount,
         children: [
             {
-                path: "profile",
+                path: "/profile",
                 name: 'Profile',
                 component: Profile
             },
             {
-                path: "team",
+                path: "/team",
                 name: 'Team',
                 component: Team
             },
             {
-                path: "sources",
+                path: "/sources",
                 name: 'Sources',
                 component: Sources
             },
             {
-                path: "credentials",
+                path: "/credentials",
                 name: 'Credentials',
                 component: Credentials
             },
