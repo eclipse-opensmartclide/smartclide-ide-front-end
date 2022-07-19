@@ -28,9 +28,14 @@ Meteor.startup(() => {
 });
 
 Meteor.methods({
-    async requestDB(configuration){
+    async request(configuration){
         let connector = await new SmartCLIDEBackendConnector("https://raw.githubusercontent.com/goncalorolo/swagger-json/main/smartCLIDE_DB_API_swagger.json");
 
         return await connector.call(configuration);
+    },
+    async exists(entity, id, token){
+        let connector = await new SmartCLIDEBackendConnector("https://raw.githubusercontent.com/goncalorolo/swagger-json/main/smartCLIDE_DB_API_swagger.json");
+
+        return await connector.exists(entity, id, token);
     }
 });
