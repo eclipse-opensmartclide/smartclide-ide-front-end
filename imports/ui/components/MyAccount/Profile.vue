@@ -9,12 +9,13 @@
  -------------------------------------------------------------------------------->
 
 <template>
-  <div>
-    Profile
+  <div height="500">
+    <iframe id="iframe" src="https://keycloak-smartclide-che.che.smartclide.eu/auth/realms/che/account"/>
   </div>
 </template>
 
 <script>
+
 export default {
   name: "Profile",
   mounted(){
@@ -24,5 +25,9 @@ export default {
 </script>
 
 <style scoped>
-
+  #iframe{
+    border: 0;
+    height: 100%;
+    width: 100%;
+  }
 </style>
