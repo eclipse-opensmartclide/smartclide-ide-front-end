@@ -70,7 +70,7 @@
 
 <script>
 import moment from "moment";
-import utils from "../utils"
+import utils from "./Utils/utils"
 
 export default {
   name: "Dashboard",

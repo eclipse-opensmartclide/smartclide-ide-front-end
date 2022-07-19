@@ -30,7 +30,7 @@
 
 <script>
 import QuickAccess from "./QuickAccess";
-import utils from "../utils"
+import utils from "./Utils/utils"
 
 export default {
   name: "ContextBar",
