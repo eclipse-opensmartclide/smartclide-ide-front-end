@@ -148,10 +148,6 @@ export default {
   text-transform: capitalize;
 }
 
-.project{
-  text-transform: capitalize;
-}
-
 .smartwidget{
   border-radius: 10px;
 }
