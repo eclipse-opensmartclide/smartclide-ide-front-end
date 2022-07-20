@@ -56,7 +56,7 @@
           </div>
         </template>
         <div class="layout-center">
-          <BTable class="custom_table" hover bordered :items="items[card.category]" :fields="card.fields" >
+          <BTable class="custom_table" bordered :items="items[card.category]" :fields="card.fields" >
             <!-- format date -->
             <template #cell(updatedAt)="data">
               {{convertDate(new Date(data.value))}}
