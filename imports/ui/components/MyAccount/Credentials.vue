@@ -11,8 +11,8 @@
 <template>
   <div>
     <smart-widget-grid isStatic :layout.sync="cards" :margin="[25, 25]" autoSize>
-      <smart-widget class="title text-primary" v-for="card in cards" :slot="card.i" :title="card.category" :padding="[0,0]">
-        <BTable class="custom_table" hover bordered :items="items[card.category]"/>
+      <smart-widget class="title text-primary" v-for="card in cards" :slot="card.i" :title="card.category" :loading="!items[card.category].loaded" :padding="[0,0]">
+        <BTable class="custom_table" hover bordered :items="items[card.category].content"/>
       </smart-widget>
     </smart-widget-grid>
   </div>
@@ -30,27 +30,39 @@ export default {
         { x: 0, y: 36, w: 12, h: 5, i: 3, category: 'CI Managers'}
       ],
       items: {
-        "Git": [
-          { platform: "GitHub", URL: 'https://github.com', username: 'userA', token: "**********" },
-          { platform: "GitLab", URL: 'https://about.gitlab.com', username: 'userB', token: "**********" },
-          { platform: "Bitbucket", URL: 'https://bitbucket.org', username: 'userC', token: "**********" }
-        ],
-        "Service Registries": [
-          { type: "GitHub", URL: 'https://github.com', username: 'userD', token: "**********" },
-          { type: "GitLab", URL: 'https://about.gitlab.com', username: 'userE', token: "**********" },
-          { type: "Bitbucket", URL: 'https://bitbucket.org', username: 'userF', token: "**********" },
-          { type: "ProgrammableWeb", URL: 'https://www.programmableweb.com', username: 'userG', token: "**********" },
-          { type: "Docker", URL: 'https://www.docker.com/', username: 'userH', token: "**********" }
-        ],
-        "Deployment Platforms": [
-          { URL: 'https://kubernetes.io', username: 'userI', token: "**********" }
-        ],
-        "CI Managers": [
-          { type: "Jenkins", URL: 'https://www.jenkins.io', username: 'userJ', token: "**********" },
-          { type: "GitLab CI/CD", URL: 'https://about.gitlab.com', username: 'userK', token: "**********" },
-          { type: "GitHub Actions", URL: 'https://github.com', username: 'userL', token: "**********" },
-          { type: "Travis CI", URL: 'https://www.travis-ci.com/', username: 'userM', token: "**********" }
-        ],
+        "Git": {
+          loaded: false,
+          content: [
+            { platform: "GitHub", URL: 'https://github.com', username: 'userA', token: "**********" },
+            { platform: "GitLab", URL: 'https://about.gitlab.com', username: 'userB', token: "**********" },
+            { platform: "Bitbucket", URL: 'https://bitbucket.org', username: 'userC', token: "**********" }
+          ]
+        },
+        "Service Registries": {
+          loaded: false,
+          content: [
+            { type: "GitHub", URL: 'https://github.com', username: 'userD', token: "**********" },
+            { type: "GitLab", URL: 'https://about.gitlab.com', username: 'userE', token: "**********" },
+            { type: "Bitbucket", URL: 'https://bitbucket.org', username: 'userF', token: "**********" },
+            { type: "ProgrammableWeb", URL: 'https://www.programmableweb.com', username: 'userG', token: "**********" },
+            { type: "Docker", URL: 'https://www.docker.com/', username: 'userH', token: "**********" }
+          ]
+        },
+        "Deployment Platforms": {
+          loaded: false,
+          content: [
+            { URL: 'https://kubernetes.io', username: 'userI', token: "**********" }
+          ],
+        },
+        "CI Managers": {
+          loaded: false,
+          content: [
+            { type: "Jenkins", URL: 'https://www.jenkins.io', username: 'userJ', token: "**********" },
+            { type: "GitLab CI/CD", URL: 'https://about.gitlab.com', username: 'userK', token: "**********" },
+            { type: "GitHub Actions", URL: 'https://github.com', username: 'userL', token: "**********" },
+            { type: "Travis CI", URL: 'https://www.travis-ci.com/', username: 'userM', token: "**********" }
+          ]
+        }
       }
     };
   },
