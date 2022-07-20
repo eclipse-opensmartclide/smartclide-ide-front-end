@@ -43,7 +43,6 @@ export default {
     Main,
     Footer
   },
-
   data() {
     return {
       eclipseCheUser: undefined,
@@ -58,11 +57,10 @@ export default {
       checkLoginIframe: false,
       loadUserProfileAtStartUp: true
     }).then(authenticated => {
-      // Get Eclipse Che user
-      if(this.$store.state.keycloak.tokenParsed)
+      if(authenticated){
         this.eclipseCheUser = this.$store.state.keycloak.tokenParsed;
-
-      this.addUserToDB();
+        this.addUserToDB();
+      }
     }).catch(error => {
       console.log(error);
     });
@@ -87,7 +85,7 @@ export default {
               operationId: "postusers",
               requestBody: {
                 id: this.$store.state.keycloak.subject,
-                email: this.eclipseCheUser.email,
+                email: this.$store.state.keycloak.tokenParsed.email,
                 team_id: null
               },
               token: this.$store.state.keycloak.token
