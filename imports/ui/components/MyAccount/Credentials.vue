@@ -10,9 +10,10 @@
 
 <template>
   <div>
-    <smart-widget-grid isStatic :layout.sync="cards" :margin="[25, 25]" autoSize>
-      <smart-widget class="title text-primary" v-for="card in cards" :slot="card.i" :title="card.category" :loading="!items[card.category].loaded" :padding="[0,0]">
-        <BTable class="custom_table" hover bordered :items="items[card.category].content"/>
+    <smart-widget-grid :colNum="1" :maxRows="4" :layout.sync="cards" :margin="[25, 25]" autoSize isStatic>
+      <smart-widget class="title text-primary" v-for="card in cards" :slot="card.i" :title="card.category" :loading="!items[card.category].loaded" :padding="[10,10]">
+        <BTable class="custom_table" :items="items[card.category].content" :fields="card.fields"/>
+        <BButton class="add_button">Add new</BButton>
       </smart-widget>
     </smart-widget-grid>
   </div>
@@ -24,10 +25,10 @@ export default {
   data(){
     return {
       cards: [
-        { x: 0, y: 0, w: 12, h: 5, i: 0, category: 'Git'},
-        { x: 0, y: 11, w: 12, h: 5, i: 1, category: 'Service Registries'},
-        { x: 0, y: 24, w: 12, h: 5, i: 2, category: 'Deployment Platforms'},
-        { x: 0, y: 36, w: 12, h: 5, i: 3, category: 'CI Managers'}
+        { x: 0, y: 0, w: 12, h: 5, i: 0, category: 'Git', fields: ["type", "URL", "username", "token"] },
+        { x: 0, y: 11, w: 12, h: 5, i: 1, category: 'Service Registries', fields: ["type", "URL", "username", "token"] },
+        { x: 0, y: 24, w: 12, h: 5, i: 2, category: 'Deployment Platforms', fields: ["URL", "username", "token"] },
+        { x: 0, y: 36, w: 12, h: 5, i: 3, category: 'CI Managers', fields: ["type", "URL", "username", "token"] }
       ],
       items: {
         "Git": {
@@ -54,7 +55,7 @@ export default {
     this.fetchCredentials();
   },
   methods: {
-    async fetchCredentials(){
+    fetchCredentials(){
       this.fetchGitCredentials();
       this.fetchServiceRegistriesCredentials();
       this.fetchDeploymentPlatformsCredentials();
@@ -148,6 +149,10 @@ export default {
     border-top-right-radius: 10px;
   }
 
+  /deep/ .custom_table{
+    margin-bottom: 10px;
+  }
+
   /deep/ .custom_table thead{
     background: #E5EEFD;
     text-align: center;
@@ -156,5 +161,9 @@ export default {
 
   /deep/ .custom_table tbody{
     text-transform: none;
+  }
+
+  .add_button{
+    float: right;
   }
 </style>
