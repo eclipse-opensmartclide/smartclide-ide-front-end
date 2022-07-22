@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import utils from "./Utils/utils"
+import utils from "../utils/utils"
 import {messageTypes, buildMessage} from "@unparallel/smartclide-frontend-comm";
 
 export default {
