@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import utils from "../utils/utils"
 import {messageTypes, buildMessage} from "@unparallel/smartclide-frontend-comm";
 
 export default {
@@ -58,32 +57,34 @@ export default {
       const keycloak = this.$store.state.keycloak
       const workspaceId = this.$store.state.currentWorkspace
 
-      const ws = await utils.getWorkspace(keycloak, workspaceId)
-      this.name = ws.devfile.metadata.name
+      Meteor.call("getWorkspace", keycloak, workspaceId, (error, result) => {
+        const ws = result;
+        this.name = ws?.devfile.metadata.name;
 
-      if (ws.status === "STOPPED") {
-        await utils.startWorkspace(keycloak, workspaceId)
-        await this.fetchWorkspaceUrl(keycloak, workspaceId)
-      } else if (ws.status === "RUNNING") {
-        const machines = ws.runtime.machines
-        for (key in machines) {
-          if (key.includes("theia-ide")) {
-            this.workspaceUrl = machines[key].servers.theia.url
-            $(".loading").removeClass("d-flex")
-            $(".loading").addClass("d-none")
-            break
-          }
+        if(ws.status === "STOPPED") {
+          Meteor.call("startWorkspace", keycloak, workspaceId);
+          this.fetchWorkspaceUrl(keycloak, workspaceId);
+        } else if (ws.status === "RUNNING") {
+          const machines = ws.runtime.machines;
+          for (key in machines)
+            if (key.includes("theia-ide")) {
+              this.workspaceUrl = machines[key].servers.theia.url;
+              $(".loading").removeClass("d-flex");
+              $(".loading").addClass("d-none");
+              break
+            }
         }
-      }
-      else{
-        await this.fetchWorkspaceUrl(keycloak, workspaceId)
-      }
+        else{
+          this.fetchWorkspaceUrl(keycloak, workspaceId);
+        }
+      });
     },
     fetchWorkspaceUrl(keycloak, workspaceId){
       // wait until get the server theia url
       this.workspaceLoaded = setInterval( () => {
-        utils.getWorkspace(keycloak, workspaceId).then(ws => {
-          this.name = ws.devfile.metadata.name
+        Meteor.call("getWorkspace", keycloak, workspaceId, (error, result) => {
+          const ws = result;
+          this.name = ws?.devfile.metadata.name
           if(ws.status === "RUNNING"){
             const machines = ws.runtime.machines
             for(key in machines){
@@ -96,7 +97,7 @@ export default {
             }
             clearInterval(this.workspaceLoaded)
           }
-        })
+        });
       }, 5000);
     },
     sendMessageToIframe(messageType){
@@ -159,7 +160,6 @@ export default {
     display: flex;
     align-items: center;
     padding-left: 15px;
-    text-transform: capitalize;
   }
   #iframe{
     border: 0;

@@ -70,7 +70,6 @@
 
 <script>
 import moment from "moment";
-import utils from "../utils/utils"
 
 export default {
   name: "Dashboard",
@@ -100,7 +99,9 @@ export default {
     async getItems(){
       const keycloak = this.$store.state.keycloak
       this.itemsLoaded = false;
-      this.items = await utils.getWorkspaces(keycloak)
+      Meteor.call("getWorkspaces", keycloak, (error, result) => {
+        this.items = result;
+      });
       this.itemsLoaded = true;
     },
     cardResized(card){

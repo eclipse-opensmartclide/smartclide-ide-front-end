@@ -30,7 +30,6 @@
 
 <script>
 import QuickAccess from "./QuickAccess";
-import utils from "../utils/utils"
 
 export default {
   name: "ContextBar",
@@ -46,7 +45,7 @@ export default {
     async closeWorkspace(){
       const keycloak = this.$store.state.keycloak
       const workspaceId = this.$store.state.currentWorkspace
-      await utils.stopWorkspace(keycloak, workspaceId)
+      Meteor.call("stopWorkspace", keycloak, workspaceId);
       this.$store.state.currentWorkspace = undefined
     }
   }

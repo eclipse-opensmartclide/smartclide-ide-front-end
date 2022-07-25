@@ -10,6 +10,7 @@
 
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from "meteor/accounts-base";
+import { Connector } from '@unparallel/smartclide-che-rest-client';
 import SmartCLIDEBackendConnector from "@unparallel/smartclide-backend-connector";
 
 const users = [
@@ -28,6 +29,35 @@ Meteor.startup(() => {
 });
 
 Meteor.methods({
+    async getWorkspaces(keycloak){
+        const connector = new Connector();
+        const workflows = await connector.getMostRecentWorkflows();
+        const services = await connector.getMostRecentServices();
+        const deployments = await connector.getMostRecentDeployments();
+        const recent = await connector.getRecentWorkspaces(keycloak.token, 3);
+
+        return { workflows, services, deployments, recent };
+    },
+    async getWorkspacesWithType(keycloak, type){
+        const connector = new Connector();
+
+        return connector.getWorkspacesWithType(keycloak.token, type);
+    },
+    async getWorkspace(keycloak, workspaceId){
+        const connector = new Connector();
+
+        return connector.getWorkspace(keycloak.token, workspaceId);
+    },
+    async startWorkspace(keycloak, workspaceId){
+        const connector = new Connector();
+
+        await connector.startWorkspace(keycloak.token, workspaceId);
+    },
+    async stopWorkspace(keycloak, workspaceId){
+        const connector = new Connector();
+
+        await connector.stopWorkspace(keycloak.token, workspaceId);
+    },
     async request(configuration){
         let connector = await new SmartCLIDEBackendConnector("https://raw.githubusercontent.com/goncalorolo/swagger-json/main/smartCLIDE_DB_API_swagger.json");
 
