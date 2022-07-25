@@ -29,43 +29,54 @@ Meteor.startup(() => {
 });
 
 Meteor.methods({
-    async getWorkspaces(keycloak){
+    async getLatestWorkspaces(keycloakToken, length){
         const connector = new Connector();
-        const workflows = await connector.getMostRecentWorkflows();
-        const services = await connector.getMostRecentServices();
-        const deployments = await connector.getMostRecentDeployments();
-        const recent = await connector.getRecentWorkspaces(keycloak.token, 3);
 
-        return { workflows, services, deployments, recent };
+        return await connector.getRecentWorkspaces(keycloakToken, length);
     },
-    async getWorkspacesWithType(keycloak, type){
+    async getLatestWorkflows(){
         const connector = new Connector();
 
-        return connector.getWorkspacesWithType(keycloak.token, type);
+        return await connector.getMostRecentWorkflows();
     },
-    async getWorkspace(keycloak, workspaceId){
+    async getLatestServices(){
         const connector = new Connector();
 
-        return connector.getWorkspace(keycloak.token, workspaceId);
+        return await connector.getMostRecentServices();
     },
-    async startWorkspace(keycloak, workspaceId){
+    async getLatestDeployments(){
         const connector = new Connector();
 
-        await connector.startWorkspace(keycloak.token, workspaceId);
+        return await connector.getMostRecentDeployments();
     },
-    async stopWorkspace(keycloak, workspaceId){
+    async getWorkspacesWithType(keycloakToken, type){
         const connector = new Connector();
 
-        await connector.stopWorkspace(keycloak.token, workspaceId);
+        return connector.getWorkspacesWithType(keycloakToken, type);
+    },
+    async getWorkspace(keycloakToken, workspaceId){
+        const connector = new Connector();
+
+        return connector.getWorkspace(keycloakToken, workspaceId);
+    },
+    async startWorkspace(keycloakToken, workspaceId){
+        const connector = new Connector();
+
+        await connector.startWorkspace(keycloakToken, workspaceId);
+    },
+    async stopWorkspace(keycloakToken, workspaceId){
+        const connector = new Connector();
+
+        await connector.stopWorkspace(keycloakToken, workspaceId);
     },
     async request(configuration){
         let connector = await new SmartCLIDEBackendConnector("https://raw.githubusercontent.com/goncalorolo/swagger-json/main/smartCLIDE_DB_API_swagger.json");
 
         return await connector.call(configuration);
     },
-    async exists(entity, id, token){
+    async exists(entity, id, keycloakToken){
         let connector = await new SmartCLIDEBackendConnector("https://raw.githubusercontent.com/goncalorolo/swagger-json/main/smartCLIDE_DB_API_swagger.json");
 
-        return await connector.exists(entity, id, token);
+        return await connector.exists(entity, id, keycloakToken);
     }
 });

@@ -43,10 +43,10 @@ export default {
       }
     },
     async closeWorkspace(){
-      const keycloak = this.$store.state.keycloak
-      const workspaceId = this.$store.state.currentWorkspace
-      Meteor.call("stopWorkspace", keycloak, workspaceId);
-      this.$store.state.currentWorkspace = undefined
+      const keycloakToken = this.$store.state.keycloak.idToken;
+      const workspaceId = this.$store.state.currentWorkspace;
+      Meteor.call("stopWorkspace", keycloakToken, workspaceId);
+      this.$store.state.currentWorkspace = undefined;
     }
   }
 }

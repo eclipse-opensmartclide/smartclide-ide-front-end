@@ -52,18 +52,18 @@ export default {
   },
   methods:{
     async getDetails(){
-      $(".loading").removeClass("d-none")
-      $(".loading").addClass("d-flex")
-      const keycloak = this.$store.state.keycloak
-      const workspaceId = this.$store.state.currentWorkspace
+      $(".loading").removeClass("d-none");
+      $(".loading").addClass("d-flex");
+      const keycloakToken = this.$store.state.keycloak.idToken;
+      const workspaceId = this.$store.state.currentWorkspace;
 
-      Meteor.call("getWorkspace", keycloak, workspaceId, (error, result) => {
+      Meteor.call("getWorkspace", keycloakToken, workspaceId, (error, result) => {
         const ws = result;
         this.name = ws?.devfile.metadata.name;
 
         if(ws.status === "STOPPED") {
-          Meteor.call("startWorkspace", keycloak, workspaceId);
-          this.fetchWorkspaceUrl(keycloak, workspaceId);
+          Meteor.call("startWorkspace", keycloakToken, workspaceId);
+          this.fetchWorkspaceUrl(keycloakToken, workspaceId);
         } else if (ws.status === "RUNNING") {
           const machines = ws.runtime.machines;
           for (key in machines)
@@ -75,14 +75,14 @@ export default {
             }
         }
         else{
-          this.fetchWorkspaceUrl(keycloak, workspaceId);
+          this.fetchWorkspaceUrl(keycloakToken, workspaceId);
         }
       });
     },
-    fetchWorkspaceUrl(keycloak, workspaceId){
+    fetchWorkspaceUrl(keycloakToken, workspaceId){
       // wait until get the server theia url
       this.workspaceLoaded = setInterval( () => {
-        Meteor.call("getWorkspace", keycloak, workspaceId, (error, result) => {
+        Meteor.call("getWorkspace", keycloakToken, workspaceId, (error, result) => {
           const ws = result;
           this.name = ws?.devfile.metadata.name
           if(ws.status === "RUNNING"){
