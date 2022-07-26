@@ -24,7 +24,7 @@
         :slot="cards[index].i"
         :title="table.title"
         :loading="!table.loaded"
-        :padding="[10,10]"
+        :padding="[0,0]"
       >
         <BTable
           class="custom_table"
