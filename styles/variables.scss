@@ -13,8 +13,6 @@ $border-radius-sm: 0.4rem;
 $toast-border-radius: 0.4rem;
 $table-hover-bg: #e5eefd;
 $blue: #2272ea;
-$font-family-sans-serif: Open Sans;
-$font-family-monospace: Open Sans;
 
 @import "node_modules/bootstrap/scss/bootstrap";
 @import 'node_modules/bootstrap-vue/src/components/dropdown/_dropdown.scss'; // https://github.com/bootstrap-vue/bootstrap-vue/issues/2951
