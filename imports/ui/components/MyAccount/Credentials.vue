@@ -26,11 +26,18 @@
         :loading="!table.loaded"
         :padding="[0,0]"
       >
-        <BTable
+        <b-table
           class="custom_table"
           :items="table.content"
           :fields="table.fields"
-        />
+        >
+          <template #cell(actions)="data">
+            <div class="text-center">
+              <b-icon-pencil variant="primary" class="mx-2" />
+              <b-icon-trash variant="primary" class="mx-2"/>
+            </div>
+          </template>
+        </b-table>
       </smart-widget>
     </smart-widget-grid>
   </div>
@@ -50,25 +57,25 @@ export default {
       tables: [
         {
           title: "Git",
-          fields: ["type", "URL", "username"],
+          fields: ["type", "URL", "username", "actions"],
           content: [],
           loaded: false
         },
         {
           title: "Service Registries",
-          fields: ["type", "URL", "username"],
+          fields: ["type", "URL", "username", "actions"],
           content: [],
           loaded: false
         },
         {
           title: "Deployment Platforms",
-          fields: ["URL", "username"],
+          fields: ["URL", "username", "actions"],
           content: [],
           loaded: false
         },
         {
           title: "CI Managers",
-          fields: ["type", "URL", "username"],
+          fields: ["type", "URL", "username", "actions"],
           content: [],
           loaded: false
         }
@@ -161,7 +168,7 @@ export default {
   }
 
   /deep/ .widget-header{
-    background: #F8FAFB;
+    background: var(--light);
     height: 37px!important;
     line-height: 37px!important;
     padding-left: 10px;
@@ -175,7 +182,7 @@ export default {
   }
 
   /deep/ .custom_table thead{
-    background: #E5EEFD;
+    background: var(--info);
     text-align: center;
     text-transform: capitalize;
   }
