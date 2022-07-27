@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------------->
 
 <template>
-  <div style="margin: 10px">
+  <div>
     <smart-widget-grid
       :colNum="1"
       :maxRows="4"
@@ -19,25 +19,63 @@
       isStatic
     >
       <smart-widget
-        class="title text-primary"
+        class="title text-primary "
         v-for="(table, index) in tables"
         :slot="cards[index].i"
         :title="table.title"
-        :loading="!table.loaded"
         :padding="[0,0]"
       >
-        <b-table
-          class="custom_table"
-          :items="table.content"
-          :fields="table.fields"
-        >
-          <template #cell(actions)="data">
-            <div class="text-center">
-              <b-icon-pencil variant="primary" class="mx-2" />
-              <b-icon-trash variant="primary" class="mx-2"/>
-            </div>
-          </template>
-        </b-table>
+        <div class="d-flex flex-row">
+          <b-form-input
+            class="mt-1 ml-1 mb-1 bg-light"
+            placeholder="Type to search..."
+            type="search"
+            v-model="table.filter"
+            :disabled="!table.loaded"
+          />
+          <div class="d-flex align-items-center mx-2">
+            <b-icon-plus-circle style="cursor: pointer" variant="primary" font-scale="1.5" @click="add"/>
+          </div>
+        </div>
+        <div class="d-flex flex-row">
+          <b-table
+            class="custom-table mx-1 mb-0 text-center w-100"
+            bordered
+            :items="table.content"
+            :fields="table.fields"
+            :filter="table.filter"
+            :busy="!table.loaded"
+            :per-page="table.perPage"
+            :current-page="table.currentPage"
+            @filtered="(filteredItems)=>(onFiltered(filteredItems, index))"
+            :empty-text="`No ${table.title} credentials were configured yet.`"
+            :empty-filtered-text="`No ${table.title} credentials matched your search criteria.`"
+            show-empty
+          >
+            <template #table-busy>
+              <div class="text-center text-primary my-2">
+                <b-spinner class="align-middle"></b-spinner>
+                Loading...
+              </div>
+            </template>
+            <template #cell(actions)="data">
+              <div class="text-center">
+                <b-icon-pencil style="cursor: pointer" variant="primary" class="mx-2" font-scale="1.2" @click="edit"/>
+                <b-icon-trash style="cursor: pointer" variant="primary" class="mx-2" font-scale="1.2" @click="remove"/>
+              </div>
+            </template>
+          </b-table>
+        </div>
+        <div>
+          <b-pagination
+            class="my-1"
+            v-model="table.currentPage"
+            :total-rows="table.totalRows"
+            :per-page="table.perPage"
+            align="center"
+            :disabled="!table.loaded"
+          />
+        </div>
       </smart-widget>
     </smart-widget-grid>
   </div>
@@ -59,25 +97,41 @@ export default {
           title: "Git",
           fields: ["type", "URL", "username", "actions"],
           content: [],
-          loaded: false
+          loaded: false,
+          filter: null,
+          totalRows: null,
+          perPage: 5,
+          currentPage: 1
         },
         {
           title: "Service Registries",
           fields: ["type", "URL", "username", "actions"],
           content: [],
-          loaded: false
+          loaded: false,
+          filter: null,
+          totalRows: null,
+          perPage: 1,
+          currentPage: 1
         },
         {
           title: "Deployment Platforms",
           fields: ["URL", "username", "actions"],
           content: [],
-          loaded: false
+          loaded: false,
+          filter: null,
+          totalRows: null,
+          perPage: 5,
+          currentPage: 1
         },
         {
           title: "CI Managers",
           fields: ["type", "URL", "username", "actions"],
           content: [],
-          loaded: false
+          loaded: false,
+          filter: null,
+          totalRows: null,
+          perPage: 5,
+          currentPage: 1
         }
       ]
     };
@@ -101,10 +155,7 @@ export default {
               return { type: item.type, URL: item.url, username: item.username };
             });
 
-            if(content.length === 0)
-              content = [{ type: null, URL: null, username: null }];
-
-            Object.assign(this.tables[0],{ loaded: true, content });
+            Object.assign(this.tables[0],{ loaded: true, content, totalRows: content.length });
           }
         }
       );
@@ -117,10 +168,7 @@ export default {
               return { type: item.type, URL: item.url, username: item.username };
             });
 
-            if(content.length === 0)
-              content = [{ type: null, URL: null, username: null }];
-
-            Object.assign(this.tables[1],{ loaded: true, content });
+            Object.assign(this.tables[1],{ loaded: true, content, totalRows: content.length });
           }
         }
       );
@@ -133,10 +181,7 @@ export default {
               return { URL: item.url, username: item.username };
             });
 
-            if(content.length === 0)
-              content = [{ URL: null, username: null }];
-
-            Object.assign(this.tables[2],{ loaded: true, content });
+            Object.assign(this.tables[2],{ loaded: true, content, totalRows: content.length });
           }
         }
       );
@@ -149,13 +194,23 @@ export default {
               return { type: item.type, URL: item.url, username: item.username };
             });
 
-            if(content.length === 0)
-              content = [{ type: null, URL: null, username: null }];
-
-            Object.assign(this.tables[3],{ loaded: true, content });
+            Object.assign(this.tables[3],{ loaded: true, content, totalRows: content.length });
           }
         }
       );
+    },
+    onFiltered(filteredItems, tableIndex){
+      this.tables[tableIndex].totalRows = filteredItems.length;
+      this.tables[tableIndex].currentPage = 1;
+    },
+    add(){
+      console.log("Add");
+    },
+    edit(){
+      console.log("Edit");
+    },
+    remove(){
+      console.log("Remove");
     }
   }
 }
@@ -172,16 +227,11 @@ export default {
     height: 37px!important;
     line-height: 37px!important;
     padding-left: 10px;
-    align-items: center;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
 
-  /deep/ .custom_table{
-    margin-bottom: 10px;
-  }
-
-  /deep/ .custom_table thead{
+  /deep/ .custom-table thead{
     background: var(--info);
     text-align: center;
     text-transform: capitalize;
