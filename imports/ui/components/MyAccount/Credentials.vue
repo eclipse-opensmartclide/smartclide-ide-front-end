@@ -31,7 +31,6 @@
           :items="table.content"
           :fields="table.fields"
         />
-        <BButton class="add_button">Add new</BButton>
       </smart-widget>
     </smart-widget-grid>
   </div>
@@ -51,25 +50,25 @@ export default {
       tables: [
         {
           title: "Git",
-          fields: ["type", "URL", "username", "token"],
+          fields: ["type", "URL", "username"],
           content: [],
           loaded: false
         },
         {
           title: "Service Registries",
-          fields: ["type", "URL", "username", "token"],
+          fields: ["type", "URL", "username"],
           content: [],
           loaded: false
         },
         {
           title: "Deployment Platforms",
-          fields: ["URL", "username", "token"],
+          fields: ["URL", "username"],
           content: [],
           loaded: false
         },
         {
           title: "CI Managers",
-          fields: ["type", "URL", "username", "token"],
+          fields: ["type", "URL", "username"],
           content: [],
           loaded: false
         }
@@ -92,11 +91,11 @@ export default {
         (error, result) => {
           if(result){
             let content = result?.body.map((item) => {
-              return { type: item.type, URL: item.url, username: item.username, token: "**********" };
+              return { type: item.type, URL: item.url, username: item.username };
             });
 
             if(content.length === 0)
-              content = [{ type: null, URL: null, username: null, token: null }];
+              content = [{ type: null, URL: null, username: null }];
 
             Object.assign(this.tables[0],{ loaded: true, content });
           }
@@ -108,11 +107,11 @@ export default {
         (error, result) => {
           if(result){
             let content = result?.body.map((item) => {
-              return { type: item.type, URL: item.url, username: item.username, token: "**********" };
+              return { type: item.type, URL: item.url, username: item.username };
             });
 
             if(content.length === 0)
-              content = [{ type: null, URL: null, username: null, token: null }];
+              content = [{ type: null, URL: null, username: null }];
 
             Object.assign(this.tables[1],{ loaded: true, content });
           }
@@ -124,11 +123,11 @@ export default {
         (error, result) => {
           if(result){
             let content = result?.body.map((item) => {
-              return { URL: item.url, username: item.username, token: "**********"};
+              return { URL: item.url, username: item.username };
             });
 
             if(content.length === 0)
-              content = [{ URL: null, username: null, token: null }];
+              content = [{ URL: null, username: null }];
 
             Object.assign(this.tables[2],{ loaded: true, content });
           }
@@ -140,11 +139,11 @@ export default {
         (error, result) => {
           if(result){
             let content = result?.body.map((item) => {
-              return { type: item.type, URL: item.url, username: item.username, token: "**********" };
+              return { type: item.type, URL: item.url, username: item.username };
             });
 
             if(content.length === 0)
-              content = [{ type: null, URL: null, username: null, token: null }];
+              content = [{ type: null, URL: null, username: null }];
 
             Object.assign(this.tables[3],{ loaded: true, content });
           }
@@ -156,10 +155,6 @@ export default {
 </script>
 
 <style scoped>
-  .title{
-    text-transform: capitalize;
-  }
-
   .smartwidget{
     border-radius: 10px;
     height: fit-content;
@@ -183,13 +178,5 @@ export default {
     background: #E5EEFD;
     text-align: center;
     text-transform: capitalize;
-  }
-
-  /deep/ .custom_table tbody{
-    text-transform: none;
-  }
-
-  .add_button{
-    float: right;
   }
 </style>
