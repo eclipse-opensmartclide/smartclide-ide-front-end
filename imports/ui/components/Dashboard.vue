@@ -62,7 +62,7 @@
       >
         <template slot="toolbar">
           <div style="margin: 0 12px;">
-            <BIconTrash class="widget-button" @click="remove(card.i)" style="cursor: pointer"/>
+            <BIconTrash class="widget-button" @click="remove(index)" style="cursor: pointer"/>
           </div>
         </template>
         <div class="layout-center">
