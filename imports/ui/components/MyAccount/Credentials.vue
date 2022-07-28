@@ -9,9 +9,9 @@
  -------------------------------------------------------------------------------->
 
 <template>
-  <div class="d-flex flex-column mx-4 mt-4">
+  <div class="d-flex flex-column mx-2 mt-2">
       <smart-widget
-        class="title text-primary mb-4"
+        class="card text-primary mb-5"
         v-for="(table, index) in tables"
         :slot="cards[index].i"
         :title="table.title"
@@ -208,11 +208,6 @@ export default {
 </script>
 
 <style scoped>
-  .smartwidget{
-    border-radius: 10px;
-    height: fit-content;
-  }
-
   /deep/ .widget-header{
     background: var(--light);
     height: 37px!important;
