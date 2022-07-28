@@ -52,8 +52,8 @@
             </template>
             <template #cell(actions)="data">
               <div class="text-center">
-                <b-icon-pencil style="cursor: pointer" variant="primary" class="mx-2" font-scale="1.2" @click="edit"/>
-                <b-icon-trash style="cursor: pointer" variant="primary" class="mx-2" font-scale="1.2" @click="remove"/>
+                <b-icon-pencil role="button" variant="primary" class="mx-2" font-scale="1.2" @click="edit"/>
+                <b-icon-trash role="button" variant="primary" class="mx-2" font-scale="1.2" @click="remove"/>
               </div>
             </template>
           </b-table>
@@ -66,6 +66,7 @@
             :total-rows="table.totalRows"
             :per-page="table.perPage"
             :disabled="!table.loaded"
+            :hidden="table.content.length === 0"
           />
         </div>
       </smart-widget>
