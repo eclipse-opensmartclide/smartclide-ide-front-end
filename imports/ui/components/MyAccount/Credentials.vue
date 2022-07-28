@@ -9,17 +9,9 @@
  -------------------------------------------------------------------------------->
 
 <template>
-  <div>
-    <smart-widget-grid
-      :colNum="1"
-      :maxRows="4"
-      :layout.sync="cards"
-      :margin="[25, 25]"
-      autoSize
-      isStatic
-    >
+  <div class="d-flex flex-column mx-4 mt-4">
       <smart-widget
-        class="title text-primary "
+        class="title text-primary mb-4"
         v-for="(table, index) in tables"
         :slot="cards[index].i"
         :title="table.title"
@@ -33,8 +25,8 @@
             v-model="table.filter"
             :disabled="!table.loaded"
           />
-          <div class="d-flex align-items-center mx-2">
-            <b-icon-plus-circle style="cursor: pointer" variant="primary" font-scale="1.5" @click="add"/>
+          <div class="d-flex align-items-center mx-2 ">
+            <b-icon-plus-circle role="button" variant="primary" font-scale="1.5" @click="add"/>
           </div>
         </div>
         <div class="d-flex flex-row">
@@ -69,15 +61,14 @@
         <div>
           <b-pagination
             class="my-1"
+            align="center"
             v-model="table.currentPage"
             :total-rows="table.totalRows"
             :per-page="table.perPage"
-            align="center"
             :disabled="!table.loaded"
           />
         </div>
       </smart-widget>
-    </smart-widget-grid>
   </div>
 </template>
 
@@ -100,7 +91,7 @@ export default {
           loaded: false,
           filter: null,
           totalRows: null,
-          perPage: 5,
+          perPage: 3,
           currentPage: 1
         },
         {
@@ -110,7 +101,7 @@ export default {
           loaded: false,
           filter: null,
           totalRows: null,
-          perPage: 1,
+          perPage: 3,
           currentPage: 1
         },
         {
@@ -120,7 +111,7 @@ export default {
           loaded: false,
           filter: null,
           totalRows: null,
-          perPage: 5,
+          perPage: 3,
           currentPage: 1
         },
         {
@@ -130,7 +121,7 @@ export default {
           loaded: false,
           filter: null,
           totalRows: null,
-          perPage: 5,
+          perPage: 3,
           currentPage: 1
         }
       ]
@@ -138,10 +129,10 @@ export default {
   },
   mounted(){
     this.$store.state.context = 'my-account';
-    this.fetchCredentials();
+    this.fetchContent();
   },
   methods: {
-    fetchCredentials(){
+    fetchContent(){
       this.fetchGitCredentials();
       this.fetchServiceRegistriesCredentials();
       this.fetchDeploymentPlatformsCredentials();
