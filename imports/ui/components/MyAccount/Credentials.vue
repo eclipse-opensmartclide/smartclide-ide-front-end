@@ -39,7 +39,7 @@
         </div>
         <div class="d-flex flex-row">
           <b-table
-            class="custom-table mx-1 mb-0 text-center w-100"
+            class="custom-table mx-1 mb-0 text-center"
             bordered
             :items="table.content"
             :fields="table.fields"
