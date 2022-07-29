@@ -11,21 +11,24 @@
 <template>
   <div class="mx-4 mt-4">
     <b-card no-body>
-      <b-tabs card>
+      <b-tabs
+        card
+        active-nav-item-class="bg-primary text-white"
+      >
         <b-tab
           v-for="(table, index) in tables"
           :title="table.title"
         >
           <div class="d-flex flex-row align-items-center pb-3">
             <b-form-input
+                class="search_bar"
                 placeholder="Type to search..."
                 type="search"
                 v-model="table.filter"
                 :disabled="!table.loaded"
             />
-            <b-icon-plus-circle class="mx-3" role="button" variant="primary" font-scale="1.5" @click="add"/>
             <b-pagination
-              class="mb-0"
+              class="mx-3 mb-0"
               size="sm"
               limit="3"
               v-model="table.currentPage"
@@ -33,6 +36,7 @@
               :per-page="table.perPage"
               :disabled="table.disablePagination"
             />
+            <b-icon-plus-circle role="button" variant="primary" font-scale="1.5" @click="add"/>
           </div>
           <div class="d-flex flex-row">
             <b-table
@@ -204,6 +208,10 @@ export default {
 </script>
 
 <style scoped>
+  .search_bar{
+    border-color: #dee2e6;
+  }
+
   /deep/ .custom-table thead{
     background: var(--info);
     text-align: center;
