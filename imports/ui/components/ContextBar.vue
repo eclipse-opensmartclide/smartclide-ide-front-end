@@ -9,22 +9,22 @@
  -------------------------------------------------------------------------------->
 
 <template>
-  <div class="nav_container">
+  <div style="width: 200px">
     <template v-if="this.$store.state.context === 'project'">
       <QuickAccess/>
     </template>
-    <BNav class="nav bg-light" aria-orientation="vertical">
+    <b-nav class="navbar-nav h-100 bg-light" aria-orientation="vertical">
       <div v-for="category in this.$store.getters.getCategories">
-        <div class="category p-2" v-if="category.category !== 'root'">
+        <div class="px-2 pt-3 font-weight-bold" v-if="category.category !== 'root'">
           {{category.category}}
         </div>
-        <div class="p-2" v-for="option in category.options">
-          <RouterLink class="nav_item text-primary" :to="option.link" v-on:click.native="click(option)">
+        <div class="px-3 py-2" v-for="option in category.options">
+          <router-link class="text-decoration-none text-primary" :to="option.link" v-on:click.native="click(option)">
             {{ option.title }}
-          </RouterLink>
+          </router-link>
         </div>
       </div>
-    </BNav>
+    </b-nav>
   </div>
 </template>
 
@@ -53,26 +53,7 @@ export default {
 </script>
 
 <style scoped>
-
 .nav_container{
   width: 200px;
 }
-
-.nav{
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.nav_item{
-  color: black;
-  text-decoration: none;
-  margin-left: 8px;
-}
-
-.category{
-  margin-left: 8px;
-  font-weight: bold;
-}
-
 </style>
