@@ -9,67 +9,63 @@
  -------------------------------------------------------------------------------->
 
 <template>
-  <div class="d-flex flex-column mx-2 mt-2">
-      <smart-widget
-        class="card text-primary mb-5"
-        v-for="(table, index) in tables"
-        :slot="cards[index].i"
-        :title="table.title"
-        :padding="[0,0]"
-      >
-        <div class="d-flex flex-row">
-          <b-form-input
-            class="mt-1 ml-1 mb-1 bg-light"
-            placeholder="Type to search..."
-            type="search"
-            v-model="table.filter"
-            :disabled="!table.loaded"
-          />
-          <div class="d-flex align-items-center mx-2 ">
-            <b-icon-plus-circle role="button" variant="primary" font-scale="1.5" @click="add"/>
+  <div class="mx-4 mt-4">
+    <b-card no-body>
+      <b-tabs card>
+        <b-tab
+          v-for="(table, index) in tables"
+          :title="table.title"
+        >
+          <div class="d-flex flex-row align-items-center pb-3">
+            <b-form-input
+                placeholder="Type to search..."
+                type="search"
+                v-model="table.filter"
+                :disabled="!table.loaded"
+            />
+            <b-icon-plus-circle class="mx-3" role="button" variant="primary" font-scale="1.5" @click="add"/>
+            <b-pagination
+              class="mb-0"
+              size="sm"
+              limit="3"
+              v-model="table.currentPage"
+              :total-rows="table.totalRows"
+              :per-page="table.perPage"
+              :disabled="table.disablePagination"
+            />
           </div>
-        </div>
-        <div class="d-flex flex-row">
-          <b-table
-            class="custom-table mx-1 mb-0 text-center"
-            bordered
-            :items="table.content"
-            :fields="table.fields"
-            :filter="table.filter"
-            :busy="!table.loaded"
-            :per-page="table.perPage"
-            :current-page="table.currentPage"
-            @filtered="(filteredItems)=>(onFiltered(filteredItems, index))"
-            :empty-text="`No ${table.title} credentials were configured yet.`"
-            :empty-filtered-text="`No ${table.title} credentials matched your search criteria.`"
-            show-empty
-          >
-            <template #table-busy>
-              <div class="text-center text-primary my-2">
-                <b-spinner class="align-middle"></b-spinner>
-                Loading...
-              </div>
-            </template>
-            <template #cell(actions)="data">
-              <div class="text-center">
-                <b-icon-pencil role="button" variant="primary" class="mx-2" font-scale="1.2" @click="edit"/>
-                <b-icon-trash role="button" variant="primary" class="mx-2" font-scale="1.2" @click="remove"/>
-              </div>
-            </template>
-          </b-table>
-        </div>
-        <div>
-          <b-pagination
-            class="my-1"
-            align="center"
-            v-model="table.currentPage"
-            :total-rows="table.totalRows"
-            :per-page="table.perPage"
-            :disabled="!table.loaded"
-            :hidden="table.content.length === 0"
-          />
-        </div>
-      </smart-widget>
+          <div class="d-flex flex-row">
+            <b-table
+                class="custom-table text-center"
+                bordered
+                :items="table.content"
+                :fields="table.fields"
+                :filter="table.filter"
+                :busy="!table.loaded"
+                :per-page="table.perPage"
+                :current-page="table.currentPage"
+                @filtered="(filteredItems)=>(onFiltered(filteredItems, index))"
+                :empty-text="`No ${table.title} credentials were configured yet.`"
+                :empty-filtered-text="`No ${table.title} credentials matched your search criteria.`"
+                show-empty
+            >
+              <template #table-busy>
+                <div class="text-center text-primary my-2">
+                  <b-spinner class="align-middle"></b-spinner>
+                  Loading...
+                </div>
+              </template>
+              <template #cell(actions)="data">
+                <div class="text-center">
+                  <b-icon-pencil role="button" variant="primary" class="mx-2" font-scale="1.2" @click="edit"/>
+                  <b-icon-trash role="button" variant="primary" class="mx-2" font-scale="1.2" @click="remove"/>
+                </div>
+              </template>
+            </b-table>
+          </div>
+        </b-tab>
+      </b-tabs>
+    </b-card>
   </div>
 </template>
 
@@ -78,12 +74,6 @@ export default {
   name: "Credentials",
   data(){
     return {
-      cards: [
-        { i: 0, x: 0, y: 0, w: 12, h: 5 },
-        { i: 1, x: 0, y: 11, w: 12, h: 5 },
-        { i: 2, x: 0, y: 24, w: 12, h: 5 },
-        { i: 3, x: 0, y: 36, w: 12, h: 5 }
-      ],
       tables: [
         {
           title: "Git",
@@ -92,8 +82,9 @@ export default {
           loaded: false,
           filter: null,
           totalRows: null,
-          perPage: 3,
-          currentPage: 1
+          perPage: 10,
+          currentPage: 1,
+          disablePagination: null
         },
         {
           title: "Service Registries",
@@ -102,8 +93,9 @@ export default {
           loaded: false,
           filter: null,
           totalRows: null,
-          perPage: 3,
-          currentPage: 1
+          perPage: 10,
+          currentPage: 1,
+          disablePagination: null
         },
         {
           title: "Deployment Platforms",
@@ -112,8 +104,9 @@ export default {
           loaded: false,
           filter: null,
           totalRows: null,
-          perPage: 3,
-          currentPage: 1
+          perPage: 10,
+          currentPage: 1,
+          disablePagination: null
         },
         {
           title: "CI Managers",
@@ -122,8 +115,9 @@ export default {
           loaded: false,
           filter: null,
           totalRows: null,
-          perPage: 3,
-          currentPage: 1
+          perPage: 10,
+          currentPage: 1,
+          disablePagination: null
         }
       ]
     };
@@ -147,7 +141,7 @@ export default {
               return { type: item.type, URL: item.url, username: item.username };
             });
 
-            Object.assign(this.tables[0],{ loaded: true, content, totalRows: content.length });
+            Object.assign(this.tables[0],{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
           }
         }
       );
@@ -160,7 +154,7 @@ export default {
               return { type: item.type, URL: item.url, username: item.username };
             });
 
-            Object.assign(this.tables[1],{ loaded: true, content, totalRows: content.length });
+            Object.assign(this.tables[1],{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
           }
         }
       );
@@ -173,7 +167,7 @@ export default {
               return { URL: item.url, username: item.username };
             });
 
-            Object.assign(this.tables[2],{ loaded: true, content, totalRows: content.length });
+            Object.assign(this.tables[2],{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
           }
         }
       );
@@ -186,12 +180,13 @@ export default {
               return { type: item.type, URL: item.url, username: item.username };
             });
 
-            Object.assign(this.tables[3],{ loaded: true, content, totalRows: content.length });
+            Object.assign(this.tables[3],{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
           }
         }
       );
     },
     onFiltered(filteredItems, tableIndex){
+      this.tables[tableIndex].disablePagination = !filteredItems.length;
       this.tables[tableIndex].totalRows = filteredItems.length;
       this.tables[tableIndex].currentPage = 1;
     },
@@ -209,15 +204,6 @@ export default {
 </script>
 
 <style scoped>
-  /deep/ .widget-header{
-    background: var(--light);
-    height: 37px!important;
-    line-height: 37px!important;
-    padding-left: 10px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
-
   /deep/ .custom-table thead{
     background: var(--info);
     text-align: center;

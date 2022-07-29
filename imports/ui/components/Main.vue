@@ -17,7 +17,6 @@
       <Content class="content"/>
     </div>
   </div>
-
 </template>
 
 <script>
