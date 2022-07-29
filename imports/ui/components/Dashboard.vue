@@ -12,38 +12,40 @@
   <div>
     <!-- Welcome / Get Started -->
     <div class="d-flex">
-      <BCol>
-        <BImg class="welcome" src="/assets/cartao_welcome.png"/>
-      </BCol>
-      <BCol>
-        <BRow>
-          <div class="started text-primary">
+      <b-col>
+        <b-img class="w-100" src="/assets/cartao_welcome.png"/>
+      </b-col>
+
+      <b-col>
+        <b-row>
+          <div class="h3 text-primary">
             Get Started
           </div>
-        </BRow>
+        </b-row>
 
-        <BRow class="mt-2">
+        <b-row class="mt-2">
           <!-- Create New -->
-          <BCol>
-            <BRow class="create mb-2">Create New...</BRow>
-            <BRow><RouterLink to="/notImplemented">Workflow</RouterLink></BRow>
-            <BRow><RouterLink to="/notImplemented">Service</RouterLink></BRow>
-            <BRow><RouterLink to="/notImplemented">Deployment</RouterLink></BRow>
-          </BCol>
+          <b-col>
+            <b-row class="h5 mb-2">Create New...</b-row>
+            <b-row><router-link to="/notImplemented">Workflow</router-link></b-row>
+            <b-row><router-link to="/notImplemented">Service</router-link></b-row>
+            <b-row><router-link to="/notImplemented">Deployment</router-link></b-row>
+          </b-col>
 
           <!-- Recent Projects -->
-          <BCol>
-            <BRow class="recent mb-2">Recent</BRow>
-            <BRow v-for="project in this.latestWorkspaces">
-              <RouterLink class="project" :to="{ path: `/project/${project.id}`}">
+          <b-col>
+            <b-row class="h5 mb-2">Recent</b-row>
+            <b-row v-for="project in this.latestWorkspaces">
+              <router-link :to="{ path: `/project/${project.id }`}">
                 {{project.devfile.metadata.name}}
-              </RouterLink>
-            </BRow>
-          </BCol>
-        </BRow>
-      </BCol>
-      <div class="add">
-        <BIconPlusCircle class="text-primary add-icon" @click="addWidget"/>
+              </router-link>
+            </b-row>
+          </b-col>
+        </b-row>
+      </b-col>
+
+      <div class="position-relative">
+        <b-icon-plus-circle role="button" class="add-icon position-absolute" variant="primary" font-scale="1.2" @click="addWidget"/>
       </div>
     </div>
 
@@ -53,29 +55,37 @@
       :margin="[25, 25]"
     >
       <smart-widget
-        class="title text-primary"
+        class="card text-primary"
         v-for="(table, index) in tables"
         :slot="cards[index].i"
         :title="table.title"
-        :loading="!table.loaded"
         :padding="[0,0]"
       >
         <template slot="toolbar">
-          <div style="margin: 0 12px;">
-            <BIconTrash class="widget-button" @click="remove(index)" style="cursor: pointer"/>
+          <div class="mx-2">
+            <b-icon-trash role="button" class="widget-button" @click="remove(index)" />
           </div>
         </template>
-        <div class="layout-center">
-          <BTable
-            class="custom_table"
-            bordered
-            :items="table.content"
-            :fields="table.fields"
+        <div class="d-flex flex-row">
+          <b-table
+              class="custom_table mx-1 mb-0 text-center"
+              bordered
+              :items="table.content"
+              :fields="table.fields"
+              :busy="!table.loaded"
+              :empty-text="`No ${table.title} were created yet.`"
+              show-empty
           >
+            <template #table-busy>
+              <div class="text-center text-primary my-2">
+                <b-spinner class="align-middle"></b-spinner>
+                Loading...
+              </div>
+            </template>
             <template #cell(updatedAt)="data">
               {{ convertDate(new Date(data.value)) }}
             </template>
-          </BTable>
+          </b-table>
         </div>
       </smart-widget>
     </smart-widget-grid>
@@ -122,13 +132,6 @@ export default {
     this.fetchContent();
   },
   methods: {
-    remove(cardID){
-      let index = this.cards.map(card => card.i).indexOf(cardID);
-      this.cards.splice(index, 1);
-    },
-    convertDate(date){
-      return moment(date).format('DD-MMM-YYYY HH:mm');
-    },
     fetchContent(){
       this.fetchLatestWorkspaces();
       this.fetchLatestWorkflows();
@@ -155,6 +158,13 @@ export default {
         Object.assign(this.tables[2],{ loaded: true, content: result || [] });
       });
     },
+    convertDate(date){
+      return moment(date).format('DD-MMM-YYYY HH:mm');
+    },
+    remove(cardID){
+      let index = this.cards.map(card => card.i).indexOf(cardID);
+      this.cards.splice(index, 1);
+    },
     addWidget(){
       alert("Not implemented")
     }
@@ -163,57 +173,27 @@ export default {
 </script>
 
 <style scoped>
-
-.add{
-  position: relative;
-}
-
 .add-icon{
   width: 20px;
   height: 20px;
   position: absolute;
   right: 10px;
   bottom: 0;
-  cursor: pointer
-}
-
-.welcome{
-  width: 100%;
-}
-
-.started{
-  font-size: 40px;
-}
-
-.create{
-  font-size: 20px;
-}
-
-.recent{
-  font-size: 20px;
-}
-
-.title{
-  text-transform: capitalize;
-}
-
-.smartwidget{
-  border-radius: 10px;
 }
 
 /deep/ .widget-header{
-  background: #F8FAFB;
+  background: var(--light);
   height: 37px!important;
   line-height: 37px!important;
   padding-left: 10px;
-  align-items: center;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
 
 /deep/ .custom_table thead{
-  background: #E5EEFD;
+  background: var(--info);
   text-align: center;
+  text-transform: capitalize;
 }
 
 </style>

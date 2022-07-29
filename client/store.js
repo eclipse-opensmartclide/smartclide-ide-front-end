@@ -53,7 +53,7 @@ export default new Vuex.Store({
                         options: [
                             { title: 'Profile', link: '/profile' },
                             { title: 'Team', link: '/notImplemented' },
-                            { title: 'Sources', link: '/notImplemented' },
+                            { title: 'Service Registries', link: '/notImplemented' },
                             { title: 'Credentials', link: '/credentials' }
                         ]
                     }

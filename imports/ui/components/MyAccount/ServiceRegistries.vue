@@ -10,13 +10,13 @@
 
 <template>
   <div>
-    Sources
+    ServiceRegistries
   </div>
 </template>
 
 <script>
 export default {
-  name: "Sources",
+  name: "ServiceRegistries",
   mounted(){
     this.$store.state.context = 'my-account';
   }

@@ -22,7 +22,7 @@ import About from "../imports/ui/components/Settings/About";
 import MyAccount from "../imports/ui/components/MyAccount";
 import Profile from "../imports/ui/components/MyAccount/Profile";
 import Team from "../imports/ui/components/MyAccount/Team";
-import Sources from "../imports/ui/components/MyAccount/Sources";
+import ServiceRegistries from "../imports/ui/components/MyAccount/ServiceRegistries";
 import Credentials from "../imports/ui/components/MyAccount/Credentials";
 import Dashboard from "../imports/ui/components/Dashboard";
 import Project from "../imports/ui/components/Project";
@@ -104,9 +104,9 @@ const routes = [
                 component: Team
             },
             {
-                path: "/sources",
-                name: 'Sources',
-                component: Sources
+                path: "/service-registries",
+                name: 'Service Registries',
+                component: ServiceRegistries
             },
             {
                 path: "/credentials",
