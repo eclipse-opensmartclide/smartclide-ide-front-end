@@ -91,17 +91,6 @@ export default {
           disablePagination: null
         },
         {
-          title: "Service Registries",
-          fields: ["type", "URL", "username", "actions"],
-          content: [],
-          loaded: false,
-          filter: null,
-          totalRows: null,
-          perPage: 10,
-          currentPage: 1,
-          disablePagination: null
-        },
-        {
           title: "Deployment Platforms",
           fields: ["URL", "username", "actions"],
           content: [],
@@ -133,7 +122,6 @@ export default {
   methods: {
     fetchContent(){
       this.fetchGitCredentials();
-      this.fetchServiceRegistriesCredentials();
       this.fetchDeploymentPlatformsCredentials();
       this.fetchCIManagersCredentials();
     },
@@ -150,19 +138,6 @@ export default {
         }
       );
     },
-    fetchServiceRegistriesCredentials(){
-      Meteor.call("request", { operationId: "getServiceRegistries", token: this.$store.state.keycloak.token},
-        (error, result) => {
-          if(result){
-            let content = result?.body.map((item) => {
-              return { type: item.type, URL: item.url, username: item.username };
-            });
-
-            Object.assign(this.tables[1],{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
-          }
-        }
-      );
-    },
     fetchDeploymentPlatformsCredentials(){
       Meteor.call("request", { operationId: "getDeploymentPlatforms", token: this.$store.state.keycloak.token},
         (error, result) => {
@@ -171,7 +146,7 @@ export default {
               return { URL: item.url, username: item.username };
             });
 
-            Object.assign(this.tables[2],{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
+            Object.assign(this.tables[1],{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
           }
         }
       );
@@ -184,7 +159,7 @@ export default {
               return { type: item.type, URL: item.url, username: item.username };
             });
 
-            Object.assign(this.tables[3],{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
+            Object.assign(this.tables[2],{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
           }
         }
       );
