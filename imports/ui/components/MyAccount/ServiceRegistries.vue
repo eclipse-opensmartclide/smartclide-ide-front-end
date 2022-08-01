@@ -153,8 +153,8 @@ export default {
             formType: "text",
             value: null
           },
-          password: {
-            label: "Password/Token",
+          token: {
+            label: "Token",
             formType: "password",
             value: null
           }
