@@ -45,7 +45,6 @@
               <b-form-select-option
                 v-for="option in table.modalFields[field].options"
                 v-model="option.value"
-                :value="option.value"
                 :disabled="option.value === null"
               >
                 {{option.label}}
