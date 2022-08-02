@@ -217,7 +217,7 @@ export default {
     modalSubmitted(event){
       event.preventDefault();
 
-      let args = {
+      Meteor.call("request", {
         operationId: this.modalType === "Add" ? "postServiceRegistries" : "patchServiceRegistryItem",
         parameters: { serviceRegistryId: this.currentRowId },
         requestBody: {
@@ -228,26 +228,24 @@ export default {
           token: this.table.modalFields.token.value
         },
         token: this.$store.state.keycloak.token
-      };
-
-      Meteor.call("request", args);
+      }, () => {
+        this.fetchContent();
+      });
 
       this.closeModal();
       this.table.loaded = false;
-      setTimeout(() => this.fetchContent(), 100);
     },
     trashIconClicked(rowData){
-      this.currentRowId = rowData.id;
-
       Meteor.call("request", {
         operationId: "deleteServiceRegistryItem",
-        parameters: { serviceRegistryId: this.currentRowId },
+        parameters: { serviceRegistryId: rowData.id },
         token: this.$store.state.keycloak.token
+      }, () => {
+        this.fetchContent();
       });
 
       this.currentRowId = null;
       this.table.loaded = false;
-      setTimeout(() => this.fetchContent(), 100);
     }
   }
 }
