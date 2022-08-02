@@ -31,32 +31,40 @@
         <b-icon-plus-circle role="button" variant="primary" font-scale="1.5" @click="plusIconClicked" v-b-modal.modal-add-edit/>
         <b-modal
           id="modal-add-edit"
-          :title="this.modalTriggeredBy + ' Service Registry'"
-          :ok-title="this.modalTriggeredBy === 'Add' ? 'Add' : 'Save'"
-          @hidden="resetModal">
-          <b-form-group
-            v-for="field in Object.keys(table.modalFields)"
-            :label="table.modalFields[field].label"
+          :title="this.modalType + ' Service Registry'"
+          @hidden="resetModal"
+          hide-footer
+        >
+          <b-form
+            @submit="modalSubmitted"
           >
-            <b-form-select
-              v-if="table.modalFields[field].formType === 'select'"
-              v-model="table.modalFields[field].value"
+            <b-form-group
+              v-for="field in Object.keys(table.modalFields)"
+              :label="table.modalFields[field].label"
             >
-              <b-form-select-option
-                v-for="option in table.modalFields[field].options"
-                v-model="option.value"
-                :disabled="option.value === null"
+              <b-form-select
+                v-if="table.modalFields[field].formType === 'select'"
+                v-model="table.modalFields[field].value"
+                required
               >
-                {{option.label}}
-              </b-form-select-option>
-            </b-form-select>
-            <b-form-input
-              v-else
-              :type="table.modalFields[field].formType"
-              v-model="table.modalFields[field].value"
-            />
-          </b-form-group>
-        </b-modal>
+                <b-form-select-option
+                  v-for="option in table.modalFields[field].options"
+                  v-model="option.value"
+                  :disabled="option.value === null"
+                >
+                  {{option.label}}
+                </b-form-select-option>
+              </b-form-select>
+              <b-form-input
+                v-else
+                :type="table.modalFields[field].formType"
+                v-model="table.modalFields[field].value"
+                required
+              />
+            </b-form-group>
+            <b-button class="float-right" type="submit" variant="primary">{{ this.modalType === 'Add' ? 'Add' : 'Save' }}</b-button>
+        </b-form>
+      </b-modal>
       </div>
       <div class="d-flex flex-row">
         <b-table
@@ -82,7 +90,7 @@
           <template #cell(actions)="data">
             <div class="text-center">
               <b-icon-pencil role="button" variant="primary" class="mx-2" font-scale="1.2" @click="pencilIconClicked(data.item)" v-b-modal.modal-add-edit/>
-              <b-icon-trash role="button" variant="primary" class="mx-2" font-scale="1.2" @click="trashIconClicked"/>
+              <b-icon-trash role="button" variant="primary" class="mx-2" font-scale="1.2" @click="trashIconClicked(data.item)"/>
             </div>
           </template>
         </b-table>
@@ -117,27 +125,27 @@ export default {
               },
               {
                 label: "GitHub",
-                value: "github"
+                value: "GitHub"
               },
               {
                 label: "GitLab",
-                value: "gitlab"
+                value: "GitLab"
               },
               {
                 label: "Bitbucket",
-                value: "bitbucket"
+                value: "Bitbucket"
               },
               {
                 label: "ProgrammableWeb",
-                value: "programmableweb"
+                value: "ProgrammableWeb"
               },
               {
                 label: "Docker",
-                value: "docker"
+                value: "Docker"
               },
               {
                 label: "IoT-Catalogue",
-                value: "iot-catalogue"
+                value: "IoT-Catalogue"
               }
             ],
             value: null
@@ -159,7 +167,8 @@ export default {
           }
         }
       },
-      modalTriggeredBy: null
+      modalType: null,
+      currentRowId: null,
     };
   },
   mounted(){
@@ -168,14 +177,11 @@ export default {
   },
   methods: {
     fetchContent(){
-      this.fetchServiceRegistriesCredentials();
-    },
-    fetchServiceRegistriesCredentials(){
       Meteor.call("request", { operationId: "getServiceRegistries", token: this.$store.state.keycloak.token},
           (error, result) => {
             if(result){
               let content = result?.body.map((item) => {
-                return { type: item.type, URL: item.url, username: item.username };
+                return { id: item.id, type: item.type, URL: item.url, username: item.username };
               });
 
               Object.assign(this.table,{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
@@ -188,20 +194,60 @@ export default {
       this.table.totalRows = filteredItems.length;
       this.table.currentPage = 1;
     },
+    plusIconClicked(){
+      this.modalType = "Add";
+    },
     resetModal(){
       Object.keys(this.table.modalFields).forEach(field => this.table.modalFields[field].value = null);
+      this.modalType = null;
+      this.currentRowId = null;
     },
-    plusIconClicked(){
-      this.modalTriggeredBy = "Add";
+    closeModal(){
+      this.$nextTick(() => {
+        this.$bvModal.hide('modal-add-edit')
+      });
     },
     pencilIconClicked(rowData){
-      this.modalTriggeredBy = "Edit";
+      this.modalType = "Edit";
+      this.currentRowId = rowData.id;
       this.table.modalFields.type.value = rowData.type;
       this.table.modalFields.url.value = rowData.URL;
       this.table.modalFields.username.value = rowData.username;
     },
-    trashIconClicked(){
-      console.log("Remove");
+    modalSubmitted(event){
+      event.preventDefault();
+
+      let args = {
+        operationId: this.modalType === "Add" ? "postServiceRegistries" : "patchServiceRegistryItem",
+        parameters: { serviceRegistryId: this.currentRowId },
+        requestBody: {
+          user_id: this.$store.state.keycloak.subject,
+          type: this.table.modalFields.type.value,
+          url: this.table.modalFields.url.value,
+          username: this.table.modalFields.username.value,
+          token: this.table.modalFields.token.value
+        },
+        token: this.$store.state.keycloak.token
+      };
+
+      Meteor.call("request", args);
+
+      this.closeModal();
+      this.table.loaded = false;
+      setTimeout(() => this.fetchContent(), 100);
+    },
+    trashIconClicked(rowData){
+      this.currentRowId = rowData.id;
+
+      Meteor.call("request", {
+        operationId: "deleteServiceRegistryItem",
+        parameters: { serviceRegistryId: this.currentRowId },
+        token: this.$store.state.keycloak.token
+      });
+
+      this.currentRowId = null;
+      this.table.loaded = false;
+      setTimeout(() => this.fetchContent(), 100);
     }
   }
 }
