@@ -31,7 +31,7 @@
         <b-icon-plus-circle role="button" variant="primary" font-scale="1.5" @click="plusIconClicked" v-b-modal.modal-add-edit/>
         <b-modal
           id="modal-add-edit"
-          :title="this.currentModal.type + ' Service Registry'"
+          :title="currentModal.type + ' Service Registry'"
           @hidden="resetModal"
           hide-footer
         >
@@ -62,7 +62,7 @@
                 required
               />
             </b-form-group>
-            <b-button class="float-right" type="submit" variant="primary">{{ this.currentModal.type === 'Add' ? 'Add' : 'Save' }}</b-button>
+            <b-button class="float-right" type="submit" variant="primary">{{ currentModal.type === 'Add' ? 'Add' : 'Save' }}</b-button>
         </b-form>
       </b-modal>
       </div>
