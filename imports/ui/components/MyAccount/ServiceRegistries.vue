@@ -31,7 +31,7 @@
         <b-icon-plus-circle role="button" variant="primary" font-scale="1.5" @click="plusIconClicked" v-b-modal.modal-add-edit/>
         <b-modal
           id="modal-add-edit"
-          :title="this.modalType + ' Service Registry'"
+          :title="this.currentModal.type + ' Service Registry'"
           @hidden="resetModal"
           hide-footer
         >
@@ -62,7 +62,7 @@
                 required
               />
             </b-form-group>
-            <b-button class="float-right" type="submit" variant="primary">{{ this.modalType === 'Add' ? 'Add' : 'Save' }}</b-button>
+            <b-button class="float-right" type="submit" variant="primary">{{ this.currentModal.type === 'Add' ? 'Add' : 'Save' }}</b-button>
         </b-form>
       </b-modal>
       </div>
@@ -106,7 +106,7 @@ export default {
     return {
       table: {
         title: "Service Registries",
-        fields: ["type", "URL", "username", "actions"],
+        fields: ["type", { key: "url", label: "URL" }, "username", "actions"],
         content: [],
         loaded: false,
         filter: null,
@@ -120,7 +120,7 @@ export default {
             formType: "select",
             options: [
               {
-                label: "Please select a type of service registry",
+                label: "Please select a type of Service Registry",
                 value: null
               },
               {
@@ -165,10 +165,18 @@ export default {
             formType: "password",
             value: null
           }
+        },
+        endpoints: {
+          get: "getServiceRegistries",
+          add: "postServiceRegistries",
+          edit: "patchServiceRegistryItem",
+          delete: "deleteServiceRegistryItem"
         }
       },
-      modalType: null,
-      currentRowId: null,
+      currentModal: {
+        type: null,
+        currentRowId: null
+      }
     };
   },
   mounted(){
@@ -177,11 +185,11 @@ export default {
   },
   methods: {
     fetchContent(){
-      Meteor.call("request", { operationId: "getServiceRegistries", token: this.$store.state.keycloak.token},
+      Meteor.call("request", { operationId: this.table.endpoints.get, token: this.$store.state.keycloak.token},
           (error, result) => {
             if(result){
               let content = result?.body.map((item) => {
-                return { id: item.id, type: item.type, URL: item.url, username: item.username };
+                return { id: item.id, type: item.type, url: item.url, username: item.username };
               });
 
               Object.assign(this.table,{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
@@ -195,31 +203,29 @@ export default {
       this.table.currentPage = 1;
     },
     plusIconClicked(){
-      this.modalType = "Add";
+      this.currentModal.type = "Add";
     },
     resetModal(){
       Object.keys(this.table.modalFields).forEach(field => this.table.modalFields[field].value = null);
-      this.modalType = null;
-      this.currentRowId = null;
+      this.currentModal.type = null;
+      this.currentModal.currentRowId = null;
     },
     closeModal(){
       this.$nextTick(() => {
-        this.$bvModal.hide('modal-add-edit')
+        this.$bvModal.hide('modal-add-edit');
       });
     },
     pencilIconClicked(rowData){
-      this.modalType = "Edit";
-      this.currentRowId = rowData.id;
-      this.table.modalFields.type.value = rowData.type;
-      this.table.modalFields.url.value = rowData.URL;
-      this.table.modalFields.username.value = rowData.username;
+      this.currentModal.type = "Edit";
+      this.currentModal.currentRowId = rowData.id;
+      Object.keys(this.table.modalFields).forEach(field => this.table.modalFields[field].value = rowData[field]);
     },
     modalSubmitted(event){
       event.preventDefault();
 
       Meteor.call("request", {
-        operationId: this.modalType === "Add" ? "postServiceRegistries" : "patchServiceRegistryItem",
-        parameters: { serviceRegistryId: this.currentRowId },
+        operationId: this.currentModal.type === "Add" ? this.table.endpoints.add : this.table.endpoints.edit,
+        parameters: { serviceRegistryId: this.currentModal.currentRowId },
         requestBody: {
           user_id: this.$store.state.keycloak.subject,
           type: this.table.modalFields.type.value,
@@ -237,14 +243,14 @@ export default {
     },
     trashIconClicked(rowData){
       Meteor.call("request", {
-        operationId: "deleteServiceRegistryItem",
+        operationId: this.table.endpoints.delete,
         parameters: { serviceRegistryId: rowData.id },
         token: this.$store.state.keycloak.token
       }, () => {
         this.fetchContent();
       });
 
-      this.currentRowId = null;
+      this.currentModal.currentRowId = null;
       this.table.loaded = false;
     }
   }
