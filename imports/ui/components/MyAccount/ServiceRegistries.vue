@@ -63,8 +63,8 @@
               />
             </b-form-group>
             <b-button class="float-right" type="submit" variant="primary">{{ currentModal.type === 'Add' ? 'Add' : 'Save' }}</b-button>
-        </b-form>
-      </b-modal>
+          </b-form>
+        </b-modal>
       </div>
       <div class="d-flex flex-row">
         <b-table
