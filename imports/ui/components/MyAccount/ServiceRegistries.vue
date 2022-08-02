@@ -166,7 +166,7 @@ export default {
             value: null
           }
         },
-        endpoints: {
+        operationIds: {
           get: "getServiceRegistries",
           add: "postServiceRegistries",
           edit: "patchServiceRegistryItem",
@@ -185,7 +185,7 @@ export default {
   },
   methods: {
     fetchContent(){
-      Meteor.call("request", { operationId: this.table.endpoints.get, token: this.$store.state.keycloak.token},
+      Meteor.call("request", { operationId: this.table.operationIds.get, token: this.$store.state.keycloak.token},
           (error, result) => {
             if(result){
               let content = result?.body.map((item) => {
@@ -224,7 +224,7 @@ export default {
       event.preventDefault();
 
       Meteor.call("request", {
-        operationId: this.currentModal.type === "Add" ? this.table.endpoints.add : this.table.endpoints.edit,
+        operationId: this.currentModal.type === "Add" ? this.table.operationIds.add : this.table.operationIds.edit,
         parameters: { serviceRegistryId: this.currentModal.currentRowId },
         requestBody: {
           user_id: this.$store.state.keycloak.subject,
@@ -243,7 +243,7 @@ export default {
     },
     trashIconClicked(rowData){
       Meteor.call("request", {
-        operationId: this.table.endpoints.delete,
+        operationId: this.table.operationIds.delete,
         parameters: { serviceRegistryId: rowData.id },
         token: this.$store.state.keycloak.token
       }, () => {
