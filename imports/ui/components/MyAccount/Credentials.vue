@@ -14,6 +14,7 @@
       <b-tabs
         card
         active-nav-item-class="bg-primary text-white"
+        v-model="currentModal.currentTabId"
       >
         <b-tab
           v-for="(table, index) in tables"
@@ -36,7 +37,43 @@
               :per-page="table.perPage"
               :disabled="table.disablePagination"
             />
-            <b-icon-plus-circle role="button" variant="primary" font-scale="1.5" @click="add"/>
+            <b-icon-plus-circle role="button" variant="primary" font-scale="1.5" @click="plusIconClicked" v-b-modal="`modal-add-edit-${index}`"/>
+            <b-modal
+              :id="`modal-add-edit-${index}`"
+              :title="`${currentModal.type} ${table.title} Credentials`"
+              @hidden="resetModal"
+              hide-footer
+            >
+              <b-form
+                @submit="modalSubmitted"
+              >
+                <b-form-group
+                  v-for="field in Object.keys(table.modalFields)"
+                  :label="table.modalFields[field].label"
+                >
+                  <b-form-select
+                    v-if="table.modalFields[field].formType === 'select'"
+                    v-model="table.modalFields[field].value"
+                    required
+                  >
+                    <b-form-select-option
+                      v-for="option in table.modalFields[field].options"
+                      v-model="option.value"
+                      :disabled="option.value === null"
+                    >
+                      {{option.label}}
+                    </b-form-select-option>
+                  </b-form-select>
+                  <b-form-input
+                    v-else
+                    :type="table.modalFields[field].formType"
+                    v-model="table.modalFields[field].value"
+                    required
+                  />
+                </b-form-group>
+                <b-button class="float-right" type="submit" variant="primary">{{ currentModal.type === 'Add' ? 'Add' : 'Save' }}</b-button>
+              </b-form>
+            </b-modal>
           </div>
           <div class="d-flex flex-row">
             <b-table
@@ -48,7 +85,7 @@
                 :busy="!table.loaded"
                 :per-page="table.perPage"
                 :current-page="table.currentPage"
-                @filtered="(filteredItems)=>(onFiltered(filteredItems, index))"
+                @filtered="onFiltered"
                 :empty-text="`No ${table.title} credentials were configured yet.`"
                 :empty-filtered-text="`No ${table.title} credentials matched your search criteria.`"
                 show-empty
@@ -61,8 +98,8 @@
               </template>
               <template #cell(actions)="data">
                 <div class="text-center">
-                  <b-icon-pencil role="button" variant="primary" class="mx-2" font-scale="1.2" @click="edit"/>
-                  <b-icon-trash role="button" variant="primary" class="mx-2" font-scale="1.2" @click="remove"/>
+                  <b-icon-pencil role="button" variant="primary" class="mx-2" font-scale="1.2" @click="pencilIconClicked(data.item)" v-b-modal="`modal-add-edit-${index}`"/>
+                  <b-icon-trash role="button" variant="primary" class="mx-2" font-scale="1.2" @click="trashIconClicked(data.item)"/>
                 </div>
               </template>
             </b-table>
@@ -81,38 +118,192 @@ export default {
       tables: [
         {
           title: "Git",
-          fields: ["type", "URL", "username", "actions"],
+          fields: ["type", { key: "url", label: "URL" }, "username", "actions"],
           content: [],
           loaded: false,
           filter: null,
           totalRows: null,
           perPage: 10,
           currentPage: 1,
-          disablePagination: null
+          disablePagination: null,
+          modalFields: {
+            type: {
+              label: "Type",
+              formType: "select",
+              options: [
+                {
+                  label: "Please select a type of Git platform",
+                  value: null
+                },
+                {
+                  label: "GitHub",
+                  value: "GitHub"
+                },
+                {
+                  label: "GitLab",
+                  value: "GitLab"
+                },
+                {
+                  label: "Bitbucket",
+                  value: "Bitbucket"
+                }
+              ],
+              value: null
+            },
+            url: {
+              label: "URL",
+              formType: "url",
+              value: null
+            },
+            username: {
+              label: "Username",
+              formType: "text",
+              value: null
+            },
+            token: {
+              label: "Token",
+              formType: "password",
+              value: null
+            }
+          },
+          endpoints: {
+            get: {
+              operationId: "getGitCredentials",
+            },
+            add: {
+              operationId: "postGitCredentials",
+            },
+            edit: {
+              operationId: "patchGitCredentialsItem",
+              parameter: "gitCredentialsId"
+            },
+            delete: {
+              operationId: "deleteGitCredentialsItem",
+              parameter: "gitCredentialsId"
+            }
+          }
         },
         {
           title: "Deployment Platforms",
-          fields: ["URL", "username", "actions"],
+          fields: [{ key: "url", label: "URL" }, "username", "actions"],
           content: [],
           loaded: false,
           filter: null,
           totalRows: null,
           perPage: 10,
           currentPage: 1,
-          disablePagination: null
+          disablePagination: null,
+          modalFields: {
+            url: {
+              label: "URL",
+              formType: "url",
+              value: null
+            },
+            username: {
+              label: "Username",
+              formType: "text",
+              value: null
+            },
+            token: {
+              label: "Token",
+              formType: "password",
+              value: null
+            }
+          },
+          endpoints: {
+            get: {
+              operationId: "getDeploymentPlatforms",
+            },
+            add: {
+              operationId: "postDeploymentPlatforms",
+            },
+            edit: {
+              operationId: "patchDeploymentPlatformItem",
+              parameter: "deploymentPlatformId"
+            },
+            delete: {
+              operationId: "deleteDeploymentPlatformItem",
+              parameter: "deploymentPlatformId"
+            }
+          }
         },
         {
           title: "CI Managers",
-          fields: ["type", "URL", "username", "actions"],
+          fields: ["type", { key: "url", label: "URL" }, "username", "actions"],
           content: [],
           loaded: false,
           filter: null,
           totalRows: null,
           perPage: 10,
           currentPage: 1,
-          disablePagination: null
+          disablePagination: null,
+          modalFields: {
+            type: {
+              label: "Type",
+              formType: "select",
+              options: [
+                {
+                  label: "Please select a type of CI Manager",
+                  value: null
+                },
+                {
+                  label: "Jenkins",
+                  value: "Jenkins"
+                },
+                {
+                  label: "GitLab CI/CD",
+                  value: "GitLab CI/CD"
+                },
+                {
+                  label: "GitHub Actions",
+                  value: "GitHub Actions"
+                },
+                {
+                  label: "Travis",
+                  value: "Travis"
+                }
+              ],
+              value: null
+            },
+            url: {
+              label: "URL",
+              formType: "url",
+              value: null
+            },
+            username: {
+              label: "Username",
+              formType: "text",
+              value: null
+            },
+            token: {
+              label: "Token",
+              formType: "password",
+              value: null
+            }
+          },
+          endpoints: {
+            get: {
+              operationId: "getCiManagers"
+            },
+            add: {
+              operationId: "postCiManagers"
+            },
+            edit: {
+              operationId: "patchCiManagerItem",
+              parameter: "ciManagerId"
+            },
+            delete: {
+              operationId: "deleteCiManagerItem",
+              parameter: "ciManagerId"
+            }
+          }
         }
-      ]
+      ],
+      currentModal: {
+        type: null,
+        currentTabId: null,
+        currentRowId: null
+      }
     };
   },
   mounted(){
@@ -126,11 +317,11 @@ export default {
       this.fetchCIManagersCredentials();
     },
     fetchGitCredentials(){
-      Meteor.call("request", { operationId: "getGitCredentials", token: this.$store.state.keycloak.token},
+      Meteor.call("request", { operationId: this.tables[0].endpoints.get.operationId, token: this.$store.state.keycloak.token},
         (error, result) => {
           if(result){
             let content = result?.body.map((item) => {
-              return { type: item.type, URL: item.url, username: item.username };
+              return { id: item.id, type: item.type, url: item.url, username: item.username };
             });
 
             Object.assign(this.tables[0],{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
@@ -139,11 +330,11 @@ export default {
       );
     },
     fetchDeploymentPlatformsCredentials(){
-      Meteor.call("request", { operationId: "getDeploymentPlatforms", token: this.$store.state.keycloak.token},
+      Meteor.call("request", { operationId: this.tables[1].endpoints.get.operationId, token: this.$store.state.keycloak.token},
         (error, result) => {
           if(result){
             let content = result?.body.map((item) => {
-              return { URL: item.url, username: item.username };
+              return { id: item.id, url: item.url, username: item.username };
             });
 
             Object.assign(this.tables[1],{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
@@ -152,11 +343,11 @@ export default {
       );
     },
     fetchCIManagersCredentials(){
-      Meteor.call("request", { operationId: "getCiManagers", token: this.$store.state.keycloak.token},
+      Meteor.call("request", { operationId: this.tables[2].endpoints.get.operationId, token: this.$store.state.keycloak.token},
         (error, result) => {
           if(result){
             let content = result?.body.map((item) => {
-              return { type: item.type, URL: item.url, username: item.username };
+              return { id: item.id, type: item.type, url: item.url, username: item.username };
             });
 
             Object.assign(this.tables[2],{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
@@ -164,19 +355,71 @@ export default {
         }
       );
     },
-    onFiltered(filteredItems, tableIndex){
-      this.tables[tableIndex].disablePagination = !filteredItems.length;
-      this.tables[tableIndex].totalRows = filteredItems.length;
-      this.tables[tableIndex].currentPage = 1;
+    onFiltered(filteredItems){
+      this.tables[this.currentModal.currentTabId].disablePagination = !filteredItems.length;
+      this.tables[this.currentModal.currentTabId].totalRows = filteredItems.length;
+      this.tables[this.currentModal.currentTabId].currentPage = 1;
     },
-    add(){
-      console.log("Add");
+    plusIconClicked(){
+      this.currentModal.type = "Add";
     },
-    edit(){
-      console.log("Edit");
+    resetModal(){
+      Object.keys(this.tables[this.currentModal.currentTabId].modalFields).forEach(field => {
+        this.tables[this.currentModal.currentTabId].modalFields[field].value = null;
+      });
+      this.currentModal.type = null;
+      this.currentModal.currentRowId = null;
     },
-    remove(){
-      console.log("Remove");
+    closeModal(){
+      this.$nextTick(() => {
+        this.$bvModal.hide(`modal-add-edit-${this.currentModal.currentTabId}`);
+      });
+    },
+    pencilIconClicked(rowData){
+      this.currentModal.type = "Edit";
+      this.currentModal.currentRowId = rowData.id;
+      Object.keys(this.tables[this.currentModal.currentTabId].modalFields).forEach(field => {
+        this.tables[this.currentModal.currentTabId].modalFields[field].value = rowData[field];
+      });
+    },
+    modalSubmitted(event){
+      event.preventDefault();
+
+      let currentTable = this.tables[this.currentModal.currentTabId];
+      let endpoint = this.currentModal.type === "Add" ? currentTable.endpoints.add: currentTable.endpoints.edit;
+
+      Meteor.call("request", {
+        operationId: endpoint.operationId,
+        parameters: JSON.parse(`{ "${endpoint.parameter}": "${this.currentModal.currentRowId}" }`),
+        requestBody: {
+          user_id: this.$store.state.keycloak.subject,
+          type: this.currentModal.currentTabId !== 1 ? currentTable.modalFields.type.value : null,
+          url: currentTable.modalFields.url.value,
+          username: currentTable.modalFields.username.value,
+          token: currentTable.modalFields.token.value
+        },
+        token: this.$store.state.keycloak.token
+      }, () => {
+        this.fetchContent();
+      });
+
+      this.closeModal();
+      this.tables[this.currentModal.currentTabId].loaded = false;
+    },
+    trashIconClicked(rowData){
+      let currentTable = this.tables[this.currentModal.currentTabId];
+      let endpoint = currentTable.endpoints.delete;
+
+      Meteor.call("request", {
+        operationId: endpoint.operationId,
+        parameters: JSON.parse(`{ "${endpoint.parameter}": "${rowData.id}" }`),
+        token: this.$store.state.keycloak.token
+      }, () => {
+        this.fetchContent();
+      });
+
+      this.currentModal.currentRowId = null;
+      this.tables[this.currentModal.currentTabId].loaded = false;
     }
   }
 }
