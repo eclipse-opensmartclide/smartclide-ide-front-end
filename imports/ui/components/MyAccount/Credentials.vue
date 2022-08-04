@@ -435,4 +435,8 @@ export default {
     text-align: center;
     text-transform: capitalize;
   }
+
+  /deep/ .card-header{
+    background-color: white;
+  }
 </style>
