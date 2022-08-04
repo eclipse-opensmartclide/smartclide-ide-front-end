@@ -34,7 +34,7 @@
             <BDropdownItem disabled>{{meteorUser ? meteorUser.username : eclipseCheUser.name}}</BDropdownItem>
           </template>
           <BDropdownDivider/>
-          <BDropdownItem router to="/my-account" @click="optionClicked('my-account')">
+          <BDropdownItem router to="/profile" @click="optionClicked('my-account')">
             My Account
           </BDropdownItem>
           <BDropdownItem router to="/" @click="logout">Log out</BDropdownItem>
