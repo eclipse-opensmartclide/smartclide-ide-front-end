@@ -10,7 +10,7 @@
 
 <template>
   <div>
-    Deployments
+    Coming soon: Deployments...
   </div>
 </template>
 

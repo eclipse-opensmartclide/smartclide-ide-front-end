@@ -10,7 +10,7 @@
 
 <template>
   <div>
-    Workflows
+    Coming soon: Workflows...
   </div>
 </template>
 

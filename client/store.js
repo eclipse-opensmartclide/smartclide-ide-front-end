@@ -23,9 +23,9 @@ export default new Vuex.Store({
                     {
                         category: "root",
                         options: [
-                            { title: 'Workflows', link: '/notImplemented' },
-                            { title: 'Services', link: '/notImplemented' },
-                            { title: 'Deployments', link: '/notImplemented' }
+                            { title: 'Workflows', link: '/workflows' },
+                            { title: 'Services', link: '/services' },
+                            { title: 'Deployments', link: '/deployments' }
                         ]
                     }
                 ]

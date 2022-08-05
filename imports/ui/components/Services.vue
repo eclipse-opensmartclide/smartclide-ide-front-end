@@ -10,7 +10,7 @@
 
 <template>
   <div>
-    Services
+    Coming soon: Services...
   </div>
 </template>
 
