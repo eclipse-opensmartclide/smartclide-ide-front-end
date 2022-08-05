@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   app:
-    image: ghcr.io/eclipse-researchlabs/smartclide/smartclide-ide:1.0
+    image: ghcr.io/eclipse-researchlabs/smartclide/smartclide-ide:1.2
     ports:
       - '8080:8080'
     depends_on:

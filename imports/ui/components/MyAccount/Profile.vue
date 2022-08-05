@@ -11,7 +11,6 @@
 <template>
   <div height="500">
     <iframe id="iframe" src="https://keycloak-smartclide-che.che.smartclide.eu/auth/realms/che/account"/>
-<!--    <iframe id="iframe" src="https://abola.pt"/>-->
   </div>
 </template>
 
