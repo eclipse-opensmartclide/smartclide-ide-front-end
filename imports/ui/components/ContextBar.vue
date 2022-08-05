@@ -13,16 +13,34 @@
     <template v-if="this.$store.state.context === 'project'">
       <QuickAccess/>
     </template>
-    <b-nav class="navbar-nav h-100 bg-light" aria-orientation="vertical">
+    <b-nav class="h-100 bg-light pt-2" vertical tabs>
       <div v-for="category in this.$store.getters.getCategories">
-        <div class="px-2 pt-3 font-weight-bold" v-if="category.category !== 'root'">
+        <div class="font-weight-bold px-2 py-2" v-if="category.category !== 'root'">
           {{category.category}}
         </div>
-        <div class="px-3 py-2" v-for="option in category.options">
-          <router-link class="text-decoration-none text-primary" :to="option.link" v-on:click.native="click(option)">
-            {{ option.title }}
-          </router-link>
-        </div>
+        <template v-if="category.category === 'root'">
+          <div v-for="option in category.options">
+            <b-nav-item
+              link-classes="custom_inactive"
+              active-class="custom_active"
+              :to="option.link"
+              @click="click(option)"
+            >
+              {{ option.title }}
+            </b-nav-item>
+          </div>
+        </template>
+        <template v-else>
+          <div v-for="option in category.options" class="px-3 py-2">
+            <router-link
+              class="text-decoration-none"
+              :to="option.link"
+              @click.native="click(option)"
+            >
+              {{ option.title }}
+            </router-link>
+          </div>
+        </template>
       </div>
     </b-nav>
   </div>
@@ -53,7 +71,10 @@ export default {
 </script>
 
 <style scoped>
-.nav_container{
-  width: 200px;
-}
+  .custom_inactive{
+    color: gray!important;
+  }
+  .custom_active{
+    color: var(--primary)!important;
+  }
 </style>
