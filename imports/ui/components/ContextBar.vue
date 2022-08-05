@@ -10,13 +10,13 @@
 
 <template>
   <div style="width: 200px">
-    <template v-if="this.$store.state.context === 'project'">
+    <template v-if="$store.state.context === 'project'">
       <QuickAccess/>
     </template>
     <b-nav class="h-100 bg-light pt-2" vertical tabs>
-      <div v-for="category in this.$store.getters.getCategories">
-        <div class="font-weight-bold px-2 py-2" v-if="category.category !== 'root'">
-          {{category.category}}
+      <div v-for="(category, categoryIdx) in $store.getters.getCategories">
+        <div class="custom_inactive px-2 py-2" v-if="category.category !== 'root'">
+          {{ category.category }}
         </div>
         <template v-if="category.category === 'root'">
           <div v-for="option in category.options">
@@ -41,6 +41,9 @@
             </router-link>
           </div>
         </template>
+        <div v-if="categoryIdx !== $store.getters.getCategories.length - 1">
+          <hr/>
+        </div>
       </div>
     </b-nav>
   </div>
@@ -57,7 +60,7 @@ export default {
   methods: {
     click(option) {
       if(option.title === "Close Project"){
-        this.closeWorkspace()
+        this.closeWorkspace();
       }
     },
     async closeWorkspace(){
