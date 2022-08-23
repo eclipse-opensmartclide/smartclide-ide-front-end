@@ -58,24 +58,26 @@ export default {
       const workspaceId = this.$store.state.currentWorkspace;
 
       Meteor.call("getWorkspace", keycloakToken, workspaceId, (error, result) => {
-        const ws = result;
-        this.name = ws?.devfile.metadata.name;
+        if(result){
+          const ws = result;
+          this.name = ws?.devfile.metadata.name;
 
-        if(ws.status === "STOPPED") {
-          Meteor.call("startWorkspace", keycloakToken, workspaceId);
-          this.fetchWorkspaceUrl(keycloakToken, workspaceId);
-        } else if (ws.status === "RUNNING") {
-          const machines = ws.runtime.machines;
-          for (key in machines)
-            if (key.includes("theia-ide")) {
-              this.workspaceUrl = machines[key].servers.theia.url;
-              $(".loading").removeClass("d-flex");
-              $(".loading").addClass("d-none");
-              break
-            }
-        }
-        else{
-          this.fetchWorkspaceUrl(keycloakToken, workspaceId);
+          if(ws.status === "STOPPED") {
+            Meteor.call("startWorkspace", keycloakToken, workspaceId);
+            this.fetchWorkspaceUrl(keycloakToken, workspaceId);
+          } else if (ws.status === "RUNNING") {
+            const machines = ws.runtime.machines;
+            for (key in machines)
+              if (key.includes("theia-ide")) {
+                this.workspaceUrl = machines[key].servers.theia.url;
+                $(".loading").removeClass("d-flex");
+                $(".loading").addClass("d-none");
+                break
+              }
+          }
+          else{
+            this.fetchWorkspaceUrl(keycloakToken, workspaceId);
+          }
         }
       });
     },
@@ -83,19 +85,21 @@ export default {
       // wait until get the server theia url
       this.workspaceLoaded = setInterval( () => {
         Meteor.call("getWorkspace", keycloakToken, workspaceId, (error, result) => {
-          const ws = result;
-          this.name = ws?.devfile.metadata.name
-          if(ws.status === "RUNNING"){
-            const machines = ws.runtime.machines
-            for(key in machines){
-              if(key.includes("theia-ide")){
-                this.workspaceUrl = machines[key].servers.theia.url
-                $(".loading").removeClass("d-flex")
-                $(".loading").addClass("d-none")
-                break
+          if(result){
+            const ws = result;
+            this.name = ws?.devfile.metadata.name
+            if(ws.status === "RUNNING"){
+              const machines = ws.runtime.machines
+              for(key in machines){
+                if(key.includes("theia-ide")){
+                  this.workspaceUrl = machines[key].servers.theia.url
+                  $(".loading").removeClass("d-flex")
+                  $(".loading").addClass("d-none")
+                  break
+                }
               }
+              clearInterval(this.workspaceLoaded)
             }
-            clearInterval(this.workspaceLoaded)
           }
         });
       }, 5000);
