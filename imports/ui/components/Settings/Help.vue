@@ -10,7 +10,7 @@
 
 <template>
   <div>
-    Help
+    Coming soon: Help...
   </div>
 </template>
 

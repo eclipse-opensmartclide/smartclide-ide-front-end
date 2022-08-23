@@ -10,7 +10,7 @@
 
 <template>
   <div>
-    Appearance
+    Coming soon: Appearance...
   </div>
 </template>
 

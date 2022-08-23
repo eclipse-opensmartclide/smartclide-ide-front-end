@@ -10,7 +10,7 @@
 
 <template>
   <div>
-    Statistics
+    Coming soon: Statistics...
   </div>
 </template>
 
