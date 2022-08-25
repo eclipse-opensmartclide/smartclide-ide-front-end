@@ -10,10 +10,10 @@
 
 <template>
   <div class="d-flex flex-column">
-    <div class="name text-primary">{{this.name}}</div>
+    <div class="name text-primary">{{projectName}}</div>
 
     <div class="d-flex h-100">
-      <iframe id="iframe" :src="workspaceUrl"/>
+      <iframe id="iframe" :src="workspaceURL"/>
 
       <div class="loading d-flex justify-content-center align-items-center flex-column">
         <b-spinner class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
@@ -33,76 +33,68 @@ export default {
   mounted(){
     this.$store.state.context = 'project';
     this.$store.state.currentWorkspace = this.$route.params.id;
-    this.getDetails();
+    this.openWorkspace();
     this.setupIframeCommunication();
   },
   data(){
     return{
-      name: '',
-      workspaceUrl: '',
-      workspaceLoaded: undefined
+      projectName: '',
+      workspaceURL: '',
+      startWorkspaceTimeout: undefined,
     }
   },
   beforeRouteLeave(to, from, next){
+    clearTimeout(this.startWorkspaceTimeout);
     this.cancelIframeCommunication();
     next();
   },
-  beforeDestroy () {
-    clearInterval(this.workspaceLoaded);
-  },
   methods:{
-    async getDetails(){
+    showLoading(){
       $(".loading").removeClass("d-none");
       $(".loading").addClass("d-flex");
+    },
+    hideLoading(){
+      $(".loading").removeClass("d-flex");
+      $(".loading").addClass("d-none");
+    },
+    openWorkspace(){
+      this.showLoading();
       const keycloakToken = this.$store.state.keycloak.idToken;
       const workspaceId = this.$store.state.currentWorkspace;
 
-      Meteor.call("getWorkspace", keycloakToken, workspaceId, (error, result) => {
-        if(result){
-          const ws = result;
-          this.name = ws?.devfile.metadata.name;
-
-          if(ws.status === "STOPPED") {
-            Meteor.call("startWorkspace", keycloakToken, workspaceId);
-            this.fetchWorkspaceUrl(keycloakToken, workspaceId);
-          } else if (ws.status === "RUNNING") {
-            const machines = ws.runtime.machines;
-            for (key in machines)
-              if (key.includes("theia-ide")) {
-                this.workspaceUrl = machines[key].servers.theia.url;
-                $(".loading").removeClass("d-flex");
-                $(".loading").addClass("d-none");
-                break
-              }
-          }
-          else{
-            this.fetchWorkspaceUrl(keycloakToken, workspaceId);
-          }
-        }
-      });
-    },
-    fetchWorkspaceUrl(keycloakToken, workspaceId){
-      // wait until get the server theia url
-      this.workspaceLoaded = setInterval( () => {
+      if(workspaceId){
         Meteor.call("getWorkspace", keycloakToken, workspaceId, (error, result) => {
-          if(result){
-            const ws = result;
-            this.name = ws?.devfile.metadata.name
-            if(ws.status === "RUNNING"){
-              const machines = ws.runtime.machines
-              for(key in machines){
-                if(key.includes("theia-ide")){
-                  this.workspaceUrl = machines[key].servers.theia.url
-                  $(".loading").removeClass("d-flex")
-                  $(".loading").addClass("d-none")
-                  break
-                }
-              }
-              clearInterval(this.workspaceLoaded)
+          if (result) {
+            const workspace = result;
+            const status = workspace.status;
+            this.projectName = workspace?.devfile.metadata.name;
+
+            switch (status) {
+              case "STOPPED":
+                Meteor.call("startWorkspace", keycloakToken, workspaceId);
+                this.startWorkspaceTimeout = setTimeout(this.openWorkspace, 2000);
+                break;
+              case "STOPPING":
+                this.startWorkspaceTimeout = setTimeout(this.openWorkspace, 2000);
+                break;
+              case "RUNNING":
+                const machines = workspace.runtime.machines;
+                Object.keys(machines).forEach(key => {
+                  if (key.includes("theia-ide")) {
+                    this.workspaceURL = machines[key].servers.theia.url;
+                    this.hideLoading();
+                  }
+                });
+                break;
+              case "STARTING":
+                this.startWorkspaceTimeout = setTimeout(this.openWorkspace, 2000);
+                break;
+              default:
+                break;
             }
           }
         });
-      }, 5000);
+      }
     },
     sendMessageToIframe(messageType){
       const iframe = document.getElementById("iframe");
@@ -123,8 +115,8 @@ export default {
 
         iframe.contentWindow.postMessage(message, "*");
         console.log("SENT", JSON.stringify(message, undefined, 4));
-      }catch (e) {
-        console.log(e);
+      }catch(error) {
+        console.log(error);
       }
     },
     onReceiveMessage({data}){
@@ -136,7 +128,6 @@ export default {
         default:
           break;
       }
-
     },
     setupIframeCommunication(){
       window.addEventListener("message", this.onReceiveMessage);

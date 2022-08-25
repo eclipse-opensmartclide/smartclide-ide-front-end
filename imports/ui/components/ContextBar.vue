@@ -66,7 +66,16 @@ export default {
     async closeWorkspace(){
       const keycloakToken = this.$store.state.keycloak.idToken;
       const workspaceId = this.$store.state.currentWorkspace;
-      Meteor.call("stopWorkspace", keycloakToken, workspaceId);
+
+      Meteor.call("getWorkspace", keycloakToken, workspaceId, (error, result) => {
+        if(result){
+          const status = result.status;
+
+          if(status !== "STOPPING" && status !== "STOPPED")
+            Meteor.call("stopWorkspace", keycloakToken, workspaceId);
+        }
+      });
+
       this.$store.state.currentWorkspace = undefined;
     }
   }
