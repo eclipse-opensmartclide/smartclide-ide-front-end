@@ -34,6 +34,7 @@ import LoginSmartCLIDE from "./components/LoginSmartCLIDE";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
+import router from "../../client/routes";
 
 export default {
   components: {
@@ -54,7 +55,7 @@ export default {
 
     this.$store.state.keycloak.init({
       onLoad: 'check-sso',
-      checkLoginIframe: false,
+      checkLoginIframe: true,
       loadUserProfileAtStartUp: true
     }).then(authenticated => {
       if(authenticated){
@@ -67,6 +68,11 @@ export default {
 
     this.$store.state.keycloak.onTokenExpired = () => {
       this.$store.state.keycloak.updateToken(30);
+    };
+
+    this.$store.state.keycloak.onAuthLogout = () => {
+      this.eclipseCheUser = undefined;
+      router.push("/");
     };
 
     setInterval(() => {

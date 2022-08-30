@@ -10,7 +10,7 @@
 
 <template>
   <div height="500">
-    <iframe id="iframe" src="https://keycloak-smartclide-che.che.smartclide.eu/auth/realms/che/account"/>
+    <iframe class="iframe" src="https://keycloak-smartclide-che.che.smartclide.eu/auth/realms/che/account"/>
   </div>
 </template>
 
@@ -25,7 +25,7 @@ export default {
 </script>
 
 <style scoped>
-  #iframe{
+  .iframe{
     border: 0;
     height: 100vh;
     width: 100%;
