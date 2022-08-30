@@ -75,9 +75,9 @@ export default {
       router.push("/");
     };
 
-    setInterval(() => {
-      console.log(this.$store.state.keycloak.token);
-    }, 5000);
+    // setInterval(() => {
+    //   console.log(this.$store.state.keycloak.token);
+    // }, 5000);
   },
   methods: {
     loginWithSmartCLIDE(){
