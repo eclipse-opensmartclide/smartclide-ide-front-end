@@ -13,13 +13,13 @@ import VueRouter from 'vue-router'
 import Workflows from "../imports/ui/components/Workflows";
 import Services from "../imports/ui/components/Services";
 import Deployments from "../imports/ui/components/Deployments";
-import Settings from "../imports/ui/components/Settings";
+import Settings from "../imports/ui/components/Settings/Settings";
 import Statistics from "../imports/ui/components/Settings/Statistics";
 import Logs from "../imports/ui/components/Settings/Logs";
 import Appearance from "../imports/ui/components/Settings/Appearance";
 import Help from "../imports/ui/components/Settings/Help";
 import About from "../imports/ui/components/Settings/About";
-import MyAccount from "../imports/ui/components/MyAccount";
+import MyAccount from "../imports/ui/components/MyAccount/MyAccount";
 import Profile from "../imports/ui/components/MyAccount/Profile";
 import Team from "../imports/ui/components/MyAccount/Team";
 import ServiceRegistries from "../imports/ui/components/MyAccount/ServiceRegistries";
