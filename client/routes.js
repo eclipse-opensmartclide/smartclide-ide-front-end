@@ -10,21 +10,23 @@
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Workflows from "../imports/ui/components/Workflows";
-import Services from "../imports/ui/components/Services";
-import Deployments from "../imports/ui/components/Deployments";
-import Settings from "../imports/ui/components/Settings/Settings";
-import Statistics from "../imports/ui/components/Settings/Statistics";
-import Logs from "../imports/ui/components/Settings/Logs";
+
+import Dashboard from "../imports/ui/components/Home/Dashboard";
+import Deployments from "../imports/ui/components/Home/Deployments";
+import Services from "../imports/ui/components/Home/Services";
+import Workflows from "../imports/ui/components/Home/Workflows";
+
+import Credentials from "../imports/ui/components/MyAccount/Credentials";
+import Profile from "../imports/ui/components/MyAccount/Profile";
+import ServiceRegistries from "../imports/ui/components/MyAccount/ServiceRegistries";
+import Team from "../imports/ui/components/MyAccount/Team";
+
+import About from "../imports/ui/components/Settings/About";
 import Appearance from "../imports/ui/components/Settings/Appearance";
 import Help from "../imports/ui/components/Settings/Help";
-import About from "../imports/ui/components/Settings/About";
-import MyAccount from "../imports/ui/components/MyAccount/MyAccount";
-import Profile from "../imports/ui/components/MyAccount/Profile";
-import Team from "../imports/ui/components/MyAccount/Team";
-import ServiceRegistries from "../imports/ui/components/MyAccount/ServiceRegistries";
-import Credentials from "../imports/ui/components/MyAccount/Credentials";
-import Dashboard from "../imports/ui/components/Dashboard";
+import Logs from "../imports/ui/components/Settings/Logs";
+import Statistics from "../imports/ui/components/Settings/Statistics";
+
 import Project from "../imports/ui/components/Project";
 import NotImplemented from "../imports/ui/components/NotImplemented";
 
@@ -32,14 +34,14 @@ Vue.use(VueRouter)
 
 const routes = [
     {
-        path: "/",
-        name: "Dashboard",
-        component: Dashboard
+        path: "/notImplemented",
+        name: "NotImplemented",
+        component: NotImplemented
     },
     {
-        path: "/notImplemented",
-        name: "Not Implemented",
-        component: NotImplemented
+        path: "/dashboard",
+        name: "Dashboard",
+        component: Dashboard
     },
     {
         path: "/workflows",
@@ -57,63 +59,49 @@ const routes = [
         component: Deployments
     },
     {
-        path: "/settings",
-        name: 'Settings',
-        component: Settings,
-        children: [
-            {
-                path: "/statistics",
-                name: 'Statistics',
-                component: Statistics
-            },
-            {
-                path: "/logs",
-                name: 'Logs',
-                component: Logs
-            },
-            {
-                path: "/appearance",
-                name: 'Appearance',
-                component: Appearance
-            },
-            {
-                path: "/help",
-                name: 'Help',
-                component: Help
-            },
-            {
-                path: "/about",
-                name: 'About',
-                component: About
-            }
-        ]
+        path: "/statistics",
+        name: 'Statistics',
+        component: Statistics
     },
     {
-        path: "/my-account",
-        name: 'MyAccount',
-        component: MyAccount,
-        children: [
-            {
-                path: "/profile",
-                name: 'Profile',
-                component: Profile
-            },
-            {
-                path: "/team",
-                name: 'Team',
-                component: Team
-            },
-            {
-                path: "/service-registries",
-                name: 'Service Registries',
-                component: ServiceRegistries
-            },
-            {
-                path: "/credentials",
-                name: 'Credentials',
-                component: Credentials
-            },
-        ]
+        path: "/logs",
+        name: 'Logs',
+        component: Logs
+    },
+    {
+        path: "/appearance",
+        name: 'Appearance',
+        component: Appearance
+    },
+    {
+        path: "/help",
+        name: 'Help',
+        component: Help
+    },
+    {
+        path: "/about",
+        name: 'About',
+        component: About
+    },
+    {
+        path: "/profile",
+        name: 'Profile',
+        component: Profile
+    },
+    {
+        path: "/team",
+        name: 'Team',
+        component: Team
+    },
+    {
+        path: "/service-registries",
+        name: 'ServiceRegistries',
+        component: ServiceRegistries
+    },
+    {
+        path: "/credentials",
+        name: 'Credentials',
+        component: Credentials
     },
     {
         path: '/project/:id',

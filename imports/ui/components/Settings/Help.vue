@@ -15,12 +15,12 @@
 </template>
 
 <script>
-export default {
-  name: "Help",
-  mounted(){
-    this.$store.state.context = 'settings';
+  export default {
+    name: "Help",
+    mounted(){
+      this.$store.state.context = 'settings';
+    }
   }
-}
 </script>
 
 <style scoped>

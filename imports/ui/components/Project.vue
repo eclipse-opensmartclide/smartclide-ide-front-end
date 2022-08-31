@@ -26,125 +26,125 @@
 </template>
 
 <script>
-import {messageTypes, buildMessage} from "@unparallel/smartclide-frontend-comm";
+  import {messageTypes, buildMessage} from "@unparallel/smartclide-frontend-comm";
 
-export default {
-  name: "Project",
-  mounted(){
-    this.$store.state.context = 'project';
-    this.$store.state.currentWorkspace = this.$route.params.id;
-    this.openWorkspace();
-    this.setupIframeCommunication();
-  },
-  data(){
-    return{
-      projectName: '',
-      workspaceURL: '',
-      startWorkspaceTimeout: undefined,
-    }
-  },
-  beforeRouteLeave(to, from, next){
-    clearTimeout(this.startWorkspaceTimeout);
-    this.cancelIframeCommunication();
-    next();
-  },
-  methods:{
-    showLoading(){
-      $(".loading").removeClass("d-none");
-      $(".loading").addClass("d-flex");
+  export default {
+    name: "Project",
+    mounted(){
+      this.$store.state.context = 'project';
+      this.$store.state.currentWorkspace = this.$route.params.id;
+      this.openWorkspace();
+      this.setupIframeCommunication();
     },
-    hideLoading(){
-      $(".loading").removeClass("d-flex");
-      $(".loading").addClass("d-none");
-    },
-    openWorkspace(){
-      this.showLoading();
-      const keycloakToken = this.$store.state.keycloak.idToken;
-      const workspaceId = this.$store.state.currentWorkspace;
-
-      if(workspaceId){
-        Meteor.call("getWorkspace", keycloakToken, workspaceId, (error, result) => {
-          if (result) {
-            const workspace = result;
-            const status = workspace.status;
-            this.projectName = workspace?.devfile.metadata.name;
-
-            switch (status) {
-              case "STOPPED":
-                Meteor.call("startWorkspace", keycloakToken, workspaceId);
-                this.startWorkspaceTimeout = setTimeout(this.openWorkspace, 2000);
-                break;
-              case "STOPPING":
-                this.startWorkspaceTimeout = setTimeout(this.openWorkspace, 2000);
-                break;
-              case "RUNNING":
-                const machines = workspace.runtime.machines;
-                Object.keys(machines).forEach(key => {
-                  if (key.includes("theia-ide")) {
-                    this.workspaceURL = machines[key].servers.theia.url;
-                    this.hideLoading();
-                  }
-                });
-                break;
-              case "STARTING":
-                this.startWorkspaceTimeout = setTimeout(this.openWorkspace, 2000);
-                break;
-              default:
-                break;
-            }
-          }
-        });
+    data(){
+      return{
+        projectName: '',
+        workspaceURL: '',
+        startWorkspaceTimeout: undefined,
       }
     },
-    sendMessageToIframe(messageType){
-      const iframe = document.getElementById("iframe");
+    beforeRouteLeave(to, from, next){
+      clearTimeout(this.startWorkspaceTimeout);
+      this.cancelIframeCommunication();
+      next();
+    },
+    methods:{
+      showLoading(){
+        $(".loading").removeClass("d-none");
+        $(".loading").addClass("d-flex");
+      },
+      hideLoading(){
+        $(".loading").removeClass("d-flex");
+        $(".loading").addClass("d-none");
+      },
+      openWorkspace(){
+        this.showLoading();
+        const keycloakToken = this.$store.state.keycloak.idToken;
+        const workspaceId = this.$store.state.currentWorkspace;
 
-      try {
-        let message;
+        if(workspaceId){
+          Meteor.call("getWorkspace", keycloakToken, workspaceId, (error, result) => {
+            if (result) {
+              const workspace = result;
+              const status = workspace.status;
+              this.projectName = workspace?.devfile.metadata.name;
 
-        switch (messageType){
-          case messageTypes.TOKEN_INFO:
-            const keycloak = this.$store.state.keycloak;
-            message = buildMessage(messageType, keycloak.token);
-            break;
-          case messageTypes.TOKEN_REVOKE:
-            message = buildMessage(messageType);
+              switch (status) {
+                case "STOPPED":
+                  Meteor.call("startWorkspace", keycloakToken, workspaceId);
+                  this.startWorkspaceTimeout = setTimeout(this.openWorkspace, 2000);
+                  break;
+                case "STOPPING":
+                  this.startWorkspaceTimeout = setTimeout(this.openWorkspace, 2000);
+                  break;
+                case "RUNNING":
+                  const machines = workspace.runtime.machines;
+                  Object.keys(machines).forEach(key => {
+                    if (key.includes("theia-ide")) {
+                      this.workspaceURL = machines[key].servers.theia.url;
+                      this.hideLoading();
+                    }
+                  });
+                  break;
+                case "STARTING":
+                  this.startWorkspaceTimeout = setTimeout(this.openWorkspace, 2000);
+                  break;
+                default:
+                  break;
+              }
+            }
+          });
+        }
+      },
+      sendMessageToIframe(messageType){
+        const iframe = document.getElementById("iframe");
+
+        try {
+          let message;
+
+          switch (messageType){
+            case messageTypes.TOKEN_INFO:
+              const keycloak = this.$store.state.keycloak;
+              message = buildMessage(messageType, keycloak.token);
+              break;
+            case messageTypes.TOKEN_REVOKE:
+              message = buildMessage(messageType);
+              break;
+            default:
+          }
+
+          iframe.contentWindow.postMessage(message, "*");
+          console.log("SENT", JSON.stringify(message, undefined, 4));
+        }catch(error) {
+          console.log(error);
+        }
+      },
+      onReceiveMessage({data}){
+        switch(data.type){
+          case messageTypes.COMPONENT_HELLO:
+            console.log("RECEIVED", JSON.stringify(data, undefined, 4));
+            this.sendMessageToIframe(messageTypes.TOKEN_INFO);
             break;
           default:
+            break;
         }
+      },
+      setupIframeCommunication(){
+        window.addEventListener("message", this.onReceiveMessage);
 
-        iframe.contentWindow.postMessage(message, "*");
-        console.log("SENT", JSON.stringify(message, undefined, 4));
-      }catch(error) {
-        console.log(error);
-      }
-    },
-    onReceiveMessage({data}){
-      switch(data.type){
-        case messageTypes.COMPONENT_HELLO:
-          console.log("RECEIVED", JSON.stringify(data, undefined, 4));
+        this.$store.state.keycloak.onAuthRefreshSuccess = () => {
           this.sendMessageToIframe(messageTypes.TOKEN_INFO);
-          break;
-        default:
-          break;
+        };
+      },
+      cancelIframeCommunication(){
+        this.sendMessageToIframe(messageTypes.TOKEN_REVOKE)
+
+        window.removeEventListener("message", this.onReceiveMessage);
+
+        this.$store.state.keycloak.onAuthRefreshSuccess = null;
       }
-    },
-    setupIframeCommunication(){
-      window.addEventListener("message", this.onReceiveMessage);
-
-      this.$store.state.keycloak.onAuthRefreshSuccess = () => {
-        this.sendMessageToIframe(messageTypes.TOKEN_INFO);
-      };
-    },
-    cancelIframeCommunication(){
-      this.sendMessageToIframe(messageTypes.TOKEN_REVOKE)
-
-      window.removeEventListener("message", this.onReceiveMessage);
-
-      this.$store.state.keycloak.onAuthRefreshSuccess = null;
     }
   }
-}
 </script>
 
 <style scoped>

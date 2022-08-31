@@ -10,12 +10,15 @@
 
 <template>
   <div>
-    Coming soon: Services...
+    Coming soon: Workflows...
   </div>
 </template>
 
 <script>
-export default {
-  name: "Services"
-}
+  export default {
+    name: "Workflows",
+    mounted(){
+      this.$store.state.context = 'home';
+    }
+  }
 </script>

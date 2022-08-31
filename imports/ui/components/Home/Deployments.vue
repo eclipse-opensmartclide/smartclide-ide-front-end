@@ -10,15 +10,15 @@
 
 <template>
   <div>
-    <router-view/>
+    Coming soon: Deployments...
   </div>
 </template>
 
 <script>
-export default {
-  name: "Settings",
-  mounted(){
-    this.$store.state.context = 'settings';
+  export default {
+    name: "Deployments",
+    mounted(){
+      this.$store.state.context = 'home';
+    }
   }
-}
 </script>

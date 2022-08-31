@@ -20,7 +20,7 @@
         <ul class="navbar-nav">
           <li class="nav-item dropdown">
             <a class="nav-link" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <BIconPlusCircle/>
+              <b-icon-plus-circle/>
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <!-- plugins -->
@@ -46,125 +46,121 @@
       <div class="option p-2" @click="commandClick(shortcut)">
         {{shortcut.plugin+'-'+shortcut.command}}
       </div>
-      <BIconDashCircle class="ml-3 " @click="remove(shortcut)"/>
+      <b-icon-dash-circle class="ml-3 " @click="remove(shortcut)"/>
     </div>
   </div>
 </template>
 
 <script>
+  export default {
+    data(){
+      return {
+        shortcuts: [],
+        plugins: [
+          {
+            name: "Plugin 1",
+            commands: [
+              {
+                name: "Command 1"
+              },
+              {
+                name: "Command 2"
+              }
+            ]
+          },
 
-export default {
-  data(){
-    return {
-      shortcuts: [],
-      plugins: [
-        {
-          name: "Plugin 1",
-          commands: [
-            {
-              name: "Command 1"
-            },
-            {
-              name: "Command 2"
-            }
-          ]
-        },
-
-        {
-          name: "Plugin 2",
-          commands: [
-            {
-              name: "Command 1"
-            },
-            {
-              name: "Command 2"
-            },
-            {
-              name: "Command 3"
-            }
-          ]
+          {
+            name: "Plugin 2",
+            commands: [
+              {
+                name: "Command 1"
+              },
+              {
+                name: "Command 2"
+              },
+              {
+                name: "Command 3"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    methods: {
+      add(plugin, command) {
+        const exists = this.shortcuts.find(el=> el.plugin === plugin.name && el.command === command.name)
+        if(!exists){
+          this.shortcuts.push({
+            plugin: plugin.name,
+            command: command.name
+          })
         }
-      ]
-    }
-  },
-  methods: {
-    add(plugin, command) {
-      const exists = this.shortcuts.find(el=> el.plugin === plugin.name && el.command === command.name)
-      if(!exists){
-        this.shortcuts.push({
-          plugin: plugin.name,
-          command: command.name
-        })
+      },
+
+      remove(shortcut) {
+        const idx = this.shortcuts.indexOf(shortcut)
+        if(idx > -1){
+          this.shortcuts.splice(idx, 1)
+        }
+      },
+
+      commandClick(shortcut){
+
       }
     },
 
-    remove(shortcut) {
-      const idx = this.shortcuts.indexOf(shortcut)
-      if(idx > -1){
-        this.shortcuts.splice(idx, 1)
-      }
-    },
+    mounted() {
+      $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
+        if (!$(this).next().hasClass('show')) {
+          $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+        }
+        var $subMenu = $(this).next(".dropdown-menu");
+        $subMenu.toggleClass('show');
 
-    commandClick(shortcut){
-
-    }
-  },
-
-  mounted() {
-    $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
-      if (!$(this).next().hasClass('show')) {
-        $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
-      }
-      var $subMenu = $(this).next(".dropdown-menu");
-      $subMenu.toggleClass('show');
-
-      $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
-        $('.dropdown-submenu .show').removeClass("show");
+        $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
+          $('.dropdown-submenu .show').removeClass("show");
+        });
+        return false;
       });
-      return false;
-    });
+    }
   }
-}
 </script>
 
 <style scoped>
+  .quick_access{
+    display: flex;
+    flex-direction: column;
+    background: #F1F1F1;
+    border-bottom: 1px solid #EDEDED;
+  }
 
-.quick_access{
+  .option{
+    flex-grow: 1;
+    margin-left: 8px;
+  }
 
-  display: flex;
-  flex-direction: column;
-  background: #F1F1F1;
-  border-bottom: 1px solid #EDEDED;
-}
+  .navbar_custom{
+    padding: 0!important;
+  }
+  .navbar-expand-lg .navbar-nav .nav-link{
+    padding: 0!important;
+  }
 
-.option{
-  flex-grow: 1;
-  margin-left: 8px;
-}
+  .dropdown-submenu {
+    position: relative;
+  }
 
-.navbar_custom{
-  padding: 0!important;
-}
-.navbar-expand-lg .navbar-nav .nav-link{
-  padding: 0!important;
-}
+  .dropdown-submenu a::after {
+    transform: rotate(-90deg);
+    position: absolute;
+    right: 6px;
+    top: .8em;
+  }
 
-.dropdown-submenu {
-  position: relative;
-}
-
-.dropdown-submenu a::after {
-  transform: rotate(-90deg);
-  position: absolute;
-  right: 6px;
-  top: .8em;
-}
-
-.dropdown-submenu .dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-left: .1rem;
-  margin-right: .1rem;
-}
-
+  .dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-left: .1rem;
+    margin-right: .1rem;
+  }
 </style>

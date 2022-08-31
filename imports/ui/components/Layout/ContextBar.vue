@@ -50,36 +50,36 @@
 </template>
 
 <script>
-import QuickAccess from "./QuickAccess";
+  import QuickAccess from "../QuickAccess";
 
-export default {
-  name: "ContextBar",
-  components: {
-    QuickAccess
-  },
-  methods: {
-    click(option) {
-      if(option.title === "Close Project"){
-        this.closeWorkspace();
-      }
+  export default {
+    name: "ContextBar",
+    components: {
+      QuickAccess
     },
-    async closeWorkspace(){
-      const keycloakToken = this.$store.state.keycloak.idToken;
-      const workspaceId = this.$store.state.currentWorkspace;
-
-      Meteor.call("getWorkspace", keycloakToken, workspaceId, (error, result) => {
-        if(result){
-          const status = result.status;
-
-          if(status !== "STOPPING" && status !== "STOPPED")
-            Meteor.call("stopWorkspace", keycloakToken, workspaceId);
+    methods: {
+      click(option) {
+        if(option.title === "Close Project"){
+          this.closeWorkspace();
         }
-      });
+      },
+      async closeWorkspace(){
+        const keycloakToken = this.$store.state.keycloak.idToken;
+        const workspaceId = this.$store.state.currentWorkspace;
 
-      this.$store.state.currentWorkspace = undefined;
+        Meteor.call("getWorkspace", keycloakToken, workspaceId, (error, result) => {
+          if(result){
+            const status = result.status;
+
+            if(status !== "STOPPING" && status !== "STOPPED")
+              Meteor.call("stopWorkspace", keycloakToken, workspaceId);
+          }
+        });
+
+        this.$store.state.currentWorkspace = undefined;
+      }
     }
   }
-}
 </script>
 
 <style scoped>

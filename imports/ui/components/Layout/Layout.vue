@@ -20,46 +20,46 @@
 </template>
 
 <script>
-import Header from "./Header";
-import ContextBar from "./ContextBar";
-import Content from "./Content";
+  import Header from "./Header";
+  import ContextBar from "./ContextBar";
+  import Content from "./Content";
 
-export default {
-  name: "Main",
-  components: {Header, ContextBar, Content},
-  props: ["meteorUser", "eclipseCheUser"],
-}
+  export default {
+    name: "Layout",
+    components: { Header, ContextBar, Content },
+    props: ["meteorUser", "eclipseCheUser"]
+  }
 </script>
 
 <style scoped>
-.header{
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 2;
-}
+  .header{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 2;
+  }
 
-.main{
-  overflow-y: hidden;
-}
+  .main{
+    overflow-y: hidden;
+  }
 
-.context{
-  margin-top: 60px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 1; /* for Quick Access navigation panel show above main content page */
-}
+  .context{
+    margin-top: 60px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1; /* for Quick Access navigation panel show above main content page */
+  }
 
-.content{
-  margin-top: 60px;
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 200px;
-  bottom: 0;
-  overflow-y: auto;
-}
+  .content{
+    margin-top: 60px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 200px;
+    bottom: 0;
+    overflow-y: auto;
+  }
 </style>

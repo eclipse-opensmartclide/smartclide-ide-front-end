@@ -11,7 +11,7 @@
 <template>
   <div class="main vh-100 d-flex flex-column">
     <template v-if="isLoggedIn || eclipseCheUser">
-      <Main :meteorUser="getMeteorUser" :eclipseCheUser="eclipseCheUser"/>
+      <Layout :meteorUser="getMeteorUser" :eclipseCheUser="eclipseCheUser"/>
     </template>
 
     <template v-else-if="SmartCLIDELogin">
@@ -24,26 +24,18 @@
       <Footer/>
     </template>
   </div>
-
 </template>
 
 <script>
 import Keycloak from "keycloak-js";
-import Login from "./components/Login";
-import LoginSmartCLIDE from "./components/LoginSmartCLIDE";
-import Header from "./components/Header";
-import Main from "./components/Main";
-import Footer from "./components/Footer";
+import Login from "./components/Login/Login";
+import LoginSmartCLIDE from "./components/Login/LoginSmartCLIDE";
+import Layout from "./components/Layout/Layout";
+import Footer from "./components/Layout/Footer";
 import router from "../../client/routes";
 
 export default {
-  components: {
-    Login,
-    LoginSmartCLIDE,
-    Header,
-    Main,
-    Footer
-  },
+  components: { Login, LoginSmartCLIDE, Layout, Footer },
   data() {
     return {
       eclipseCheUser: undefined,
@@ -61,6 +53,7 @@ export default {
       if(authenticated){
         this.eclipseCheUser = this.$store.state.keycloak.tokenParsed;
         this.addUserToDB();
+        router.push("/dashboard");
       }
     }).catch(error => {
       console.log(error);
@@ -72,7 +65,6 @@ export default {
 
     this.$store.state.keycloak.onAuthLogout = () => {
       this.eclipseCheUser = undefined;
-      router.push("/");
     };
 
     // setInterval(() => {

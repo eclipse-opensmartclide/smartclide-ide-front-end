@@ -15,9 +15,9 @@
 </template>
 
 <script>
-export default {
-  name: "NotImplemented"
-}
+  export default {
+    name: "NotImplemented"
+  }
 </script>
 
 <style scoped>

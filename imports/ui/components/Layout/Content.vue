@@ -10,12 +10,16 @@
 
 <template>
   <div>
-    Coming soon: Deployments...
+    <router-view/>
   </div>
 </template>
 
 <script>
-export default {
-  name: "Deployments"
-}
+  export default {
+    name: "Content"
+  }
 </script>
+
+<style scoped>
+
+</style>

@@ -15,14 +15,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        context: "main",
+        context: "home",
         contextBars: [
            {
-                name: 'main',
+                name: 'home',
                 categories: [
                     {
                         category: "root",
                         options: [
+                            { title: 'Dashboard', link: '/dashboard' },
                             { title: 'Workflows', link: '/workflows' },
                             { title: 'Services', link: '/services' },
                             { title: 'Deployments', link: '/deployments' }
@@ -83,7 +84,7 @@ export default new Vuex.Store({
                         category: "Project",
                         options: [
                             { title: 'Edit Project Settings', link: '' },
-                            { title: 'Close Project', link: '/' }
+                            { title: 'Close Project', link: '/dashboard' }
                         ]
                     }
                 ]

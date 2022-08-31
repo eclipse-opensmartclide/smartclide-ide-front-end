@@ -13,7 +13,7 @@
     <!-- Welcome / Get Started -->
     <div class="d-flex">
       <b-col>
-        <b-img class="w-100" src="/assets/cartao_welcome.png"/>
+        <b-img class="w-100" src="/assets/WelcomeCard.png"/>
       </b-col>
 
       <b-col>
@@ -93,107 +93,106 @@
 </template>
 
 <script>
-import moment from "moment";
+  import moment from "moment";
 
-export default {
-  name: "Dashboard",
-  data () {
-    return {
-      latestWorkspaces: [],
-      cards: [
-        { i: 0, x: 0, y: 0, w: 6, h: 4 },
-        { i: 1, x: 6, y: 0, w: 6, h: 4 },
-        { i: 2, x: 0, y: 5, w: 12, h: 5 }
-      ],
-      tables: [
-        {
-          title: "Workflows",
-          fields: ["name", "template", "updatedAt"],
-          content: [],
-          loaded: false
-        },
-        {
-          title: "Services",
-          fields: ["name", "licence", "updatedAt"],
-          content: [],
-          loaded: false
-        },
-        {
-          title: "Deployments",
-          fields: ["name", "workflow_service", "version", "state", "updatedAt"],
-          content: [],
-          loaded: false
-        }
-      ]
-    }
-  },
-  mounted(){
-    this.$store.state.context = 'main';
-    this.fetchContent();
-  },
-  methods: {
-    fetchContent(){
-      this.fetchLatestWorkspaces();
-      this.fetchLatestWorkflows();
-      this.fetchLatestServices();
-      this.fetchLatestDeployments();
+  export default {
+    name: "Dashboard",
+    data () {
+      return {
+        latestWorkspaces: [],
+        cards: [
+          { i: 0, x: 0, y: 0, w: 6, h: 4 },
+          { i: 1, x: 6, y: 0, w: 6, h: 4 },
+          { i: 2, x: 0, y: 5, w: 12, h: 5 }
+        ],
+        tables: [
+          {
+            title: "Workflows",
+            fields: ["name", "template", "updatedAt"],
+            content: [],
+            loaded: false
+          },
+          {
+            title: "Services",
+            fields: ["name", "licence", "updatedAt"],
+            content: [],
+            loaded: false
+          },
+          {
+            title: "Deployments",
+            fields: ["name", "workflow_service", "version", "state", "updatedAt"],
+            content: [],
+            loaded: false
+          }
+        ]
+      }
     },
-    fetchLatestWorkspaces(){
-      Meteor.call("getLatestWorkspaces", this.$store.state.keycloak.idToken, 3, (error, result) => {
-        this.latestWorkspaces = result;
-      });
+    mounted(){
+      this.$store.state.context = 'home';
+      this.fetchContent();
     },
-    fetchLatestWorkflows(){
-      Meteor.call("getLatestWorkflows", (error, result) => {
-        Object.assign(this.tables[0],{ loaded: true, content: result || [] });
-      });
-    },
-    fetchLatestServices(){
-      Meteor.call("getLatestServices", (error, result) => {
-        Object.assign(this.tables[1],{ loaded: true, content: result || [] });
-      });
-    },
-    fetchLatestDeployments(){
-      Meteor.call("getLatestDeployments", (error, result) => {
-        Object.assign(this.tables[2],{ loaded: true, content: result || [] });
-      });
-    },
-    convertDate(date){
-      return moment(date).format('DD-MMM-YYYY HH:mm');
-    },
-    remove(cardID){
-      let index = this.cards.map(card => card.i).indexOf(cardID);
-      this.cards.splice(index, 1);
-    },
-    addWidget(){
-      alert("Not implemented")
+    methods: {
+      fetchContent(){
+        this.fetchLatestWorkspaces();
+        this.fetchLatestWorkflows();
+        this.fetchLatestServices();
+        this.fetchLatestDeployments();
+      },
+      fetchLatestWorkspaces(){
+        Meteor.call("getLatestWorkspaces", this.$store.state.keycloak.idToken, 3, (error, result) => {
+          this.latestWorkspaces = result;
+        });
+      },
+      fetchLatestWorkflows(){
+        Meteor.call("getLatestWorkflows", (error, result) => {
+          Object.assign(this.tables[0],{ loaded: true, content: result || [] });
+        });
+      },
+      fetchLatestServices(){
+        Meteor.call("getLatestServices", (error, result) => {
+          Object.assign(this.tables[1],{ loaded: true, content: result || [] });
+        });
+      },
+      fetchLatestDeployments(){
+        Meteor.call("getLatestDeployments", (error, result) => {
+          Object.assign(this.tables[2],{ loaded: true, content: result || [] });
+        });
+      },
+      convertDate(date){
+        return moment(date).format('DD-MMM-YYYY HH:mm');
+      },
+      remove(cardID){
+        let index = this.cards.map(card => card.i).indexOf(cardID);
+        this.cards.splice(index, 1);
+      },
+      addWidget(){
+        alert("Not implemented")
+      }
     }
   }
-}
 </script>
 
 <style scoped>
-.add-icon{
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  right: 10px;
-  bottom: 0;
-}
+  .add-icon{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+  }
 
-/deep/ .widget-header{
-  background: var(--light);
-  height: 37px!important;
-  line-height: 37px!important;
-  padding-left: 10px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
+  /deep/ .widget-header{
+    background: var(--light);
+    height: 37px!important;
+    line-height: 37px!important;
+    padding-left: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
 
-/deep/ .custom_table thead{
-  background: var(--info);
-  text-align: center;
-  text-transform: capitalize;
-}
-
+  /deep/ .custom_table thead{
+    background: var(--info);
+    text-align: center;
+    text-transform: capitalize;
+  }
 </style>

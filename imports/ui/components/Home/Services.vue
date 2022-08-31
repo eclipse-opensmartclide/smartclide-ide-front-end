@@ -13,53 +13,53 @@
     <b-card>
       <div class="d-flex flex-row align-items-center pb-3">
         <b-form-input
-          class="search_bar"
-          placeholder="Type to search..."
-          type="search"
-          v-model="table.filter"
-          :disabled="!table.loaded"
+            class="search_bar"
+            placeholder="Type to search..."
+            type="search"
+            v-model="table.filter"
+            :disabled="!table.loaded"
         />
         <b-pagination
-          class="mx-3 mb-0"
-          size="sm"
-          limit="3"
-          v-model="table.currentPage"
-          :total-rows="table.totalRows"
-          :per-page="table.perPage"
-          :disabled="table.disablePagination"
+            class="mx-3 mb-0"
+            size="sm"
+            limit="3"
+            v-model="table.currentPage"
+            :total-rows="table.totalRows"
+            :per-page="table.perPage"
+            :disabled="table.disablePagination"
         />
         <b-icon-plus-circle role="button" variant="primary" font-scale="1.5" @click="plusIconClicked" v-b-modal.modal-add-edit/>
         <b-modal
-          id="modal-add-edit"
-          :title="currentModal.type + ' Service Registry'"
-          @hidden="resetModal"
-          hide-footer
+            id="modal-add-edit"
+            :title="currentModal.type + ' Service Registry'"
+            @hidden="resetModal"
+            hide-footer
         >
           <b-form
-            @submit="modalSubmitted"
+              @submit="modalSubmitted"
           >
             <b-form-group
-              v-for="field in Object.keys(table.modalFields)"
-              :label="table.modalFields[field].label"
+                v-for="field in Object.keys(table.modalFields)"
+                :label="table.modalFields[field].label"
             >
               <b-form-select
-                v-if="table.modalFields[field].formType === 'select'"
-                v-model="table.modalFields[field].value"
-                required
+                  v-if="table.modalFields[field].formType === 'select'"
+                  v-model="table.modalFields[field].value"
+                  required
               >
                 <b-form-select-option
-                  v-for="option in table.modalFields[field].options"
-                  v-model="option.value"
-                  :disabled="option.value === null"
+                    v-for="option in table.modalFields[field].options"
+                    v-model="option.value"
+                    :disabled="option.value === null"
                 >
                   {{option.label}}
                 </b-form-select-option>
               </b-form-select>
               <b-form-input
-                v-else
-                :type="table.modalFields[field].formType"
-                v-model="table.modalFields[field].value"
-                required
+                  v-else
+                  :type="table.modalFields[field].formType"
+                  v-model="table.modalFields[field].value"
+                  required
               />
             </b-form-group>
             <b-button class="float-right" type="submit" variant="primary">{{ currentModal.type === 'Add' ? 'Add' : 'Save' }}</b-button>
@@ -68,18 +68,18 @@
       </div>
       <div class="d-flex flex-row">
         <b-table
-          class="custom-table text-center"
-          bordered
-          :items="table.content"
-          :fields="table.fields"
-          :filter="table.filter"
-          :busy="!table.loaded"
-          :per-page="table.perPage"
-          :current-page="table.currentPage"
-          @filtered="onFiltered"
-          :empty-text="`No ${table.title} credentials were configured yet.`"
-          :empty-filtered-text="`No ${table.title} credentials matched your search criteria.`"
-          show-empty
+            class="custom-table text-center"
+            bordered
+            :items="table.content"
+            :fields="table.fields"
+            :filter="table.filter"
+            :busy="!table.loaded"
+            :per-page="table.perPage"
+            :current-page="table.currentPage"
+            @filtered="onFiltered"
+            :empty-text="`No ${table.title} credentials were configured yet.`"
+            :empty-filtered-text="`No ${table.title} credentials matched your search criteria.`"
+            show-empty
         >
           <template #table-busy>
             <div class="text-center text-primary my-2">
@@ -101,7 +101,7 @@
 
 <script>
   export default {
-    name: "ServiceRegistries",
+    name: "Services",
     data(){
       return {
         table: {
@@ -180,7 +180,7 @@
       };
     },
     mounted(){
-      this.$store.state.context = 'my-account';
+      this.$store.state.context = 'home';
       this.fetchContent();
     },
     methods: {
@@ -258,7 +258,7 @@
 </script>
 
 <style scoped>
-  .search_bar {
+  .search_bar{
     border-color: #dee2e6;
   }
 
