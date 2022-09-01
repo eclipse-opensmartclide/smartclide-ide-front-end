@@ -19,7 +19,7 @@
       <b-col>
         <b-row>
           <div class="h3 text-primary">
-            Get Started
+            Get Started...
           </div>
         </b-row>
 
