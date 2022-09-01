@@ -27,7 +27,7 @@ import Help from "../imports/ui/components/Settings/Help";
 import Logs from "../imports/ui/components/Settings/Logs";
 import Statistics from "../imports/ui/components/Settings/Statistics";
 
-import Project from "../imports/ui/components/Project";
+import CheTheia from "../imports/ui/components/CheTheia/CheTheia";
 import NotImplemented from "../imports/ui/components/NotImplemented";
 
 Vue.use(VueRouter)
@@ -106,7 +106,7 @@ const routes = [
     {
         path: '/project/:id',
         name: 'Project',
-        component: Project
+        component: CheTheia
     }
 ]
 

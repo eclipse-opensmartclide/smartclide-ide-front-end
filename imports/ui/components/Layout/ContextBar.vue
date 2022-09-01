@@ -50,7 +50,7 @@
 </template>
 
 <script>
-  import QuickAccess from "../QuickAccess";
+  import QuickAccess from "../CheTheia/QuickAccess";
 
   export default {
     name: "ContextBar",
