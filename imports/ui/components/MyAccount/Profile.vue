@@ -9,8 +9,8 @@
  -------------------------------------------------------------------------------->
 
 <template>
-  <div height="500">
-    <iframe class="iframe" src="https://keycloak-smartclide-che.che.smartclide.eu/auth/realms/che/account"/>
+  <div class="d-flex h-100">
+    <iframe class="border-0 w-100" src="https://keycloak-smartclide-che.che.smartclide.eu/auth/realms/che/account"/>
   </div>
 </template>
 
@@ -24,9 +24,5 @@
 </script>
 
 <style scoped>
-  .iframe{
-    border: 0;
-    height: 100vh;
-    width: 100%;
-  }
+
 </style>

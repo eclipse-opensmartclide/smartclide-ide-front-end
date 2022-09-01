@@ -9,7 +9,7 @@
  -------------------------------------------------------------------------------->
 
 <template>
-  <div class="d-flex flex-column">
+  <div class="d-flex flex-column h-100">
     <div class="name text-primary">{{projectName}}</div>
 
     <div class="d-flex h-100">
