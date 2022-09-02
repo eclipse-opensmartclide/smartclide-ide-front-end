@@ -11,7 +11,12 @@
 <template>
   <div class="m-4 h-75">
     <b-card class="h-100">
-      <div id="editor"/>
+      <div class="devfile-editor">
+        <div id="editor" class="monaco-editor"/>
+      </div>
+      <div class="my-3 float-right">
+        <b-button @click="clicked">Next</b-button>
+      </div>
     </b-card>
   </div>
 </template>
@@ -79,18 +84,31 @@
     mounted(){
       monaco.editor.create(document.getElementById('editor'), {
         value: YAML.stringify(this.devfileJSON),
-        language: 'yaml'
+        language: 'yaml',
+        scrollBeyondLastLine: false
       });
+    },
+    methods: {
+      clicked(){
+
+      }
     }
   }
 </script>
 
 <style scoped>
-  #editor {
+  .devfile-editor{
+    position: relative;
+    width: 100%;
+    height: calc(100% - 50px);
+  }
+
+  .monaco-editor {
+    border: 1px solid #dee2e6;
     position: absolute;
-    top: 20px;
-    right: 20px;
-    bottom: 20px;
-    left: 20px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 </style>
