@@ -65,7 +65,7 @@ export default {
 
     this.$store.state.keycloak.onAuthLogout = () => {
       this.eclipseCheUser = undefined;
-      router.push('/');
+      router.push("/");
     };
 
     // setInterval(() => {
