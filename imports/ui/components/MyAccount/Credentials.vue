@@ -317,7 +317,11 @@
         this.fetchCIManagersCredentials();
       },
       fetchGitCredentials(){
-        Meteor.call("request", { operationId: this.tables[0].endpoints.get.operationId, token: this.$store.state.keycloak.token},
+        Meteor.call("request", {
+            operationId: this.tables[0].endpoints.get.operationId,
+            parameters: { user_id: this.$store.state.keycloak.subject },
+            token: this.$store.state.keycloak.token
+          },
           (error, result) => {
             if(result){
               let content = result?.body.map((item) => {
@@ -330,7 +334,11 @@
         );
       },
       fetchDeploymentPlatformsCredentials(){
-        Meteor.call("request", { operationId: this.tables[1].endpoints.get.operationId, token: this.$store.state.keycloak.token},
+        Meteor.call("request", {
+            operationId: this.tables[1].endpoints.get.operationId,
+            parameters: { user_id: this.$store.state.keycloak.subject },
+            token: this.$store.state.keycloak.token
+          },
           (error, result) => {
             if(result){
               let content = result?.body.map((item) => {
@@ -343,7 +351,11 @@
         );
       },
       fetchCIManagersCredentials(){
-        Meteor.call("request", { operationId: this.tables[2].endpoints.get.operationId, token: this.$store.state.keycloak.token},
+        Meteor.call("request", {
+            operationId: this.tables[2].endpoints.get.operationId,
+            parameters: { user_id: this.$store.state.keycloak.subject },
+            token: this.$store.state.keycloak.token
+          },
           (error, result) => {
             if(result){
               let content = result?.body.map((item) => {

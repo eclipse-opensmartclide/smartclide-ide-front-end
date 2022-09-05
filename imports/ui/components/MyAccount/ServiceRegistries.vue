@@ -185,16 +185,20 @@
     },
     methods: {
       fetchContent(){
-        Meteor.call("request", { operationId: this.table.operationIds.get, token: this.$store.state.keycloak.token},
-            (error, result) => {
-              if(result){
-                let content = result?.body.map((item) => {
-                  return { id: item.id, type: item.type, url: item.url, username: item.username };
-                });
+        Meteor.call("request", {
+            operationId: this.table.operationIds.get,
+            parameters: { user_id: this.$store.state.keycloak.subject },
+            token: this.$store.state.keycloak.token
+          },
+          (error, result) => {
+            if(result){
+              let content = result?.body.map((item) => {
+                return { id: item.id, type: item.type, url: item.url, username: item.username };
+              });
 
-                Object.assign(this.table,{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
-              }
+              Object.assign(this.table,{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
             }
+          }
         );
       },
       onFiltered(filteredItems){
