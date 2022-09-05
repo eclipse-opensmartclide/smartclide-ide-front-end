@@ -16,6 +16,8 @@ import Deployments from "../imports/ui/components/Home/Deployments";
 import Services from "../imports/ui/components/Home/Services";
 import Workflows from "../imports/ui/components/Home/Workflows";
 
+import CheTheia from "../imports/ui/components/CheTheia/CheTheia";
+
 import Credentials from "../imports/ui/components/MyAccount/Credentials";
 import Profile from "../imports/ui/components/MyAccount/Profile";
 import ServiceRegistries from "../imports/ui/components/MyAccount/ServiceRegistries";
@@ -27,8 +29,8 @@ import Help from "../imports/ui/components/Settings/Help";
 import Logs from "../imports/ui/components/Settings/Logs";
 import Statistics from "../imports/ui/components/Settings/Statistics";
 
-import CheTheia from "../imports/ui/components/CheTheia/CheTheia";
 import NotImplemented from "../imports/ui/components/NotImplemented";
+import Devfile from "../imports/ui/components/Devfile";
 
 Vue.use(VueRouter)
 
@@ -54,9 +56,19 @@ const routes = [
         component: Services
     },
     {
+        path: "/devfile",
+        name: 'Devfile',
+        component: Devfile
+    },
+    {
         path: "/deployments",
         name: 'Deployments',
         component: Deployments
+    },
+    {
+        path: '/project/:id',
+        name: 'Project',
+        component: CheTheia
     },
     {
         path: "/statistics",
@@ -102,11 +114,6 @@ const routes = [
         path: "/credentials",
         name: 'Credentials',
         component: Credentials
-    },
-    {
-        path: '/project/:id',
-        name: 'Project',
-        component: CheTheia
     }
 ]
 
