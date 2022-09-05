@@ -15,21 +15,22 @@
         <div id="editor" class="monaco-editor"/>
       </div>
       <div class="my-3 float-right">
-        <b-button @click="clicked">Next</b-button>
+        <b-button @click="resetButtonClicked">Reset</b-button>
+        <b-button @click="nextButtonClicked" variant="primary">Next</b-button>
       </div>
     </b-card>
   </div>
 </template>
 
 <script>
-  import * as monaco from "monaco-editor";
-  import * as YAML from "json-to-pretty-yaml";
+  import monaco from "monaco-editor";
+  import YAML from "json-to-pretty-yaml";
 
   export default {
     name: "Devfile",
     data(){
       return {
-        devfileYAML: "",
+        devfileEditor: null,
         devfileJSON: {
           "schemaVersion": "2.1.0",
           "metadata": {
@@ -78,19 +79,23 @@
               }
             }
           ]
-        }
+        },
+        devfileYAML: ""
       }
     },
     mounted(){
-      monaco.editor.create(document.getElementById('editor'), {
+      this.devfileEditor = monaco.editor.create(document.getElementById('editor'), {
         value: YAML.stringify(this.devfileJSON),
         language: 'yaml',
         scrollBeyondLastLine: false
       });
     },
     methods: {
-      clicked(){
-
+      resetButtonClicked(){
+        this.devfileEditor.setValue(YAML.stringify(this.devfileJSON));
+      },
+      nextButtonClicked(){
+        console.log(this.devfileEditor.getValue());
       }
     }
   }
