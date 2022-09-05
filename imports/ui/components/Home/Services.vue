@@ -77,8 +77,8 @@
             :per-page="table.perPage"
             :current-page="table.currentPage"
             @filtered="onFiltered"
-            :empty-text="`No ${table.title} credentials were configured yet.`"
-            :empty-filtered-text="`No ${table.title} credentials matched your search criteria.`"
+            :empty-text="`No ${table.title} were created yet.`"
+            :empty-filtered-text="`No ${table.title} matched your search criteria.`"
             show-empty
         >
           <template #table-busy>
@@ -105,7 +105,7 @@
     data(){
       return {
         table: {
-          title: "Service Registries",
+          title: "Services",
           fields: ["type", { key: "url", label: "URL" }, "username", "actions"],
           content: [],
           loaded: false,
@@ -185,7 +185,11 @@
     },
     methods: {
       fetchContent(){
-        Meteor.call("request", { operationId: this.table.operationIds.get, token: this.$store.state.keycloak.token},
+        Meteor.call("request", {
+            operationId: this.table.operationIds.get,
+            parameters: { user_id: this.$store.state.keycloak.subject },
+            token: this.$store.state.keycloak.token
+          },
             (error, result) => {
               if(result){
                 let content = result?.body.map((item) => {
