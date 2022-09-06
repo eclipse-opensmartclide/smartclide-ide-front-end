@@ -87,7 +87,8 @@
       this.devfileEditor = monaco.editor.create(document.getElementById('editor'), {
         value: YAML.stringify(this.devfileJSON),
         language: 'yaml',
-        scrollBeyondLastLine: false
+        scrollBeyondLastLine: false,
+        readOnly: true
       });
     },
     methods: {
