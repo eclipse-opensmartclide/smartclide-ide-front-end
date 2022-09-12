@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.6",
-    "@unparallel/smartclide-che-rest-client": "^1.0.0",
+    "@unparallel/smartclide-che-rest-client": "^1.0.1",
     "@unparallel/smartclide-frontend-comm": "^0.4.0",
     "@unparallel/smartclide-backend-connector": "^0.4.0",
     "bootstrap": "^4.6.1",
@@ -25,7 +25,8 @@
     "vue-template-compiler": "^2.6.14",
     "vuex": "^3.6.2",
     "monaco-editor": "^0.34.0",
-    "json-to-pretty-yaml": "^1.2.2"
+    "json-to-pretty-yaml": "^1.2.2",
+    "yamljs": "^0.3.0"
   },
   "meteor": {
     "mainModule": {
