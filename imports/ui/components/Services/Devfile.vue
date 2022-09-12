@@ -10,18 +10,16 @@
 
 <template>
   <div class="m-4 h-75">
-    <b-card class="h-100" title="Devfile Editor" sub-title="View the devfile of the workspace before starting it">
+    <b-card class="h-100" title="Devfile Editor" sub-title="Fine-tune the devfile of the workspace before starting it">
       <div class="devfile-editor mt-3">
         <div id="editor" class="monaco-editor"/>
       </div>
       <b-row class="my-3">
         <b-col>
-          <b-button @click="cancelButtonClicked">Cancel</b-button>
+          <b-button @click="resetButtonClicked" variant="danger">Reset</b-button>
         </b-col>
-<!--        <b-col class="text-center">-->
-<!--          <b-button @click="resetButtonClicked" variant="primary">Reset</b-button>-->
-<!--        </b-col>-->
         <b-col class="text-right">
+          <b-button @click="cancelButtonClicked">Cancel</b-button>
           <b-button @click="runButtonClicked" variant="primary">Run</b-button>
         </b-col>
       </b-row>
@@ -31,7 +29,8 @@
 
 <script>
   import monaco from "monaco-editor";
-  import YAML from "json-to-pretty-yaml";
+  import JSON_YAML from "json-to-pretty-yaml";
+  import YAML_JSON from "yamljs";
   import router from "../../../../client/routes";
 
   export default {
@@ -40,7 +39,7 @@
     data(){
       return {
         devfileEditor: null,
-        devfileYAML: YAML.stringify(this.devfile)
+        devfileYAML: JSON_YAML.stringify(this.devfile)
       }
     },
     mounted(){
@@ -56,10 +55,27 @@
         router.back();
       },
       resetButtonClicked(){
-        this.devfileEditor.setValue(YAML.stringify(this.devfile));
+        this.devfileEditor.setValue(JSON_YAML.stringify(this.devfile));
       },
       runButtonClicked(){
-        router.push(`/project/${this.workspaceID}`);
+        this.updateDevfile();
+      },
+      updateDevfile(){
+        Meteor.call("getWorkspace", this.$store.state.keycloak.idToken, this.workspaceID, (error, result) => {
+          if(result){
+            let newDevfile = YAML_JSON.parse(this.devfileEditor.getValue());
+            let workspace = result;
+
+            workspace.devfile = newDevfile;
+
+            Meteor.call("updateWorkspace", this.$store.state.keycloak.idToken, this.workspaceID, workspace,
+              (error, result) => {
+                if(result)
+                  router.push(`/project/${this.workspaceID}`);
+              }
+            );
+          }
+        });
       }
     }
   }

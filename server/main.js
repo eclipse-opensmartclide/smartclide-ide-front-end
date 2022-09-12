@@ -29,11 +29,6 @@ Meteor.startup(() => {
 });
 
 Meteor.methods({
-    async getLatestWorkspaces(keycloakToken, length){
-        const connector = new Connector();
-
-        return await connector.getRecentWorkspaces(keycloakToken, length);
-    },
     async getLatestWorkflows(){
         const connector = new Connector();
 
@@ -49,10 +44,15 @@ Meteor.methods({
 
         return await connector.getMostRecentDeployments();
     },
-    async getWorkspacesWithType(keycloakToken, type){
+    async getWorkspaces(keycloakToken){
         const connector = new Connector();
 
-        return connector.getWorkspacesWithType(keycloakToken, type);
+        return await connector.getWorkspaces(keycloakToken);
+    },
+    async getLatestWorkspaces(keycloakToken, length){
+        const connector = new Connector();
+
+        return await connector.getLatestWorkspaces(keycloakToken, length);
     },
     async getWorkspace(keycloakToken, workspaceID){
         const connector = new Connector();
@@ -63,6 +63,11 @@ Meteor.methods({
         const connector = new Connector();
 
         await connector.startWorkspace(keycloakToken, workspaceID);
+    },
+    async updateWorkspace(keycloakToken, workspaceID, data){
+        const connector = new Connector();
+
+        return await connector.updateWorkspace(keycloakToken, workspaceID, data);
     },
     async stopWorkspace(keycloakToken, workspaceID){
         const connector = new Connector();
