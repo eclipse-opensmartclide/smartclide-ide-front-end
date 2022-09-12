@@ -14,6 +14,8 @@ import VueRouter from 'vue-router'
 import Dashboard from "../imports/ui/components/Home/Dashboard";
 import Deployments from "../imports/ui/components/Home/Deployments";
 import Services from "../imports/ui/components/Home/Services";
+import ServiceCreation from "../imports/ui/components/Services/ServiceCreation";
+import Devfile from "../imports/ui/components/Services/Devfile";
 import Workflows from "../imports/ui/components/Home/Workflows";
 
 import CheTheia from "../imports/ui/components/CheTheia/CheTheia";
@@ -30,7 +32,6 @@ import Logs from "../imports/ui/components/Settings/Logs";
 import Statistics from "../imports/ui/components/Settings/Statistics";
 
 import NotImplemented from "../imports/ui/components/NotImplemented";
-import Devfile from "../imports/ui/components/Devfile";
 
 Vue.use(VueRouter)
 
@@ -56,9 +57,15 @@ const routes = [
         component: Services
     },
     {
-        path: "/devfile",
+        path: "/services/serviceCreation",
+        name: "ServiceCreation",
+        component: ServiceCreation
+    },
+    {
+        path: "/services/devfileEditor",
         name: 'Devfile',
-        component: Devfile
+        component: Devfile,
+        props: true
     },
     {
         path: "/deployments",

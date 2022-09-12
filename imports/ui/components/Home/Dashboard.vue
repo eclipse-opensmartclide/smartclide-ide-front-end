@@ -28,7 +28,7 @@
           <b-col>
             <b-row class="h5 mb-2">Create New...</b-row>
             <b-row><router-link to="/notImplemented">Workflow</router-link></b-row>
-            <b-row><router-link to="/notImplemented">Service</router-link></b-row>
+            <b-row><router-link to="/services/serviceCreation">Service</router-link></b-row>
             <b-row><router-link to="/notImplemented">Deployment</router-link></b-row>
           </b-col>
 
@@ -36,7 +36,7 @@
           <b-col>
             <b-row class="h5 mb-2">Recent</b-row>
             <b-row v-for="project in latestWorkspaces">
-              <router-link :to="{ path: `/project/${project.id }`}">
+              <router-link :to="{ path: `/project/${project.id}` }">
                 {{project.devfile.metadata.name}}
               </router-link>
             </b-row>

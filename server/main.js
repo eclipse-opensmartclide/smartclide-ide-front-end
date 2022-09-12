@@ -54,20 +54,20 @@ Meteor.methods({
 
         return connector.getWorkspacesWithType(keycloakToken, type);
     },
-    async getWorkspace(keycloakToken, workspaceId){
+    async getWorkspace(keycloakToken, workspaceID){
         const connector = new Connector();
 
-        return connector.getWorkspace(keycloakToken, workspaceId);
+        return connector.getWorkspace(keycloakToken, workspaceID);
     },
-    async startWorkspace(keycloakToken, workspaceId){
+    async startWorkspace(keycloakToken, workspaceID){
         const connector = new Connector();
 
-        await connector.startWorkspace(keycloakToken, workspaceId);
+        await connector.startWorkspace(keycloakToken, workspaceID);
     },
-    async stopWorkspace(keycloakToken, workspaceId){
+    async stopWorkspace(keycloakToken, workspaceID){
         const connector = new Connector();
 
-        await connector.stopWorkspace(keycloakToken, workspaceId);
+        await connector.stopWorkspace(keycloakToken, workspaceID);
     },
     async request(configuration){
         let connector = await new SmartCLIDEBackendConnector("https://raw.githubusercontent.com/goncalorolo/swagger-json/main/smartCLIDE_DB_API_swagger.json");

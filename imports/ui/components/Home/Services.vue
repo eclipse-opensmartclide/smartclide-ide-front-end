@@ -28,43 +28,7 @@
             :per-page="table.perPage"
             :disabled="table.disablePagination"
         />
-        <b-icon-plus-circle role="button" variant="primary" font-scale="1.5" @click="plusIconClicked" v-b-modal.modal-add-edit/>
-        <b-modal
-            id="modal-add-edit"
-            :title="currentModal.type + ' Service Registry'"
-            @hidden="resetModal"
-            hide-footer
-        >
-          <b-form
-              @submit="modalSubmitted"
-          >
-            <b-form-group
-                v-for="field in Object.keys(table.modalFields)"
-                :label="table.modalFields[field].label"
-            >
-              <b-form-select
-                  v-if="table.modalFields[field].formType === 'select'"
-                  v-model="table.modalFields[field].value"
-                  required
-              >
-                <b-form-select-option
-                    v-for="option in table.modalFields[field].options"
-                    v-model="option.value"
-                    :disabled="option.value === null"
-                >
-                  {{option.label}}
-                </b-form-select-option>
-              </b-form-select>
-              <b-form-input
-                  v-else
-                  :type="table.modalFields[field].formType"
-                  v-model="table.modalFields[field].value"
-                  required
-              />
-            </b-form-group>
-            <b-button class="float-right" type="submit" variant="primary">{{ currentModal.type === 'Add' ? 'Add' : 'Save' }}</b-button>
-          </b-form>
-        </b-modal>
+        <b-icon-plus-circle role="button" variant="primary" font-scale="1.5" @click="plusIconClicked"/>
       </div>
       <div class="d-flex flex-row">
         <b-table
@@ -89,7 +53,8 @@
           </template>
           <template #cell(actions)="data">
             <div class="text-center">
-              <b-icon-pencil role="button" variant="primary" class="mx-2" font-scale="1.2" @click="pencilIconClicked(data.item)" v-b-modal.modal-add-edit/>
+              <b-icon-play role="button" variant="primary" class="mx-2" font-scale="1.2" @click="playIconClicked(data.item)"/>
+              <b-icon-pencil role="button" variant="primary" class="mx-2" font-scale="1.2" @click="pencilIconClicked(data.item)"/>
               <b-icon-trash role="button" variant="primary" class="mx-2" font-scale="1.2" @click="trashIconClicked(data.item)"/>
             </div>
           </template>
@@ -100,13 +65,15 @@
 </template>
 
 <script>
+  import router from "../../../../client/routes";
+
   export default {
     name: "Services",
     data(){
       return {
         table: {
           title: "Services",
-          fields: ["type", { key: "url", label: "URL" }, "username", "actions"],
+          fields: ["name", "description", "licence", "updated_at", "actions"],
           content: [],
           loaded: false,
           filter: null,
@@ -114,91 +81,43 @@
           perPage: 10,
           currentPage: 1,
           disablePagination: null,
-          modalFields: {
-            type: {
-              label: "Type",
-              formType: "select",
-              options: [
-                {
-                  label: "Please select a type of Service Registry",
-                  value: null
-                },
-                {
-                  label: "GitHub",
-                  value: "GitHub"
-                },
-                {
-                  label: "GitLab",
-                  value: "GitLab"
-                },
-                {
-                  label: "Bitbucket",
-                  value: "Bitbucket"
-                },
-                {
-                  label: "ProgrammableWeb",
-                  value: "ProgrammableWeb"
-                },
-                {
-                  label: "Docker",
-                  value: "Docker"
-                },
-                {
-                  label: "IoT-Catalogue",
-                  value: "IoT-Catalogue"
-                }
-              ],
-              value: null
-            },
-            url: {
-              label: "URL",
-              formType: "url",
-              value: null
-            },
-            username: {
-              label: "Username",
-              formType: "text",
-              value: null
-            },
-            token: {
-              label: "Token",
-              formType: "password",
-              value: null
-            }
-          },
           operationIds: {
-            get: "getServiceRegistries",
-            add: "postServiceRegistries",
-            edit: "patchServiceRegistryItem",
-            delete: "deleteServiceRegistryItem"
+            get: "getservices",
+            add: "postservices",
+            edit: "patchServiceItem",
+            delete: "deleteServicetItem" // THIS OPERATION ID HAS A TYPO
           }
         },
-        currentModal: {
-          type: null,
-          currentRowId: null
-        }
+        currentRowId: null
       };
     },
     mounted(){
       this.$store.state.context = 'home';
-      this.fetchContent();
+      this.fetchServices();
     },
     methods: {
-      fetchContent(){
+      fetchServices(){
         Meteor.call("request", {
             operationId: this.table.operationIds.get,
-            parameters: { user_id: this.$store.state.keycloak.subject },
+            parameters: { user_id: this.$store.state.keycloak.subject, registry_id: "internal" },
             token: this.$store.state.keycloak.token
           },
-            (error, result) => {
-              if(result){
-                let content = result?.body.map((item) => {
-                  return { id: item.id, type: item.type, url: item.url, username: item.username };
-                });
+          (error, result) => {
+            if(result){
+              let content = result?.body.map((item) => {
+                return {
+                  id: item.id,
+                  name: item.name,
+                  description: item.description,
+                  licence: item.licence,
+                  updated_at: item["updated"],
+                  workspaceID: item["workspace_id"]
+                };
+              });
 
-                Object.assign(this.table,{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
-              }
+              Object.assign(this.table,{ loaded: true, content, totalRows: content.length, disablePagination: !content.length });
             }
+          }
         );
       },
       onFiltered(filteredItems){
@@ -207,54 +126,34 @@
         this.table.currentPage = 1;
       },
       plusIconClicked(){
-        this.currentModal.type = "Add";
+        router.push("/services/serviceCreation");
       },
-      resetModal(){
-        Object.keys(this.table.modalFields).forEach(field => this.table.modalFields[field].value = null);
-        this.currentModal.type = null;
-        this.currentModal.currentRowId = null;
-      },
-      closeModal(){
-        this.$nextTick(() => {
-          this.$bvModal.hide('modal-add-edit');
+      playIconClicked(rowData){
+        Meteor.call("getWorkspace", this.$store.state.keycloak.idToken, rowData.workspaceID, (error, result) => {
+          if(result){
+            router.push({
+              name: "Devfile",
+              params: {
+                workspaceID: rowData.workspaceID,
+                devfile: result.devfile
+              }
+            });
+          }
         });
       },
       pencilIconClicked(rowData){
-        this.currentModal.type = "Edit";
-        this.currentModal.currentRowId = rowData.id;
-        Object.keys(this.table.modalFields).forEach(field => this.table.modalFields[field].value = rowData[field]);
-      },
-      modalSubmitted(event){
-        event.preventDefault();
-
-        Meteor.call("request", {
-          operationId: this.currentModal.type === "Add" ? this.table.operationIds.add : this.table.operationIds.edit,
-          parameters: { serviceRegistryId: this.currentModal.currentRowId },
-          requestBody: {
-            user_id: this.$store.state.keycloak.subject,
-            type: this.table.modalFields.type.value,
-            url: this.table.modalFields.url.value,
-            username: this.table.modalFields.username.value,
-            token: this.table.modalFields.token.value
-          },
-          token: this.$store.state.keycloak.token
-        }, () => {
-          this.fetchContent();
-        });
-
-        this.closeModal();
-        this.table.loaded = false;
+        this.currentRowId = rowData.id;
       },
       trashIconClicked(rowData){
         Meteor.call("request", {
           operationId: this.table.operationIds.delete,
-          parameters: { serviceRegistryId: rowData.id },
+          parameters: { serviceId: rowData.id },
           token: this.$store.state.keycloak.token
         }, () => {
-          this.fetchContent();
+          this.fetchServices();
         });
 
-        this.currentModal.currentRowId = null;
+        this.currentRowId = null;
         this.table.loaded = false;
       }
     }

@@ -26,7 +26,6 @@ export default new Vuex.Store({
                             { title: 'Dashboard', link: '/dashboard' },
                             { title: 'Workflows', link: '/workflows' },
                             { title: 'Services', link: '/services' },
-                            { title: 'Devfile', link: '/devfile' },
                             { title: 'Deployments', link: '/deployments' }
                         ]
                     }
