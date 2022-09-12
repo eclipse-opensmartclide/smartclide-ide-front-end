@@ -10,8 +10,8 @@
 
 <template>
   <div class="m-4 h-75">
-    <b-card class="h-100">
-      <div class="devfile-editor">
+    <b-card class="h-100" title="Devfile Editor" sub-title="View the devfile of the workspace before starting it">
+      <div class="devfile-editor mt-3">
         <div id="editor" class="monaco-editor"/>
       </div>
       <b-row class="my-3">
@@ -69,7 +69,8 @@
   .devfile-editor{
     position: relative;
     width: 100%;
-    height: calc(100% - 50px);
+    height: calc(100% - 120px);
+
   }
 
   .monaco-editor {
