@@ -125,7 +125,7 @@
             totalRows: null,
             perPage: 10,
             currentPage: 1,
-            disablePagination: null,
+            disablePagination: true,
             modalFields: {
               type: {
                 label: "Type",
@@ -192,7 +192,7 @@
             totalRows: null,
             perPage: 10,
             currentPage: 1,
-            disablePagination: null,
+            disablePagination: true,
             modalFields: {
               url: {
                 label: "URL",
@@ -236,7 +236,7 @@
             totalRows: null,
             perPage: 10,
             currentPage: 1,
-            disablePagination: null,
+            disablePagination: true,
             modalFields: {
               type: {
                 label: "Type",

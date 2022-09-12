@@ -113,7 +113,7 @@
           totalRows: null,
           perPage: 10,
           currentPage: 1,
-          disablePagination: null,
+          disablePagination: true,
           modalFields: {
             type: {
               label: "Type",
