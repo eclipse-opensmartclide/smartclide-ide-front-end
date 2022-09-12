@@ -16,7 +16,7 @@
       </div>
       <b-row class="my-3">
         <b-col>
-          <b-button @click="backButtonClicked">Back</b-button>
+          <b-button @click="cancelButtonClicked">Cancel</b-button>
         </b-col>
 <!--        <b-col class="text-center">-->
 <!--          <b-button @click="resetButtonClicked" variant="primary">Reset</b-button>-->
@@ -52,7 +52,7 @@
       });
     },
     methods: {
-      backButtonClicked(){
+      cancelButtonClicked(){
         router.back();
       },
       resetButtonClicked(){
