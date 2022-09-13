@@ -80,13 +80,7 @@
           totalRows: null,
           perPage: 10,
           currentPage: 1,
-          disablePagination: null,
-          operationIDs: {
-            get: "getservices",
-            add: "postservices",
-            edit: "patchServiceItem",
-            delete: "deleteServicetItem" // THIS OPERATION ID HAS A TYPO
-          }
+          disablePagination: null
         },
         currentRowId: null
       };
@@ -98,8 +92,11 @@
     methods: {
       fetchServices(){
         Meteor.call("request", {
-            operationID: this.table.operationIDs.get,
-            parameters: { user_id: this.$store.state.keycloak.subject, registry_id: "internal" },
+            operationID: this.$store.state.apis.backend.endpoints.getServices.operationID,
+            parameters: JSON.parse(`{
+              "${this.$store.state.apis.backend.endpoints.getServices.parameters.userID}": "${this.$store.state.keycloak.subject}",
+              "${this.$store.state.apis.backend.endpoints.getServices.parameters.registryID}": "internal"
+            }`),
             token: this.$store.state.keycloak.token
           },
           (error, result) => {
@@ -146,8 +143,10 @@
       },
       trashIconClicked(rowData){
         Meteor.call("request", {
-          operationID: this.table.operationIDs.delete,
-          parameters: { serviceId: rowData.id },
+          operationID: this.$store.state.apis.backend.endpoints.deleteService.operationID,
+          parameters: JSON.parse(`{
+            "${this.$store.state.apis.backend.endpoints.deleteService.parameters.serviceID}": "${rowData.id}"
+          }`),
           token: this.$store.state.keycloak.token
         }, () => {
           this.fetchServices();

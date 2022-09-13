@@ -165,12 +165,6 @@
               formType: "password",
               value: null
             }
-          },
-          operationIDs: {
-            get: "getServiceRegistries",
-            add: "postServiceRegistries",
-            edit: "patchServiceRegistryItem",
-            delete: "deleteServiceRegistryItem"
           }
         },
         currentModal: {
@@ -186,8 +180,10 @@
     methods: {
       fetchContent(){
         Meteor.call("request", {
-            operationID: this.table.operationIDs.get,
-            parameters: { user_id: this.$store.state.keycloak.subject },
+            operationID: this.$store.state.apis.backend.endpoints.getServiceRegistries.operationID,
+            parameters: JSON.parse(`{
+              "${this.$store.state.apis.backend.endpoints.getServiceRegistries.parameters.userID}": "${this.$store.state.keycloak.subject}"
+            }`),
             token: this.$store.state.keycloak.token
           },
           (error, result) => {
@@ -227,9 +223,18 @@
       modalSubmitted(event){
         event.preventDefault();
 
+        let operationID;
+
+        if(this.currentModal.type === "Add")
+          operationID = this.$store.state.apis.backend.endpoints.addServiceRegistries.operationID;
+        else
+          operationID = this.$store.state.apis.backend.endpoints.editServiceRegistry.operationID;
+
         Meteor.call("request", {
-          operationID: this.currentModal.type === "Add" ? this.table.operationIDs.add : this.table.operationIDs.edit,
-          parameters: { serviceRegistryId: this.currentModal.currentRowId },
+          operationID,
+          parameters: JSON.parse(`{
+            "${this.$store.state.apis.backend.endpoints.editServiceRegistry.parameters.serviceRegistryID}": "${this.currentModal.currentRowId}"
+          }`),
           requestBody: {
             user_id: this.$store.state.keycloak.subject,
             type: this.table.modalFields.type.value,
@@ -247,8 +252,10 @@
       },
       trashIconClicked(rowData){
         Meteor.call("request", {
-          operationID: this.table.operationIDs.delete,
-          parameters: { serviceRegistryId: rowData.id },
+          operationID: this.$store.state.apis.backend.endpoints.deleteServiceRegistry.operationID,
+          parameters: JSON.parse(`{
+            "${this.$store.state.apis.backend.endpoints.deleteServiceRegistry.parameters.serviceRegistryID}": "${rowData.id}"
+          }`),
           token: this.$store.state.keycloak.token
         }, () => {
           this.fetchContent();

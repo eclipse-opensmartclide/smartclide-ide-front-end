@@ -167,19 +167,16 @@
               }
             },
             endpoints: {
-              get: {
-                operationID: "getGitCredentials",
-              },
               add: {
-                operationID: "postGitCredentials",
+                operationID: this.$store.state.apis.backend.endpoints.addGitCredentials.operationID
               },
               edit: {
-                operationID: "patchGitCredentialsItem",
-                parameter: "gitCredentialsId"
+                operationID: this.$store.state.apis.backend.endpoints.editGitCredential.operationID,
+                parameter: this.$store.state.apis.backend.endpoints.editGitCredential.parameters.gitCredentialsID
               },
               delete: {
-                operationID: "deleteGitCredentialsItem",
-                parameter: "gitCredentialsId"
+                operationID: this.$store.state.apis.backend.endpoints.deleteGitCredential.operationID,
+                parameter: this.$store.state.apis.backend.endpoints.deleteGitCredential.parameters.gitCredentialsID
               }
             }
           },
@@ -211,19 +208,16 @@
               }
             },
             endpoints: {
-              get: {
-                operationID: "getDeploymentPlatforms",
-              },
               add: {
-                operationID: "postDeploymentPlatforms",
+                operationID: this.$store.state.apis.backend.endpoints.addDeploymentPlatforms.operationID
               },
               edit: {
-                operationID: "patchDeploymentPlatformItem",
-                parameter: "deploymentPlatformId"
+                operationID: this.$store.state.apis.backend.endpoints.editDeploymentPlatform.operationID,
+                parameter: this.$store.state.apis.backend.endpoints.editDeploymentPlatform.parameters.deploymentPlatformID
               },
               delete: {
-                operationID: "deleteDeploymentPlatformItem",
-                parameter: "deploymentPlatformId"
+                operationID: this.$store.state.apis.backend.endpoints.deleteDeploymentPlatform.operationID,
+                parameter: this.$store.state.apis.backend.endpoints.deleteDeploymentPlatform.parameters.deploymentPlatformID
               }
             }
           },
@@ -282,19 +276,16 @@
               }
             },
             endpoints: {
-              get: {
-                operationID: "getCiManagers"
-              },
               add: {
-                operationID: "postCiManagers"
+                operationID: this.$store.state.apis.backend.endpoints.addCIManagers.operationID
               },
               edit: {
-                operationID: "patchCiManagerItem",
-                parameter: "ciManagerId"
+                operationID: this.$store.state.apis.backend.endpoints.editCIManager.operationID,
+                parameter: this.$store.state.apis.backend.endpoints.editCIManager.parameters.ciManagerID
               },
               delete: {
-                operationID: "deleteCiManagerItem",
-                parameter: "ciManagerId"
+                operationID: this.$store.state.apis.backend.endpoints.deleteCIManager.operationID,
+                parameter: this.$store.state.apis.backend.endpoints.deleteCIManager.parameters.ciManagerID
               }
             }
           }
@@ -318,8 +309,10 @@
       },
       fetchGitCredentials(){
         Meteor.call("request", {
-            operationID: this.tables[0].endpoints.get.operationID,
-            parameters: { user_id: this.$store.state.keycloak.subject },
+            operationID: this.$store.state.apis.backend.endpoints.getGitCredentials.operationID,
+            parameters: JSON.parse(`{
+              "${this.$store.state.apis.backend.endpoints.getGitCredentials.parameters.userID}": "${this.$store.state.keycloak.subject}"
+            }`),
             token: this.$store.state.keycloak.token
           },
           (error, result) => {
@@ -335,8 +328,10 @@
       },
       fetchDeploymentPlatformsCredentials(){
         Meteor.call("request", {
-            operationID: this.tables[1].endpoints.get.operationID,
-            parameters: { user_id: this.$store.state.keycloak.subject },
+            operationID: this.$store.state.apis.backend.endpoints.getDeploymentPlatforms.operationID,
+            parameters: JSON.parse(`{
+              "${this.$store.state.apis.backend.endpoints.getDeploymentPlatforms.parameters.userID}": "${this.$store.state.keycloak.subject}"
+            }`),
             token: this.$store.state.keycloak.token
           },
           (error, result) => {
@@ -352,8 +347,10 @@
       },
       fetchCIManagersCredentials(){
         Meteor.call("request", {
-            operationID: this.tables[2].endpoints.get.operationID,
-            parameters: { user_id: this.$store.state.keycloak.subject },
+            operationID: this.$store.state.apis.backend.endpoints.getCIManagers.operationID,
+            parameters: JSON.parse(`{
+              "${this.$store.state.apis.backend.endpoints.getCIManagers.parameters.userID}": "${this.$store.state.keycloak.subject}"
+            }`),
             token: this.$store.state.keycloak.token
           },
           (error, result) => {
@@ -402,7 +399,9 @@
 
         Meteor.call("request", {
           operationID: endpoint.operationID,
-          parameters: JSON.parse(`{ "${endpoint.parameter}": "${this.currentModal.currentRowId}" }`),
+          parameters: JSON.parse(`{
+            "${endpoint.parameter}": "${this.currentModal.currentRowId}"
+          }`),
           requestBody: {
             user_id: this.$store.state.keycloak.subject,
             type: this.currentModal.currentTabId !== 1 ? currentTable.modalFields.type.value : null,

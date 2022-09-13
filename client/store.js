@@ -89,7 +89,216 @@ export default new Vuex.Store({
                     }
                 ]
             },
-        ]
+        ],
+        apis: {
+            backend: {
+                endpoints: {
+                    getUsers: {
+                        operationID: "getusers"
+                    },
+                    addUsers: {
+                        operationID: "postusers"
+                    },
+                    getUserByID: {
+                        operationID: "getUserItem",
+                        parameters: { userID: "userId" },
+                    },
+                    editUser: {
+                        operationID: "patchUserItem",
+                        parameters: { userID: "userId" }
+                    },
+                    deleteUser: {
+                        operationID: "deleteUsertItem",
+                        parameters: { userID: "userId" }
+                    },
+
+                    getTeams: {
+                        operationID: "get_teams",
+                        parameters: { userID: "user_id" }
+                    },
+                    addTeams: {
+                        operationID: "post_teams"
+                    },
+                    getTeamByID: {
+                        operationID: "getTeamItem",
+                        parameters: { teamID: "teamId" }
+                    },
+                    editTeam: {
+                        operationID: "patchTeamItem",
+                        parameters: { teamID: "teamId" }
+                    },
+                    deleteTeam: {
+                        operationID: "deleteTeamtItem",
+                        parameters: { teamID: "teamId" }
+                    },
+
+                    getCIManagers: {
+                        operationID: "getCiManagers",
+                        parameters: { userID: "user_id" }
+                    },
+                    addCIManagers: {
+                        operationID: "postCiManagers"
+                    },
+                    getCIManagerByID: {
+                        operationID: "getCiManagerItem",
+                        parameters: { ciManagerID: "ciManagerId" }
+                    },
+                    editCIManager: {
+                        operationID: "patchCiManagerItem",
+                        parameters: { ciManagerID: "ciManagerId" }
+                    },
+                    deleteCIManager: {
+                        operationID: "deleteCiManagerItem",
+                        parameters: { ciManagerID: "ciManagerId" }
+                    },
+
+                    getDeploymentPlatforms: {
+                        operationID: "getDeploymentPlatforms",
+                        parameters: { userID: "user_id" }
+                    },
+                    addDeploymentPlatforms: {
+                        operationID: "postDeploymentPlatforms"
+                    },
+                    getDeploymentPlatformByID: {
+                        operationID: "getDeploymentPlatform",
+                        parameters: { deploymentPlatformID: "deploymentPlatformId" }
+                    },
+                    editDeploymentPlatform: {
+                        operationID: "patchDeploymentPlatformItem",
+                        parameters: { deploymentPlatformID: "deploymentPlatformId" }
+                    },
+                    deleteDeploymentPlatform: {
+                        operationID: "deleteDeploymentPlatformItem",
+                        parameters: { deploymentPlatformID: "deploymentPlatformId" }
+                    },
+
+                    getServiceRegistries: {
+                        operationID: "getServiceRegistries",
+                        parameters: { userID: "user_id" }
+                    },
+                    addServiceRegistries: {
+                        operationID: "postServiceRegistries"
+                    },
+                    getServiceRegistryByID: {
+                        operationID: "getServiceRegistry",
+                        parameters: { serviceRegistryID: "serviceRegistryId" }
+                    },
+                    editServiceRegistry: {
+                        operationID: "patchServiceRegistryItem",
+                        parameters: { serviceRegistryID: "serviceRegistryId" }
+                    },
+                    deleteServiceRegistry: {
+                        operationID: "deleteServiceRegistryItem",
+                        parameters: { serviceRegistryID: "serviceRegistryId" }
+                    },
+
+                    getGitCredentials: {
+                        operationID: "getGitCredentials",
+                        parameters: { userID: "user_id" }
+                    },
+                    addGitCredentials: {
+                        operationID: "postGitCredentials"
+                    },
+                    getGitCredentialByID: {
+                        operationID: "getGitCredentialsItem",
+                        parameters: { gitCredentialsID: "gitCredentialsId" }
+                    },
+                    editGitCredential: {
+                        operationID: "patchGitCredentialsItem",
+                        parameters: { gitCredentialsID: "gitCredentialsId" }
+                    },
+                    deleteGitCredential: {
+                        operationID: "deleteGitCredentialsItem",
+                        parameters: { gitCredentialsID: "gitCredentialsId" }
+                    },
+
+                    getServices: {
+                        operationID: "getservices",
+                        parameters: {
+                            userID: "user_id",
+                            registryID: "registry_id",
+                            workspaceID: "workspace_id",
+                            licence: "licence",
+                            framework: "framework",
+                            minStars: "min_stars",
+                            maxStars: "max_stars",
+                            minForks: "min_forks",
+                            maxForks: "max_forks",
+                            minWatchers: "min_watchers",
+                            maxWatchers: "max_watchers",
+                            URL: "url",
+                            deployable: "deployable",
+                            createdBefore: "created_before",
+                            createdAfter: "created_after",
+                            updatedBefore: "updated_before",
+                            updatedAfter: "updated_after"
+                        }
+                    },
+                    addServices: {
+                        operationID: "postservices"
+                    },
+                    addServicesInBulk: {
+                        operationID: "postServicesBulk"
+                    },
+                    getServiceByID: {
+                        operationID: "getServiceItem",
+                        parameters: { serviceID: "serviceId" }
+                    },
+                    editService: {
+                        operationID: "patchServiceItem",
+                        parameters: { serviceID: "serviceId" }
+                    },
+                    deleteService: {
+                        operationID: "deleteServicetItem",
+                        parameters: { serviceID: "serviceId" }
+                    },
+
+                    getWorkflows: {
+                        operationID: "getWorkflows",
+                        parameters: { userID: "user_id" }
+                    },
+                    addWorkflows: {
+                        operationID: "postWorkflows"
+                    },
+                    getWorkflowByID: {
+                        operationID: "getWorkflowItem",
+                        parameters: { workflowID: "workflowId" }
+                    },
+                    editWorkflow: {
+                        operationID: "patchWorkflowItem",
+                        parameters: { workflowID: "workflowId" }
+                    },
+                    deleteWorkflow: {
+                        operationID: "deleteWorkflowItem",
+                        parameters: { workflowID: "workflowId" }
+                    },
+
+                    getDeployments: {
+                        operationID: "getDeployments",
+                        parameters: {
+                            userID: "user_id",
+                            serviceID: "service_id",
+                            workflowID: "workflow_id"
+                        }
+                    },
+                    addDeployments: {
+                        operationID: "postDeployments"
+                    },
+                    getDeploymentByID: {
+                        operationID: "getDeploymentItem",
+                        parameters: { deploymentID: "deploymentId" }
+                    },
+                    editDeployment: {
+                        operationID: "patchDeploymentItem",
+                        parameters: { deploymentID: "deploymentId" }
+                    },
+                    deleteDeployment: {
+                        operationID: "deleteDeploymentItem",
+                        parameters: { deploymentID: "deploymentId" }
+                    }
+                }
+            }
+        }
     },
     getters: {
         getCategories: state => {

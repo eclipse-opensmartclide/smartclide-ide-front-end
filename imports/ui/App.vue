@@ -81,7 +81,7 @@ export default {
         (error, result) => {
           if(!result)
             Meteor.call("request",{
-              operationID: "postusers",
+              operationID: this.$store.state.apis.backend.endpoints.addUsers.operationID,
               requestBody: {
                 id: this.$store.state.keycloak.subject,
                 email: this.$store.state.keycloak.tokenParsed.email,
