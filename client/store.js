@@ -53,9 +53,9 @@ export default new Vuex.Store({
                         category: "root",
                         options: [
                             { title: 'Profile', link: '/profile' },
-                            { title: 'Team', link: '/team' },
+                            { title: 'Credentials', link: '/credentials' },
                             { title: 'Service Registries', link: '/service-registries' },
-                            { title: 'Credentials', link: '/credentials' }
+                            { title: 'Team', link: '/team' }
                         ]
                     }
                 ]

@@ -193,7 +193,7 @@
         this.gitCredentials.forEach(gitCredential => {
           if(gitCredential.type === this.steps[0].fields.gitSystem.value)
             newOptions.push({
-              label: `${gitCredential.id} - ${gitCredential.username}`,
+              label: `${gitCredential.username}`,
               value: `${gitCredential.id}`
             });
         });
