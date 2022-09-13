@@ -124,6 +124,14 @@
                   value: null
                 },
                 {
+                  label: "Bitbucket",
+                  value: "Bitbucket"
+                },
+                {
+                  label: "Docker",
+                  value: "Docker"
+                },
+                {
                   label: "GitHub",
                   value: "GitHub"
                 },
@@ -132,20 +140,12 @@
                   value: "GitLab"
                 },
                 {
-                  label: "Bitbucket",
-                  value: "Bitbucket"
+                  label: "IoT-Catalogue",
+                  value: "IoT-Catalogue"
                 },
                 {
                   label: "ProgrammableWeb",
                   value: "ProgrammableWeb"
-                },
-                {
-                  label: "Docker",
-                  value: "Docker"
-                },
-                {
-                  label: "IoT-Catalogue",
-                  value: "IoT-Catalogue"
                 }
               ],
               value: null

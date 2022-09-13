@@ -136,16 +136,16 @@
                     value: null
                   },
                   {
+                    label: "Bitbucket",
+                    value: "Bitbucket"
+                  },
+                  {
                     label: "GitHub",
                     value: "GitHub"
                   },
                   {
                     label: "GitLab",
                     value: "GitLab"
-                  },
-                  {
-                    label: "Bitbucket",
-                    value: "Bitbucket"
                   }
                 ],
                 value: null
@@ -241,16 +241,16 @@
                     value: null
                   },
                   {
-                    label: "Jenkins",
-                    value: "Jenkins"
+                    label: "GitHub Actions",
+                    value: "GitHub Actions"
                   },
                   {
                     label: "GitLab CI/CD",
                     value: "GitLab CI/CD"
                   },
                   {
-                    label: "GitHub Actions",
-                    value: "GitHub Actions"
+                    label: "Jenkins",
+                    value: "Jenkins"
                   },
                   {
                     label: "Travis",
