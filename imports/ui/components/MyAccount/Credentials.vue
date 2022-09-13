@@ -168,17 +168,17 @@
             },
             endpoints: {
               get: {
-                operationId: "getGitCredentials",
+                operationID: "getGitCredentials",
               },
               add: {
-                operationId: "postGitCredentials",
+                operationID: "postGitCredentials",
               },
               edit: {
-                operationId: "patchGitCredentialsItem",
+                operationID: "patchGitCredentialsItem",
                 parameter: "gitCredentialsId"
               },
               delete: {
-                operationId: "deleteGitCredentialsItem",
+                operationID: "deleteGitCredentialsItem",
                 parameter: "gitCredentialsId"
               }
             }
@@ -212,17 +212,17 @@
             },
             endpoints: {
               get: {
-                operationId: "getDeploymentPlatforms",
+                operationID: "getDeploymentPlatforms",
               },
               add: {
-                operationId: "postDeploymentPlatforms",
+                operationID: "postDeploymentPlatforms",
               },
               edit: {
-                operationId: "patchDeploymentPlatformItem",
+                operationID: "patchDeploymentPlatformItem",
                 parameter: "deploymentPlatformId"
               },
               delete: {
-                operationId: "deleteDeploymentPlatformItem",
+                operationID: "deleteDeploymentPlatformItem",
                 parameter: "deploymentPlatformId"
               }
             }
@@ -283,17 +283,17 @@
             },
             endpoints: {
               get: {
-                operationId: "getCiManagers"
+                operationID: "getCiManagers"
               },
               add: {
-                operationId: "postCiManagers"
+                operationID: "postCiManagers"
               },
               edit: {
-                operationId: "patchCiManagerItem",
+                operationID: "patchCiManagerItem",
                 parameter: "ciManagerId"
               },
               delete: {
-                operationId: "deleteCiManagerItem",
+                operationID: "deleteCiManagerItem",
                 parameter: "ciManagerId"
               }
             }
@@ -318,7 +318,7 @@
       },
       fetchGitCredentials(){
         Meteor.call("request", {
-            operationId: this.tables[0].endpoints.get.operationId,
+            operationID: this.tables[0].endpoints.get.operationID,
             parameters: { user_id: this.$store.state.keycloak.subject },
             token: this.$store.state.keycloak.token
           },
@@ -335,7 +335,7 @@
       },
       fetchDeploymentPlatformsCredentials(){
         Meteor.call("request", {
-            operationId: this.tables[1].endpoints.get.operationId,
+            operationID: this.tables[1].endpoints.get.operationID,
             parameters: { user_id: this.$store.state.keycloak.subject },
             token: this.$store.state.keycloak.token
           },
@@ -352,7 +352,7 @@
       },
       fetchCIManagersCredentials(){
         Meteor.call("request", {
-            operationId: this.tables[2].endpoints.get.operationId,
+            operationID: this.tables[2].endpoints.get.operationID,
             parameters: { user_id: this.$store.state.keycloak.subject },
             token: this.$store.state.keycloak.token
           },
@@ -401,7 +401,7 @@
         let endpoint = this.currentModal.type === "Add" ? currentTable.endpoints.add: currentTable.endpoints.edit;
 
         Meteor.call("request", {
-          operationId: endpoint.operationId,
+          operationID: endpoint.operationID,
           parameters: JSON.parse(`{ "${endpoint.parameter}": "${this.currentModal.currentRowId}" }`),
           requestBody: {
             user_id: this.$store.state.keycloak.subject,
@@ -423,7 +423,7 @@
         let endpoint = currentTable.endpoints.delete;
 
         Meteor.call("request", {
-          operationId: endpoint.operationId,
+          operationID: endpoint.operationID,
           parameters: JSON.parse(`{ "${endpoint.parameter}": "${rowData.id}" }`),
           token: this.$store.state.keycloak.token
         }, () => {

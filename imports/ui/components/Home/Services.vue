@@ -81,7 +81,7 @@
           perPage: 10,
           currentPage: 1,
           disablePagination: null,
-          operationIds: {
+          operationIDs: {
             get: "getservices",
             add: "postservices",
             edit: "patchServiceItem",
@@ -98,7 +98,7 @@
     methods: {
       fetchServices(){
         Meteor.call("request", {
-            operationId: this.table.operationIds.get,
+            operationID: this.table.operationIDs.get,
             parameters: { user_id: this.$store.state.keycloak.subject, registry_id: "internal" },
             token: this.$store.state.keycloak.token
           },
@@ -146,7 +146,7 @@
       },
       trashIconClicked(rowData){
         Meteor.call("request", {
-          operationId: this.table.operationIds.delete,
+          operationID: this.table.operationIDs.delete,
           parameters: { serviceId: rowData.id },
           token: this.$store.state.keycloak.token
         }, () => {

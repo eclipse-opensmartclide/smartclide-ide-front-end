@@ -86,7 +86,6 @@
     position: relative;
     width: 100%;
     height: calc(100% - 120px);
-
   }
 
   .monaco-editor {

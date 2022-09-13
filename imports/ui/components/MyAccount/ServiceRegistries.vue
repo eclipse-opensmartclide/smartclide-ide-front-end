@@ -166,7 +166,7 @@
               value: null
             }
           },
-          operationIds: {
+          operationIDs: {
             get: "getServiceRegistries",
             add: "postServiceRegistries",
             edit: "patchServiceRegistryItem",
@@ -186,7 +186,7 @@
     methods: {
       fetchContent(){
         Meteor.call("request", {
-            operationId: this.table.operationIds.get,
+            operationID: this.table.operationIDs.get,
             parameters: { user_id: this.$store.state.keycloak.subject },
             token: this.$store.state.keycloak.token
           },
@@ -228,7 +228,7 @@
         event.preventDefault();
 
         Meteor.call("request", {
-          operationId: this.currentModal.type === "Add" ? this.table.operationIds.add : this.table.operationIds.edit,
+          operationID: this.currentModal.type === "Add" ? this.table.operationIDs.add : this.table.operationIDs.edit,
           parameters: { serviceRegistryId: this.currentModal.currentRowId },
           requestBody: {
             user_id: this.$store.state.keycloak.subject,
@@ -247,7 +247,7 @@
       },
       trashIconClicked(rowData){
         Meteor.call("request", {
-          operationId: this.table.operationIds.delete,
+          operationID: this.table.operationIDs.delete,
           parameters: { serviceRegistryId: rowData.id },
           token: this.$store.state.keycloak.token
         }, () => {
