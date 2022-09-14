@@ -51,6 +51,9 @@
               Loading...
             </div>
           </template>
+          <template #cell(updatedAt)="data">
+            {{ convertDate(data.value) }}
+          </template>
           <template #cell(actions)="data">
             <div class="text-center">
               <b-icon-play role="button" variant="primary" class="mx-2" font-scale="1.2" @click="playIconClicked(data.item)"/>
@@ -65,6 +68,7 @@
 </template>
 
 <script>
+  import moment from "moment";
   import router from "../../../../client/routes";
 
   export default {
@@ -73,7 +77,7 @@
       return {
         table: {
           title: "Services",
-          fields: ["name", "description", "licence", "updated_at", "actions"],
+          fields: ["name", "description", "licence", "updatedAt", "actions"],
           content: [],
           loaded: false,
           filter: null,
@@ -107,7 +111,7 @@
                   name: item.name,
                   description: item.description,
                   licence: item.licence,
-                  updated_at: item["updated"],
+                  updatedAt: item["updated"],
                   workspaceID: item["workspace_id"]
                 };
               });
@@ -121,6 +125,9 @@
         this.table.disablePagination = !filteredItems.length;
         this.table.totalRows = filteredItems.length;
         this.table.currentPage = 1;
+      },
+      convertDate(date){
+        return moment(new Date(date)).format('YYYY-MM-DD HH:mm:ss');
       },
       plusIconClicked(){
         router.push("/services/serviceCreation");
