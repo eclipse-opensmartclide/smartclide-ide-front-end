@@ -127,7 +127,7 @@
         this.table.currentPage = 1;
       },
       convertDate(date){
-        return moment(new Date(date)).format('YYYY-MM-DD HH:mm:ss');
+        return moment(new Date(date)).format('DD-MMM-YYYY HH:mm');
       },
       plusIconClicked(){
         router.push("/services/serviceCreation");

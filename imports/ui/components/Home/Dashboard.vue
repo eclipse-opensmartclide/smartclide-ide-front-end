@@ -83,7 +83,7 @@
               </div>
             </template>
             <template #cell(updatedAt)="data">
-              {{ convertDate(new Date(data.value)) }}
+              {{ convertDate(data.value) }}
             </template>
           </b-table>
         </div>
@@ -159,7 +159,7 @@
         });
       },
       convertDate(date){
-        return moment(date).format('DD-MMM-YYYY HH:mm');
+        return moment(new Date(date)).format('DD-MMM-YYYY HH:mm');
       },
       remove(cardID){
         let index = this.cards.map(card => card.i).indexOf(cardID);
