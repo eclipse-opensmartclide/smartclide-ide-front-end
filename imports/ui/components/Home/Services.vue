@@ -133,20 +133,21 @@
         router.push("/services/serviceCreation");
       },
       playIconClicked(rowData){
+        router.push(`/project/${rowData.workspaceID}`);
+      },
+      pencilIconClicked(rowData){
         Meteor.call("getWorkspace", this.$store.state.keycloak.idToken, rowData.workspaceID, (error, result) => {
           if(result){
             router.push({
               name: "Devfile",
               params: {
+                from: "Edit",
                 workspaceID: rowData.workspaceID,
                 devfile: result.devfile
               }
             });
           }
         });
-      },
-      pencilIconClicked(rowData){
-        this.currentRowId = rowData.id;
       },
       trashIconClicked(rowData){
         Meteor.call("request", {
