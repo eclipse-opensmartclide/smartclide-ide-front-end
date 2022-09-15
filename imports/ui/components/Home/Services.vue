@@ -77,7 +77,7 @@
       return {
         table: {
           title: "Services",
-          fields: ["name", "description", "licence", "updatedAt", "actions"],
+          fields: ["name", "description", "updatedAt", "actions"],
           content: [],
           loaded: false,
           filter: null,
