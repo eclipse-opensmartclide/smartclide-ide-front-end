@@ -28,7 +28,14 @@
             :per-page="table.perPage"
             :disabled="table.disablePagination"
         />
-        <b-icon-plus-circle role="button" variant="primary" font-scale="1.5" @click="plusIconClicked"/>
+        <b-icon-plus-circle
+          role="button"
+          variant="primary"
+          font-scale="1.5"
+          @click="plusIconClicked"
+          v-b-tooltip.hover
+          title="Add new"
+        />
       </div>
       <div class="d-flex flex-row">
         <b-table
@@ -56,9 +63,33 @@
           </template>
           <template #cell(actions)="data">
             <div class="text-center">
-              <b-icon-play role="button" variant="primary" class="mx-2" font-scale="1.2" @click="playIconClicked(data.item)"/>
-              <b-icon-pencil role="button" variant="primary" class="mx-2" font-scale="1.2" @click="pencilIconClicked(data.item)"/>
-              <b-icon-trash role="button" variant="primary" class="mx-2" font-scale="1.2" @click="trashIconClicked(data.item)"/>
+              <b-icon-code-slash
+                role="button"
+                variant="primary"
+                class="mx-2"
+                font-scale="1.2"
+                @click="playIconClicked(data.item)"
+                v-b-tooltip.hover
+                title="Develop"
+              />
+              <b-icon-pencil
+                role="button"
+                variant="primary"
+                class="mx-2"
+                font-scale="1.2"
+                @click="pencilIconClicked(data.item)"
+                v-b-tooltip.hover
+                title="Edit"
+              />
+              <b-icon-trash
+                role="button"
+                variant="primary"
+                class="mx-2"
+                font-scale="1.2"
+                @click="trashIconClicked(data.item)"
+                v-b-tooltip.hover
+                title="Delete"
+              />
             </div>
           </template>
         </b-table>

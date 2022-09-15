@@ -28,7 +28,15 @@
           :per-page="table.perPage"
           :disabled="table.disablePagination"
         />
-        <b-icon-plus-circle role="button" variant="primary" font-scale="1.5" @click="plusIconClicked" v-b-modal.modal-add-edit/>
+        <b-icon-plus-circle
+          role="button"
+          variant="primary"
+          font-scale="1.5"
+          @click="plusIconClicked"
+          v-b-modal.modal-add-edit
+          v-b-tooltip.hover
+          title="Add new"
+        />
         <b-modal
           id="modal-add-edit"
           :title="currentModal.type + ' Service Registry'"
@@ -89,8 +97,25 @@
           </template>
           <template #cell(actions)="data">
             <div class="text-center">
-              <b-icon-pencil role="button" variant="primary" class="mx-2" font-scale="1.2" @click="pencilIconClicked(data.item)" v-b-modal.modal-add-edit/>
-              <b-icon-trash role="button" variant="primary" class="mx-2" font-scale="1.2" @click="trashIconClicked(data.item)"/>
+              <b-icon-pencil
+                role="button"
+                variant="primary"
+                class="mx-2"
+                font-scale="1.2"
+                @click="pencilIconClicked(data.item)"
+                v-b-modal.modal-add-edit
+                v-b-tooltip.hover
+                title="Edit"
+              />
+              <b-icon-trash
+                role="button"
+                variant="primary"
+                class="mx-2"
+                font-scale="1.2"
+                @click="trashIconClicked(data.item)"
+                v-b-tooltip.hover
+                title="Delete"
+              />
             </div>
           </template>
         </b-table>

@@ -45,7 +45,15 @@
       </b-col>
 
       <div class="position-relative">
-        <b-icon-plus-circle role="button" class="add-icon position-absolute" variant="primary" font-scale="1.2" @click="addWidget"/>
+        <b-icon-plus-circle
+          role="button"
+          class="add-icon position-absolute"
+          variant="primary"
+          font-scale="1.2"
+          @click="addWidget"
+          v-b-tooltip.hover
+          title="Add new"
+        />
       </div>
     </div>
 
@@ -63,7 +71,13 @@
       >
         <template slot="toolbar">
           <div class="mx-2">
-            <b-icon-trash role="button" class="widget-button" @click="remove(index)" />
+            <b-icon-trash
+              role="button"
+              class="widget-button"
+              @click="remove(index)"
+              v-b-tooltip.hover
+              title="Delete"
+            />
           </div>
         </template>
         <div class="d-flex flex-row">

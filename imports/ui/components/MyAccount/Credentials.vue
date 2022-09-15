@@ -37,7 +37,15 @@
               :per-page="table.perPage"
               :disabled="table.disablePagination"
             />
-            <b-icon-plus-circle role="button" variant="primary" font-scale="1.5" @click="plusIconClicked" v-b-modal="`modal-add-edit-${index}`"/>
+            <b-icon-plus-circle
+              role="button"
+              variant="primary"
+              font-scale="1.5"
+              @click="plusIconClicked"
+              v-b-modal="`modal-add-edit-${index}`"
+              v-b-tooltip.hover
+              title="Add new"
+            />
             <b-modal
               :id="`modal-add-edit-${index}`"
               :title="`${currentModal.type} ${table.title} Credentials`"
@@ -98,8 +106,25 @@
               </template>
               <template #cell(actions)="data">
                 <div class="text-center">
-                  <b-icon-pencil role="button" variant="primary" class="mx-2" font-scale="1.2" @click="pencilIconClicked(data.item)" v-b-modal="`modal-add-edit-${index}`"/>
-                  <b-icon-trash role="button" variant="primary" class="mx-2" font-scale="1.2" @click="trashIconClicked(data.item)"/>
+                  <b-icon-pencil
+                    role="button"
+                    variant="primary"
+                    class="mx-2"
+                    font-scale="1.2"
+                    @click="pencilIconClicked(data.item)"
+                    v-b-modal="`modal-add-edit-${index}`"
+                    v-b-tooltip.hover
+                    title="Edit"
+                  />
+                  <b-icon-trash
+                    role="button"
+                    variant="primary"
+                    class="mx-2"
+                    font-scale="1.2"
+                    @click="trashIconClicked(data.item)"
+                    v-b-tooltip.hover
+                    title="Delete"
+                  />
                 </div>
               </template>
             </b-table>
