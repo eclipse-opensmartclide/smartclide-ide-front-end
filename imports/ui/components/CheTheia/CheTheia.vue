@@ -166,7 +166,8 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    bottom: 28px;
+    bottom: 0px;
+    left: 0px;
   }
   .spinner-border{
     animation: 1.75s linear infinite spinner-border;

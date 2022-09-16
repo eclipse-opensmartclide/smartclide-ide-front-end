@@ -27,86 +27,86 @@
 </template>
 
 <script>
-import Keycloak from "keycloak-js";
-import Login from "./components/Login/Login";
-import LoginSmartCLIDE from "./components/Login/LoginSmartCLIDE";
-import Layout from "./components/Layout/Layout";
-import Footer from "./components/Layout/Footer";
-import router from "../../client/routes";
+  import Keycloak from "keycloak-js";
+  import Login from "./components/Login/Login";
+  import LoginSmartCLIDE from "./components/Login/LoginSmartCLIDE";
+  import Layout from "./components/Layout/Layout";
+  import Footer from "./components/Layout/Footer";
+  import router from "../../client/routes";
 
-export default {
-  components: { Login, LoginSmartCLIDE, Layout, Footer },
-  data() {
-    return {
-      eclipseCheUser: undefined,
-      SmartCLIDELogin: undefined
-    };
-  },
-  created() {
-    this.$store.state.keycloak = new Keycloak("/keycloak.json");
-
-    this.$store.state.keycloak.init({
-      onLoad: 'check-sso',
-      checkLoginIframe: true,
-      loadUserProfileAtStartUp: true
-    }).then(authenticated => {
-      if(authenticated){
-        this.eclipseCheUser = this.$store.state.keycloak.tokenParsed;
-        this.addUserToDB();
-        router.push("/dashboard");
-      }
-    }).catch(error => {
-      console.log(error);
-    });
-
-    this.$store.state.keycloak.onTokenExpired = () => {
-      this.$store.state.keycloak.updateToken(30);
-    };
-
-    this.$store.state.keycloak.onAuthLogout = () => {
-      this.eclipseCheUser = undefined;
-      router.push("/");
-    };
-
-    // setInterval(() => {
-    //   console.log(this.$store.state.keycloak.token);
-    // }, 5000);
-  },
-  methods: {
-    loginWithSmartCLIDE(){
-      this.SmartCLIDELogin = true;
+  export default {
+    components: { Login, LoginSmartCLIDE, Layout, Footer },
+    data() {
+      return {
+        eclipseCheUser: undefined,
+        SmartCLIDELogin: undefined
+      };
     },
-    addUserToDB(){
-      Meteor.call("exists", "users", this.$store.state.keycloak.subject, this.$store.state.keycloak.token,
-        (error, result) => {
-          if(!result)
-            Meteor.call("request",{
-              operationID: this.$store.state.apis.backend.endpoints.addUsers.operationID,
-              requestBody: {
-                id: this.$store.state.keycloak.subject,
-                email: this.$store.state.keycloak.tokenParsed.email,
-                team_id: null
-              },
-              token: this.$store.state.keycloak.token
-            });
+    created() {
+      this.$store.state.keycloak = new Keycloak("/keycloak.json");
+
+      this.$store.state.keycloak.init({
+        onLoad: 'check-sso',
+        checkLoginIframe: true,
+        loadUserProfileAtStartUp: true
+      }).then(authenticated => {
+        if(authenticated){
+          this.eclipseCheUser = this.$store.state.keycloak.tokenParsed;
+          this.addUserToDB();
+          router.push("/dashboard");
         }
-      );
-    }
-  },
-  meteor: {
-    getMeteorUser(){
-      const meteorUser = Meteor.user();
+      }).catch(error => {
+        console.log(error);
+      });
 
-      if(meteorUser)
-        this.SmartCLIDELogin = false;
+      this.$store.state.keycloak.onTokenExpired = () => {
+        this.$store.state.keycloak.updateToken(30);
+      };
 
-      return meteorUser;
+      this.$store.state.keycloak.onAuthLogout = () => {
+        this.eclipseCheUser = undefined;
+        router.push("/");
+      };
+
+      // setInterval(() => {
+      //   console.log(this.$store.state.keycloak.token);
+      // }, 5000);
     },
-    isLoggedIn(){
-      return !!Meteor.userId();
+    methods: {
+      loginWithSmartCLIDE(){
+        this.SmartCLIDELogin = true;
+      },
+      addUserToDB(){
+        Meteor.call("exists", "users", this.$store.state.keycloak.subject, this.$store.state.keycloak.token,
+          (error, result) => {
+            if(!result)
+              Meteor.call("request",{
+                operationID: this.$store.state.apis.backend.endpoints.addUsers.operationID,
+                requestBody: {
+                  id: this.$store.state.keycloak.subject,
+                  email: this.$store.state.keycloak.tokenParsed.email,
+                  team_id: null
+                },
+                token: this.$store.state.keycloak.token
+              });
+          }
+        );
+      }
+    },
+    meteor: {
+      getMeteorUser(){
+        const meteorUser = Meteor.user();
+
+        if(meteorUser)
+          this.SmartCLIDELogin = false;
+
+        return meteorUser;
+      },
+      isLoggedIn(){
+        return !!Meteor.userId();
+      }
     }
-  }
-};
+  };
 </script>
 
 <style scoped>

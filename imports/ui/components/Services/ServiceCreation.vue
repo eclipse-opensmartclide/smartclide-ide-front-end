@@ -48,7 +48,7 @@
           />
         </b-form-group>
 
-        <b-row class="">
+        <b-row>
           <b-col>
             <b-button @click="cancelButtonClicked">Cancel</b-button>
           </b-col>
@@ -63,11 +63,30 @@
       </b-form>
     </b-card>
 
-    <div class="loading d-flex justify-content-center align-items-center flex-column bg-white">
-      <b-spinner class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
-      <div class="text-primary">
-        <br>Setting the service up... Please wait
-      </div>
+    <div class="creating d-flex justify-content-center align-items-center flex-column bg-white">
+      <template v-if="this.serviceCreated">
+        <b-icon-check-circle class="text-primary" style="width: 5rem; height: 5rem;" role="status"/>
+        <div class="text-primary">
+          <br>Service created successfully!
+        </div>
+        <b-row class="mt-5">
+          <b-col>
+            <b-button class="text-nowrap" to="/services">Go to Services</b-button>
+          </b-col>
+          <b-col>
+            <b-button class="text-nowrap" @click="this.developButtonClicked" variant="primary">
+              <span>Develop</span>
+              <span><b-icon-code-slash class="ml-2"/></span>
+            </b-button>
+          </b-col>
+        </b-row>
+      </template>
+      <template v-else>
+        <b-spinner class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
+        <div class="text-primary">
+          <br>Setting the service up... Please wait
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -171,21 +190,22 @@
         ],
         gitCredentials: [],
         currentStep: 1,
-        totalSteps: 2
+        totalSteps: 2,
+        serviceCreated: false
       }
     },
     mounted(){
-      this.hideSpinner();
+      this.hideOverlay();
       this.fetchGitCredentials();
     },
     methods: {
-      showSpinner(){
-        $(".loading").removeClass("d-none");
-        $(".loading").addClass("d-flex");
+      showOverlay(){
+        $(".creating").removeClass("d-none");
+        $(".creating").addClass("d-flex");
       },
-      hideSpinner(){
-        $(".loading").removeClass("d-flex");
-        $(".loading").addClass("d-none");
+      hideOverlay(){
+        $(".creating").removeClass("d-flex");
+        $(".creating").addClass("d-none");
       },
       cancelButtonClicked(){
         router.back();
@@ -199,16 +219,8 @@
         if(this.currentStep < this.totalSteps)
           this.currentStep++;
         else{
-          this.showSpinner();
+          this.showOverlay();
           this.setupProject();
-          // this.test();
-          // router.push({
-          //   name: "Devfile",
-          //   params: {
-          //     workspaceID: rowData.workspaceID,
-          //     devfile: result.devfile
-          //   }
-          // });
         }
       },
       fetchGitCredentials(){
@@ -273,13 +285,15 @@
 
                   Meteor.call("createWorkspace", this.$store.state.keycloak.idToken, devfile, (error, result) => {
                     if(result){
+                      const workspaceID = result.id
+
                       Meteor.call("request", {
                         operationID: this.$store.state.apis.backend.endpoints.addServices.operationID,
                         requestBody: {
                           name: this.steps[1].fields.name.value,
                           user_id: this.$store.state.keycloak.subject,
                           registry_id: "internal",
-                          workspace_id: result.id,
+                          workspace_id: workspaceID,
                           url: repositoryURL,
                           description: this.steps[1].fields.description.value,
                           framework: this.getSelectedFrameworkName(),
@@ -290,7 +304,7 @@
                         token: this.$store.state.keycloak.idToken
                       }, (error, result) => {
                         if(result){
-                          this.hideSpinner();
+                          this.serviceCreated = workspaceID;
                         } else if(error){
                           this.serviceCreationError("Service was not added to the DB.");
                         }
@@ -315,7 +329,7 @@
         });
       },
       serviceCreationError(message){
-        this.hideSpinner();
+        this.hideOverlay();
         alert(message);
       },
       fillDevfileTemplate(devfile, repositoryURL){
@@ -331,19 +345,24 @@
         const selectedOption = this.steps[1].fields.framework.options.filter(option => option.value === this.steps[1].fields.framework.value)[0];
 
         return selectedOption.text;
+      },
+      developButtonClicked(){
+        router.push(`/project/${this.serviceCreated}`);
       }
     }
   }
 </script>
 
 <style scoped>
-  .loading {
+  .creating{
     z-index: 9;
     width: 100%;
     height: 100%;
     position: absolute;
-    bottom: 28px;
+    left: 0px;
+    bottom: 0px;
   }
+
   .spinner-border{
     animation: 1.75s linear infinite spinner-border;
   }
