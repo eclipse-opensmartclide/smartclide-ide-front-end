@@ -141,7 +141,6 @@
                   id: item.id,
                   name: item.name,
                   description: item.description,
-                  licence: item.licence,
                   updatedAt: item["updated"],
                   workspaceID: item["workspace_id"]
                 };
@@ -188,7 +187,9 @@
           }`),
           token: this.$store.state.keycloak.token
         }, () => {
-          this.fetchServices();
+          Meteor.call("deleteWorkspace", this.$store.state.keycloak.idToken, rowData.workspaceID, () => {
+            this.fetchServices();
+          })
         });
 
         this.currentRowId = null;

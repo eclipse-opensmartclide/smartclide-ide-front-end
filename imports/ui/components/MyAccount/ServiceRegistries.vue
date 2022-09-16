@@ -60,7 +60,7 @@
                   v-model="option.value"
                   :disabled="option.value === null"
                 >
-                  {{option.label}}
+                  {{option.text}}
                 </b-form-select-option>
               </b-form-select>
               <b-form-input
@@ -145,31 +145,31 @@
               formType: "select",
               options: [
                 {
-                  label: "Please select a type of Service Registry",
+                  text: "Please select a type of Service Registry",
                   value: null
                 },
                 {
-                  label: "Bitbucket",
+                  text: "Bitbucket",
                   value: "Bitbucket"
                 },
                 {
-                  label: "Docker",
+                  text: "Docker",
                   value: "Docker"
                 },
                 {
-                  label: "GitHub",
+                  text: "GitHub",
                   value: "GitHub"
                 },
                 {
-                  label: "GitLab",
+                  text: "GitLab",
                   value: "GitLab"
                 },
                 {
-                  label: "IoT-Catalogue",
+                  text: "IoT-Catalogue",
                   value: "IoT-Catalogue"
                 },
                 {
-                  label: "ProgrammableWeb",
+                  text: "ProgrammableWeb",
                   value: "ProgrammableWeb"
                 }
               ],

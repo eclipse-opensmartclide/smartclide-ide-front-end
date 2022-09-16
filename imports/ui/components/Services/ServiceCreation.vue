@@ -16,6 +16,7 @@
     >
       <b-form class="mt-4" @submit="nextButtonClicked">
         <b-form-group
+          class="w-50"
           v-for="field in Object.keys(steps[currentStep-1].fields)"
           :label="steps[currentStep-1].fields[field].label"
         >
@@ -30,9 +31,15 @@
               v-model="option.value"
               :disabled="option.value === null"
             >
-              {{option.label}}
+              {{option.text}}
             </b-form-select-option>
           </b-form-select>
+          <b-form-textarea
+            v-else-if="steps[currentStep-1].fields[field].formType === 'textarea'"
+            v-model="steps[currentStep-1].fields[field].value"
+            rows="3"
+            no-resize
+          ></b-form-textarea>
           <b-form-input
             v-else
             :type="steps[currentStep-1].fields[field].formType"
@@ -48,16 +55,27 @@
           <b-col/>
           <b-col class="text-right">
             <b-button @click="previousButtonClicked" :hidden="currentStep === 1">Previous</b-button>
-            <b-button type="submit" variant="primary">Next</b-button>
+            <b-button type="submit" variant="primary">
+              {{ this.currentStep < this.totalSteps ? "Next" : "Add" }}
+            </b-button>
           </b-col>
         </b-row>
       </b-form>
     </b-card>
+
+    <div class="loading d-flex justify-content-center align-items-center flex-column bg-white">
+      <b-spinner class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
+      <div class="text-primary">
+        <br>Setting the service up... Please wait
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   import router from "../../../../client/routes";
+  import YAML_JSON from "yamljs";
+  import moment from "moment";
 
   export default {
     name: "ServiceCreation",
@@ -66,14 +84,14 @@
         steps: [
           {
             title: "Git Setup",
-            sub_title: "Choose which set of Git credentials to use",
+            sub_title: "Please select which set of Git credentials to use",
             fields: {
               gitSystem: {
                 label: "Git System",
                 formType: "select",
                 options: [
                   {
-                    label: "Please select a Git System",
+                    text: "Please select a Git System",
                     value: null
                   }
                 ],
@@ -84,7 +102,7 @@
                 formType: "select",
                 options: [
                   {
-                    label: "Please select a set of credentials",
+                    text: "Please select a set of credentials",
                     value: null
                   }
                 ],
@@ -103,7 +121,7 @@
               },
               description: {
                 label: "Description",
-                formType: "text",
+                formType: "textarea",
                 value: null
               },
               visibility: {
@@ -111,37 +129,64 @@
                 formType: "select",
                 options: [
                   {
-                    label: "Please select the project's visibility",
+                    text: "Please select the project's visibility",
                     value: null
                   },
                   {
-                    label: "Private",
-                    value: false,
+                    text: "Private",
+                    value: 2, // According to the service-creation extension
                   },
                   {
-                    label: "Public",
-                    value: true
+                    text: "Public",
+                    value: 0 // According to the service-creation extension
                   }
-                ]
+                ],
+                value: null
               },
-              // licence: {
-              //
-              // },
-              // framework: {
-              //
-              // }
+              framework: {
+                label: "Framework",
+                formType: "select",
+                options: [
+                  {
+                    text: "Please select a framework",
+                    value: null
+                  },
+                  {
+                    text: "Java with Spring Boot and MySQL",
+                    value: "https://raw.githubusercontent.com/eclipse-researchlabs/smartclide-devfiles/main/templates/java-web-spring/devfile.yaml"
+                  },
+                  {
+                    text: "Node.js",
+                    value: "https://raw.githubusercontent.com/eclipse-researchlabs/smartclide-devfiles/main/templates/nodejs/devfile.yaml"
+                  },
+                  {
+                    text: "Python",
+                    value: "https://raw.githubusercontent.com/eclipse-researchlabs/smartclide-devfiles/main/templates/python/devfile.yaml"
+                  }
+                ],
+                value: null
+              }
             }
           }
         ],
         gitCredentials: [],
         currentStep: 1,
-        totalSteps: 3
+        totalSteps: 2
       }
     },
     mounted(){
+      this.hideSpinner();
       this.fetchGitCredentials();
     },
     methods: {
+      showSpinner(){
+        $(".loading").removeClass("d-none");
+        $(".loading").addClass("d-flex");
+      },
+      hideSpinner(){
+        $(".loading").removeClass("d-flex");
+        $(".loading").addClass("d-none");
+      },
       cancelButtonClicked(){
         router.back();
       },
@@ -151,16 +196,20 @@
       nextButtonClicked(event){
         event.preventDefault();
 
-        if(this.currentStep < this.totalSteps - 1)
+        if(this.currentStep < this.totalSteps)
           this.currentStep++;
-        // else
-        //   router.push({
-        //     name: "Devfile",
-        //     params: {
-        //       workspaceID: rowData.workspaceID,
-        //       devfile: result.devfile
-        //     }
-        //   });
+        else{
+          this.showSpinner();
+          this.setupProject();
+          // this.test();
+          // router.push({
+          //   name: "Devfile",
+          //   params: {
+          //     workspaceID: rowData.workspaceID,
+          //     devfile: result.devfile
+          //   }
+          // });
+        }
       },
       fetchGitCredentials(){
         Meteor.call("request", {
@@ -183,7 +232,7 @@
         let credentialTypes = this.gitCredentials.map(gitCredential => gitCredential.type);
         let uniqueTypes = [...new Set(credentialTypes)].sort();
 
-        uniqueTypes.forEach(type => this.steps[0].fields.gitSystem.options.push({ label: type, value: type }));
+        uniqueTypes.forEach(type => this.steps[0].fields.gitSystem.options.push({ text: type, value: type }));
       },
       changedGitSystem(){
         this.resetCredentialsOptions();
@@ -193,8 +242,8 @@
         this.gitCredentials.forEach(gitCredential => {
           if(gitCredential.type === this.steps[0].fields.gitSystem.value)
             newOptions.push({
-              label: `${gitCredential.username}`,
-              value: `${gitCredential.id}`
+              text: `${gitCredential.username}`,
+              value: gitCredential
             });
         });
 
@@ -202,11 +251,100 @@
       },
       resetCredentialsOptions(){
         this.steps[0].fields.credentials.options.splice(1);
+      },
+      setupProject(){
+        const parameters = {
+          'projectName': this.steps[1].fields.name.value,
+          'projVisibility': this.steps[1].fields.visibility.value,
+          'projDescription': this.steps[1].fields.description.value,
+          'gitLabServerURL': this.steps[0].fields.credentials.value.url,
+          'gitlabToken': this.steps[0].fields.credentials.value.token
+        };
+
+        Meteor.call("createRepository", this.$store.state.keycloak.idToken, parameters, (error, result) => {
+          if(result){
+            if(result.status === 0){
+              const repositoryURL = result.message;
+              const devfileURL = this.steps[1].fields.framework.value;
+
+              Meteor.call("getDevfile", this.$store.state.keycloak.idToken, devfileURL, (error, result) => {
+                if(result){
+                  const devfile = this.fillDevfileTemplate(YAML_JSON.parse(result), repositoryURL);
+
+                  Meteor.call("createWorkspace", this.$store.state.keycloak.idToken, devfile, (error, result) => {
+                    if(result){
+                      Meteor.call("request", {
+                        operationID: this.$store.state.apis.backend.endpoints.addServices.operationID,
+                        requestBody: {
+                          name: this.steps[1].fields.name.value,
+                          user_id: this.$store.state.keycloak.subject,
+                          registry_id: "internal",
+                          workspace_id: result.id,
+                          url: repositoryURL,
+                          description: this.steps[1].fields.description.value,
+                          framework: this.getSelectedFrameworkName(),
+                          updated: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
+                          deployable: false,
+                          is_public: this.steps[1].fields.visibility.value === 0
+                        },
+                        token: this.$store.state.keycloak.idToken
+                      }, (error, result) => {
+                        if(result){
+                          this.hideSpinner();
+                        } else if(error){
+                          this.serviceCreationError("Service was not added to the DB.");
+                        }
+                      });
+                    } else if(error){
+                      this.serviceCreationError("Workspace could not be created.");
+                    }
+                  });
+                }
+                else if(error){
+                  this.serviceCreationError("Devfile could not be fetched.")
+                }
+              });
+            }
+            else if(result.status === 1){
+              this.serviceCreationError(result.message);
+            }
+          }
+          else if(error){
+            this.serviceCreationError("Repository creation failed.");
+          }
+        });
+      },
+      serviceCreationError(message){
+        this.hideSpinner();
+        alert(message);
+      },
+      fillDevfileTemplate(devfile, repositoryURL){
+        devfile.metadata.name = `${this.steps[1].fields.name.value}-${(+new Date).toString(36)}`;
+        devfile.projects = [{
+          name: this.steps[1].fields.name.value,
+          source: { location: repositoryURL, type: "git" }
+        }];
+
+        return devfile;
+      },
+      getSelectedFrameworkName(){
+        const selectedOption = this.steps[1].fields.framework.options.filter(option => option.value === this.steps[1].fields.framework.value)[0];
+
+        return selectedOption.text;
       }
     }
   }
 </script>
 
 <style scoped>
-
+  .loading {
+    z-index: 9;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 28px;
+  }
+  .spinner-border{
+    animation: 1.75s linear infinite spinner-border;
+  }
 </style>

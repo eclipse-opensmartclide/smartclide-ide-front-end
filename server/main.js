@@ -12,6 +12,7 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from "meteor/accounts-base";
 import { Connector } from '@unparallel/smartclide-che-rest-client';
 import SmartCLIDEBackendConnector from "@unparallel/smartclide-backend-connector";
+import axios from "axios";
 
 const users = [
     {
@@ -44,6 +45,11 @@ Meteor.methods({
 
         return await connector.getMostRecentDeployments();
     },
+    async createWorkspace(keycloakToken, devfile){
+        const connector = new Connector();
+
+        return await connector.createWorkspace(keycloakToken, devfile);
+    },
     async getWorkspaces(keycloakToken){
         const connector = new Connector();
 
@@ -74,6 +80,11 @@ Meteor.methods({
 
         await connector.stopWorkspace(keycloakToken, workspaceID);
     },
+    async deleteWorkspace(keycloakToken, workspaceID){
+        const connector = new Connector();
+
+        await connector.deleteWorkspace(keycloakToken, workspaceID);
+    },
     async request(configuration){
         let connector = await new SmartCLIDEBackendConnector("https://raw.githubusercontent.com/goncalorolo/swagger-json/main/smartCLIDE_DB_API_swagger.json");
 
@@ -83,5 +94,40 @@ Meteor.methods({
         let connector = await new SmartCLIDEBackendConnector("https://raw.githubusercontent.com/goncalorolo/swagger-json/main/smartCLIDE_DB_API_swagger.json");
 
         return await connector.exists(entity, id, keycloakToken);
+    },
+    async createRepository(keycloakToken, input){
+        const configuration = {
+            method: 'POST',
+            url: 'https://api.dev.smartclide.eu/service-creation/createStructure',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${keycloakToken}`
+            }
+        }
+
+        Object.assign(configuration.headers, input);
+
+        try{
+            const res = await axios(configuration);
+            return res.data;
+        } catch(e){
+            throw e;
+        }
+    },
+    async getDevfile(keycloakToken, devfileURL){
+        const configuration = {
+            method: 'GET',
+            url: devfileURL,
+            headers: {
+                'Accept': 'application/json'
+            }
+        }
+
+        try{
+            const res = await axios(configuration);
+            return res.data;
+        } catch(e){
+            throw e;
+        }
     }
 });

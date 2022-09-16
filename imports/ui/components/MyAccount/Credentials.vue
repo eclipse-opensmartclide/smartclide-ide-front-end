@@ -69,7 +69,7 @@
                       v-model="option.value"
                       :disabled="option.value === null"
                     >
-                      {{option.label}}
+                      {{option.text}}
                     </b-form-select-option>
                   </b-form-select>
                   <b-form-input
@@ -157,19 +157,19 @@
                 formType: "select",
                 options: [
                   {
-                    label: "Please select a type of Git platform",
+                    text: "Please select a type of Git platform",
                     value: null
                   },
                   {
-                    label: "Bitbucket",
+                    text: "Bitbucket",
                     value: "Bitbucket"
                   },
                   {
-                    label: "GitHub",
+                    text: "GitHub",
                     value: "GitHub"
                   },
                   {
-                    label: "GitLab",
+                    text: "GitLab",
                     value: "GitLab"
                   }
                 ],
@@ -262,23 +262,23 @@
                 formType: "select",
                 options: [
                   {
-                    label: "Please select a type of CI Manager",
+                    text: "Please select a type of CI Manager",
                     value: null
                   },
                   {
-                    label: "GitHub Actions",
+                    text: "GitHub Actions",
                     value: "GitHub Actions"
                   },
                   {
-                    label: "GitLab CI/CD",
+                    text: "GitLab CI/CD",
                     value: "GitLab CI/CD"
                   },
                   {
-                    label: "Jenkins",
+                    text: "Jenkins",
                     value: "Jenkins"
                   },
                   {
-                    label: "Travis",
+                    text: "Travis",
                     value: "Travis"
                   }
                 ],

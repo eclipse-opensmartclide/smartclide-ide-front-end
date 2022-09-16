@@ -15,7 +15,7 @@
     <div class="d-flex h-100">
       <iframe id="iframe" :src="workspaceURL"/>
 
-      <div class="loading d-flex justify-content-center align-items-center flex-column">
+      <div class="loading d-flex justify-content-center align-items-center flex-column bg-white">
         <b-spinner class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
         <div class="text-primary">
           <br>Loading... Please wait

@@ -49,7 +49,7 @@
         value: this.devfileYAML,
         language: 'yaml',
         scrollBeyondLastLine: false,
-        // readOnly: true
+        readOnly: true
       });
     },
     methods: {
