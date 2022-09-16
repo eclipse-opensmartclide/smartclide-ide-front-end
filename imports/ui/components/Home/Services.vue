@@ -166,18 +166,18 @@
         router.push(`/project/${rowData.workspaceID}`);
       },
       pencilIconClicked(rowData){
-        Meteor.call("getWorkspace", this.$store.state.keycloak.idToken, rowData.workspaceID, (error, result) => {
-          if(result){
-            router.push({
-              name: "Devfile",
-              params: {
-                from: "Edit",
-                workspaceID: rowData.workspaceID,
-                devfile: result.devfile
-              }
-            });
-          }
-        });
+        // Meteor.call("getWorkspace", this.$store.state.keycloak.idToken, rowData.workspaceID, (error, result) => {
+        //   if(result){
+        //     router.push({
+        //       name: "Devfile",
+        //       params: {
+        //         from: "Edit",
+        //         workspaceID: rowData.workspaceID,
+        //         devfile: result.devfile
+        //       }
+        //     });
+        //   }
+        // });
       },
       trashIconClicked(rowData){
         Meteor.call("request", {
