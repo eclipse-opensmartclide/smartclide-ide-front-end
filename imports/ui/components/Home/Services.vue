@@ -58,7 +58,7 @@
               Loading...
             </div>
           </template>
-          <template #cell(updatedAt)="data">
+          <template #cell(createdAt)="data">
             {{ convertDate(data.value) }}
           </template>
           <template #cell(actions)="data">
@@ -68,7 +68,7 @@
                 variant="primary"
                 class="mx-2"
                 font-scale="1.2"
-                @click="playIconClicked(data.item)"
+                @click="developIconClicked(data.item)"
                 v-b-tooltip.hover
                 title="Develop"
               />
@@ -108,7 +108,7 @@
       return {
         table: {
           title: "Services",
-          fields: ["name", "description", "updatedAt", "actions"],
+          fields: ["name", "description", "createdAt", "actions"],
           content: [],
           loaded: false,
           filter: null,
@@ -141,7 +141,7 @@
                   id: item.id,
                   name: item.name,
                   description: item.description,
-                  updatedAt: item["updated"],
+                  createdAt: item["created"],
                   workspaceID: item["workspace_id"]
                 };
               });
@@ -162,7 +162,7 @@
       plusIconClicked(){
         router.push("/services/serviceCreation");
       },
-      playIconClicked(rowData){
+      developIconClicked(rowData){
         router.push(`/project/${rowData.workspaceID}`);
       },
       pencilIconClicked(rowData){

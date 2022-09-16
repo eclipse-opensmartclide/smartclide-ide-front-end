@@ -61,33 +61,33 @@
           </b-col>
         </b-row>
       </b-form>
-    </b-card>
 
-    <div class="creating d-flex justify-content-center align-items-center flex-column bg-white">
-      <template v-if="this.serviceCreated">
-        <b-icon-check-circle class="text-primary" style="width: 5rem; height: 5rem;" role="status"/>
-        <div class="text-primary">
-          <br>Service created successfully!
-        </div>
-        <b-row class="mt-5">
-          <b-col>
-            <b-button class="text-nowrap" to="/services">Go to Services</b-button>
-          </b-col>
-          <b-col>
-            <b-button class="text-nowrap" @click="this.developButtonClicked" variant="primary">
-              <span>Develop</span>
-              <span><b-icon-code-slash class="ml-2"/></span>
-            </b-button>
-          </b-col>
-        </b-row>
-      </template>
-      <template v-else>
-        <b-spinner class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
-        <div class="text-primary">
-          <br>Setting the service up... Please wait
-        </div>
-      </template>
-    </div>
+      <div class="creating d-flex justify-content-center align-items-center flex-column bg-white">
+        <template v-if="this.serviceCreated">
+          <b-icon-check-circle class="text-primary" style="width: 5rem; height: 5rem;" role="status"/>
+          <div class="text-primary">
+            <br>Service created successfully!
+          </div>
+          <b-row class="mt-5">
+            <b-col>
+              <b-button class="text-nowrap" to="/services">Go to Services</b-button>
+            </b-col>
+            <b-col>
+              <b-button class="text-nowrap" @click="this.developButtonClicked" variant="primary">
+                <span>Develop</span>
+                <span><b-icon-code-slash class="ml-2"/></span>
+              </b-button>
+            </b-col>
+          </b-row>
+        </template>
+        <template v-else>
+          <b-spinner class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
+          <div class="text-primary">
+            <br>Setting the service up... Please wait
+          </div>
+        </template>
+      </div>
+    </b-card>
   </div>
 </template>
 
@@ -361,6 +361,7 @@
     position: absolute;
     left: 0px;
     bottom: 0px;
+    border-radius: 10px;
   }
 
   .spinner-border{
