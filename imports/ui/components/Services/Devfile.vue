@@ -30,7 +30,7 @@
 </template>
 
 <script>
-  import monaco from "monaco-editor";
+  // import monaco from "monaco-editor";
   import JSON_YAML from "json-to-pretty-yaml";
   import YAML_JSON from "yamljs";
   import router from "../../../../client/routes";

@@ -15,7 +15,7 @@ import Dashboard from "../imports/ui/components/Home/Dashboard";
 import Deployments from "../imports/ui/components/Home/Deployments";
 import Services from "../imports/ui/components/Home/Services";
 import ServiceCreation from "../imports/ui/components/Services/ServiceCreation";
-import Devfile from "../imports/ui/components/Services/Devfile";
+// import Devfile from "../imports/ui/components/Services/Devfile";
 import Workflows from "../imports/ui/components/Home/Workflows";
 
 import CheTheia from "../imports/ui/components/CheTheia/CheTheia";
@@ -60,12 +60,6 @@ const routes = [
         path: "/services/serviceCreation",
         name: "ServiceCreation",
         component: ServiceCreation
-    },
-    {
-        path: "/services/devfileEditor",
-        name: 'Devfile',
-        component: Devfile,
-        props: true
     },
     {
         path: "/deployments",
