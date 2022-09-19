@@ -186,7 +186,7 @@
                 value: null
               },
               token: {
-                label: "Token",
+                label: "Personal Access Token (PAT)",
                 formType: "password",
                 value: null
               }
