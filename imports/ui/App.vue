@@ -43,10 +43,11 @@
       };
     },
     created() {
-      // this.$store.state.keycloak = new Keycloak({
-      //   url: process.env.KEYCLOAK_URL,
-      //   realm: process.env.KEYCLOAK_REALM,
-      //   clientId: process.env.KEYCLOAK_CLIENT_ID
+      // Meteor.call("getKeycloakConfiguration", (error, result) => {
+      //   if(result) {
+      //     this.$store.state.keycloak = result;
+      //     this.$store.state.keycloak = new Keycloak(result);
+      //   }
       // });
 
       this.$store.state.keycloak = new Keycloak("/keycloak.json");
