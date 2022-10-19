@@ -13,7 +13,7 @@
     <div class="name text-primary">{{projectName}}</div>
 
     <div class="d-flex h-100">
-      <iframe id="iframe" :src="workspaceURL"/>
+      <iframe id="che-theia-iframe" :src="workspaceURL"/>
 
       <div class="loading d-flex justify-content-center align-items-center flex-column bg-white">
         <b-spinner class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status"/>
@@ -97,7 +97,7 @@
         }
       },
       sendMessageToIframe(messageType){
-        const iframe = document.getElementById("iframe");
+        const iframe = document.getElementById("che-theia-iframe");
 
         try {
           let message;
@@ -156,11 +156,13 @@
     align-items: center;
     padding-left: 15px;
   }
-  #iframe{
+
+  #che-theia-iframe{
     border: 0;
     height: 100%;
     width: 100%;
   }
+
   .loading {
     z-index: 9;
     width: 100%;
@@ -169,6 +171,7 @@
     bottom: 0px;
     left: 0px;
   }
+
   .spinner-border{
     animation: 1.75s linear infinite spinner-border;
   }

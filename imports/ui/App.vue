@@ -60,7 +60,7 @@
         if(authenticated){
           this.eclipseCheUser = this.$store.state.keycloak.tokenParsed;
           this.addUserToDB();
-          router.push("/dashboard");
+          // router.push("/dashboard");
         }
       }).catch(error => {
         console.log(error);
