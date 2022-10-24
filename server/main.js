@@ -97,7 +97,7 @@ Meteor.methods({
 
         return await connector.exists(entity, id, keycloakToken);
     },
-    async createRepository(keycloakToken, input){
+    async createRepository(keycloakToken, inputHeaders, inputParameters){
         const configuration = {
             method: 'POST',
             url: `${process.env.SMARTCLIDE_BACKEND_URL}/service-creation/createStructure`,
@@ -107,11 +107,31 @@ Meteor.methods({
             }
         }
 
-        Object.assign(configuration.headers, input);
+        Object.assign(configuration.headers, inputHeaders);
 
         try{
             const res = await axios(configuration);
             return res.data;
+        } catch(e){
+            throw e;
+        }
+    },
+    async importRepository(keycloakToken, inputHeaders, inputParameters){
+        const configuration = {
+            method: 'POST',
+            url: `${process.env.SMARTCLIDE_BACKEND_URL}/external-project-importer/importProject`,
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${keycloakToken}`
+            },
+            params: inputParameters
+        }
+
+        Object.assign(configuration.headers, inputHeaders);
+
+        try{
+            const res = await axios(configuration);
+            return res.status;
         } catch(e){
             throw e;
         }
