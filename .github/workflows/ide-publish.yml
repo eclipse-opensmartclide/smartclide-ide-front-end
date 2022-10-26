@@ -21,7 +21,7 @@ jobs:
 
       - name: Build and Publish Docker Image
         env:
-          CONTAINER_IMAGE: ghcr.io/unparallel-innovation/smartclide-ide:${{ steps.get_tag_name.outputs.TAG_NAME }}
+          CONTAINER_IMAGE: ghcr.io/eclipse-opensmartclide/smartclide/smartclide-ide:${{ steps.get_tag_name.outputs.TAG_NAME }}
         run: |
           echo "Building and publishing image: ${CONTAINER_IMAGE}"
           # login to GitHub Container Registry
