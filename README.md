@@ -37,7 +37,7 @@ npm install -g meteor
 ### Clone the project from GitLab 
 
 ```shell
-git clone https://github.com/eclipse-researchlabs/smartclide-ide-front-end.git
+git clone https://github.com/eclipse-opensmartclide/smartclide-ide-front-end.git
 ```
 
 ### Install dependencies and run the project
@@ -55,7 +55,7 @@ Access the IDE at http://localhost:8080
 ### Clone the project repository
 
 ```shell
-git clone https://github.com/eclipse-researchlabs/smartclide-ide-front-end.git
+git clone https://github.com/eclipse-opensmartclide/smartclide-ide-front-end.git
 ```
 
 ### From the root, run the docker-compose file
