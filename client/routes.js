@@ -42,7 +42,7 @@ const routes = [
         component: NotImplemented
     },
     {
-        path: "/dashboard",
+        path: "/",
         name: "Dashboard",
         component: Dashboard
     },
