@@ -23,7 +23,6 @@ export default new Vuex.Store({
                     {
                         category: "root",
                         options: [
-                            { title: 'Dashboard', link: '/dashboard' },
                             { title: 'Workflows', link: '/workflows' },
                             { title: 'Services', link: '/services' },
                             { title: 'Deployments', link: '/deployments' }
@@ -84,7 +83,7 @@ export default new Vuex.Store({
                         category: "Project",
                         options: [
                             { title: 'Edit Project Settings', link: '' },
-                            { title: 'Close Project', link: '/dashboard' }
+                            { title: 'Close Project', link: '/' }
                         ]
                     }
                 ]

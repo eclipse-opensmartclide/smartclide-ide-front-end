@@ -29,4 +29,4 @@ jobs:
           # build image
           docker build . --tag ${CONTAINER_IMAGE}
           # push image
-          docker push ${CONTAINER_IMAGE}
+          # docker push ${CONTAINER_IMAGE}
