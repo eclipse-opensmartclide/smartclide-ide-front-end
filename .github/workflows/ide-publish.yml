@@ -3,11 +3,10 @@ name: ide-publish
 on:
   push:
     tags:
-      - '[0-9]+.[0-9]+'
+      - "[0-9]+.[0-9]+"
 
 jobs:
   publish:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -29,4 +28,4 @@ jobs:
           # build image
           docker build . --tag ${CONTAINER_IMAGE}
           # push image
-          # docker push ${CONTAINER_IMAGE}
+          docker push ${CONTAINER_IMAGE}
