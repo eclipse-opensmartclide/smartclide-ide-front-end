@@ -297,7 +297,9 @@
         if(Object.keys(this.$route.query).length !== 0){
           createRepositoryMethod = "importRepository";
           parameters = {
-            'repoUrl': this.receivedService.url.replace(".git", "")
+            'repoUrl': this.receivedService.url.replace(".git", ""),
+            'name': this.steps[1].fields.name.value,
+            'visibility': this.steps[1].fields.visibility.value
           };
           headers = {
             'gitLabServerURL': this.steps[0].fields.credentials.value.url,
