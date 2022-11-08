@@ -39,6 +39,7 @@
             v-model="steps[currentStep-1].fields[field].value"
             rows="3"
             no-resize
+            required
           ></b-form-textarea>
           <b-form-input
             v-else
