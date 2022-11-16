@@ -28,7 +28,7 @@
       setTimeout(() => {
         this.auxWindow.close();
         router.push("/workflows");
-      }, 250);
+      }, 2000);
     },
     mounted(){
       this.$store.state.context = 'home';
