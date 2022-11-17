@@ -17,26 +17,16 @@
 </template>
 
 <script>
-  import router from "../../../../client/routes";
   import {messageTypes, buildMessage} from "@unparallel/smartclide-frontend-comm";
 
   export default {
     name: "Workflows",
-    beforeMount(){
-      this.auxWindow = window.open("https://jbpm.dev.smartclide.eu/business-central/kie-wb.jsp");
-
-      setTimeout(() => {
-        this.auxWindow.close();
-        router.push("/workflows");
-      }, 2000);
-    },
     mounted(){
       this.$store.state.context = 'home';
       this.setupIframeCommunication();
     },
     data(){
       return{
-        auxWindow: null,
         placeholder: null
       }
     },
