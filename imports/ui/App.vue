@@ -43,6 +43,13 @@
       };
     },
     created() {
+      // Meteor.call("getKeycloakConfiguration", (error, result) => {
+      //   if(result) {
+      //     this.$store.state.keycloak = result;
+      //     this.$store.state.keycloak = new Keycloak(result);
+      //   }
+      // });
+
       this.$store.state.keycloak = new Keycloak("/keycloak.json");
 
       this.$store.state.keycloak.init({
@@ -53,7 +60,7 @@
         if(authenticated){
           this.eclipseCheUser = this.$store.state.keycloak.tokenParsed;
           this.addUserToDB();
-          router.push("/dashboard");
+          // router.push("/dashboard");
         }
       }).catch(error => {
         console.log(error);

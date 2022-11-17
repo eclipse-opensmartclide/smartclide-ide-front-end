@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   app:
-    image: ghcr.io/eclipse-researchlabs/smartclide/smartclide-ide:1.2
+    image: ghcr.io/eclipse-opensmartclide/smartclide/smartclide-ide:1.2
     ports:
       - '8080:8080'
     depends_on:
@@ -11,6 +11,11 @@ services:
       ROOT_URL: ${APP_ROOT_URL:-http://localhost}
       MONGO_URL: mongodb://mongo:27017/meteor
       PORT: 8080
+      KEYCLOAK_URL:
+      KEYCLOAK_REALM:
+      KEYCLOAK_CLIENT_ID:
+      CHE_URL:
+      SMARTCLIDE_BACKEND_URL:
     deploy:
       resources:
         limits:

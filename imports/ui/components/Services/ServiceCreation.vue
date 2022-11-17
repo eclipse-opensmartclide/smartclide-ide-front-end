@@ -39,6 +39,7 @@
             v-model="steps[currentStep-1].fields[field].value"
             rows="3"
             no-resize
+            required
           ></b-form-textarea>
           <b-form-input
             v-else
@@ -172,15 +173,15 @@
                   },
                   {
                     text: "Java with Spring Boot and MySQL",
-                    value: "https://raw.githubusercontent.com/eclipse-researchlabs/smartclide-devfiles/main/templates/java-web-spring/devfile.yaml"
+                    value: "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-devfiles/main/templates/java-web-spring/devfile.yaml"
                   },
                   {
                     text: "Node.js",
-                    value: "https://raw.githubusercontent.com/eclipse-researchlabs/smartclide-devfiles/main/templates/nodejs/devfile.yaml"
+                    value: "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-devfiles/main/templates/nodejs/devfile.yaml"
                   },
                   {
                     text: "Python",
-                    value: "https://raw.githubusercontent.com/eclipse-researchlabs/smartclide-devfiles/main/templates/python/devfile.yaml"
+                    value: "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-devfiles/main/templates/python/devfile.yaml"
                   }
                 ],
                 value: null
@@ -191,12 +192,16 @@
         gitCredentials: [],
         currentStep: 1,
         totalSteps: 2,
+        receivedService: {},
         serviceCreated: false
       }
     },
     mounted(){
       this.hideOverlay();
       this.fetchGitCredentials();
+
+      if(this.$route.query.serviceID)
+        this.fetchService();
     },
     methods: {
       showOverlay(){
@@ -208,7 +213,10 @@
         $(".creating").addClass("d-none");
       },
       cancelButtonClicked(){
-        router.back();
+        if(Object.keys(this.$route.query).length !== 0)
+          router.push("/services");
+        else
+          router.back();
       },
       previousButtonClicked(){
         this.currentStep--;
@@ -264,19 +272,56 @@
       resetCredentialsOptions(){
         this.steps[0].fields.credentials.options.splice(1);
       },
-      setupProject(){
-        const parameters = {
-          'projectName': this.steps[1].fields.name.value,
-          'projVisibility': this.steps[1].fields.visibility.value,
-          'projDescription': this.steps[1].fields.description.value,
-          'gitLabServerURL': this.steps[0].fields.credentials.value.url,
-          'gitlabToken': this.steps[0].fields.credentials.value.token
-        };
-
-        Meteor.call("createRepository", this.$store.state.keycloak.idToken, parameters, (error, result) => {
+      fetchService(){
+        Meteor.call("request", {
+          operationID: this.$store.state.apis.backend.endpoints.getServiceByID.operationID,
+          parameters: JSON.parse(`{
+            "${this.$store.state.apis.backend.endpoints.getServiceByID.parameters.serviceID}": "${this.$route.query.serviceID}"
+          }`),
+          token: this.$store.state.keycloak.idToken
+        }, (error, result) => {
           if(result){
-            if(result.status === 0){
-              const repositoryURL = result.message;
+            this.receivedService = result.body;
+            this.fillFormIn();
+          }
+        });
+      },
+      fillFormIn(){
+        this.steps[1].fields.name.value = this.receivedService.name;
+        this.steps[1].fields.description.value = this.receivedService.description;
+      },
+      setupProject(){
+        let createRepositoryMethod;
+        let parameters = {};
+        let headers = {};
+
+        if(Object.keys(this.$route.query).length !== 0){
+          createRepositoryMethod = "importRepository";
+          parameters = {
+            'repoUrl': this.receivedService.url.replace(".git", ""),
+            'name': this.steps[1].fields.name.value,
+            'visibility': this.steps[1].fields.visibility.value
+          };
+          headers = {
+            'gitLabServerURL': this.steps[0].fields.credentials.value.url,
+            'gitlabToken': this.steps[0].fields.credentials.value.token
+          };
+        }
+        else{
+          createRepositoryMethod = "createRepository";
+          headers = {
+            'projectName': this.steps[1].fields.name.value,
+            'projVisibility': this.steps[1].fields.visibility.value,
+            'projDescription': this.steps[1].fields.description.value,
+            'gitLabServerURL': this.steps[0].fields.credentials.value.url,
+            'gitlabToken': this.steps[0].fields.credentials.value.token
+          };
+        }
+
+        Meteor.call(createRepositoryMethod, this.$store.state.keycloak.idToken, headers, parameters, (error, result) => {
+          if(result){
+            if(result.status === 0 || (Object.keys(this.$route.query).length !== 0 && result === 201)){
+              const repositoryURL = Object.keys(this.$route.query).length !== 0 ? parameters.repoUrl : result.message;
               const devfileURL = this.steps[1].fields.framework.value;
 
               Meteor.call("getDevfile", this.$store.state.keycloak.idToken, devfileURL, (error, result) => {
