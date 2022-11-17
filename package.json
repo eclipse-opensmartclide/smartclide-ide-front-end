@@ -20,11 +20,11 @@
     "meteor-node-stubs": "^1.2.3",
     "moment": "^2.29.4",
     "popper.js": "^1.16.1-lts",
-    "vue": "^2.6.14",
+    "vue": "^2.7.14",
     "vue-meteor-tracker": "^2.0.0-beta.5",
     "vue-router": "^3.5.4",
     "vue-smart-widget": "^0.6.1",
-    "vue-template-compiler": "^2.6.14",
+    "vue-template-compiler": "^2.7.14",
     "vuex": "^3.6.2",
     "yamljs": "^0.3.0"
   },
