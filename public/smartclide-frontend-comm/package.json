@@ -11,7 +11,7 @@
   ],
   "author": "UNPARALLEL Innovation, lda.",
   "license": "EPL-2.0",
-  "homepage": "https://github.com/eclipse-opensmartclide/smartclide-ide-front-end/public/smartclide-frontend-comm",
+  "homepage": "https://github.com/eclipse-opensmartclide/smartclide-ide-front-end/tree/main/public/smartclide-frontend-comm",
   "bugs": {
     "url": "https://github.com/eclipse-opensmartclide/smartclide-ide-front-end/issues"
   }
