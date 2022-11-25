@@ -173,15 +173,15 @@
                   },
                   {
                     text: "Java with Spring Boot and MySQL",
-                    value: "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-ide-front-end/main/public/templates/java-web-spring/devfile.yaml"
+                    value: "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-ide-front-end/5f4cf858ab0fd0a689c70658986d64f9ad55b6df/public/templates/java-web-spring/devfile.yaml"
                   },
                   {
                     text: "Node.js",
-                    value: "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-ide-front-end/main/public/templates/nodejs/devfile.yaml"
+                    value: "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-ide-front-end/5f4cf858ab0fd0a689c70658986d64f9ad55b6df/public/templates/nodejs/devfile.yaml"
                   },
                   {
                     text: "Python",
-                    value: "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-ide-front-end/main/public/templates/python/devfile.yaml"
+                    value: "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-ide-front-end/5f4cf858ab0fd0a689c70658986d64f9ad55b6df/public/templates/python/devfile.yaml"
                   }
                 ],
                 value: null
