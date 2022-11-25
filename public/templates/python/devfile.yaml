@@ -1,0 +1,28 @@
+apiVersion: 1.0.0
+metadata:
+  name: python
+projects:
+  - name: python-hello-world
+    source:
+      location: 'https://github.com/che-samples/python-hello-world'
+      type: git
+components:
+  - id: ms-python/python/latest
+    type: chePlugin
+  - mountSources: true
+    memoryLimit: 512Mi
+    type: dockerimage
+    volumes:
+      - name: venv
+        containerPath: /home/user/.venv
+    alias: python
+    image: 'quay.io/eclipse/che-python-3.8:7.32.1'
+  - type: cheEditor
+    reference: 'https://github.com/eclipse-opensmartclide/smartclide-ide-front-end/raw/d953258b5f6b587c54342d258694abf4bb4ed58e/public/templates/editor_meta.yaml'
+commands:
+  - name: run
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/python-hello-world'
+        type: exec
+        command: '. ${HOME}/.venv/bin/activate &&  python hello-world.py'
+        component: python
