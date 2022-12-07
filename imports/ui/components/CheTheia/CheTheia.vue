@@ -72,9 +72,8 @@
               switch (status) {
                 case "STOPPED":
                   Meteor.call("startWorkspace", keycloakToken, workspaceId);
-                  this.startWorkspaceTimeout = setTimeout(this.openWorkspace, 2000);
-                  break;
                 case "STOPPING":
+                case "STARTING":
                   this.startWorkspaceTimeout = setTimeout(this.openWorkspace, 2000);
                   break;
                 case "RUNNING":
@@ -85,9 +84,6 @@
                       this.hideLoading();
                     }
                   });
-                  break;
-                case "STARTING":
-                  this.startWorkspaceTimeout = setTimeout(this.openWorkspace, 2000);
                   break;
                 default:
                   break;
