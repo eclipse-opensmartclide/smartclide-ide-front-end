@@ -16,7 +16,7 @@
     "bootstrap": "^4.6.1",
     "bootstrap-vue": "^2.23.1",
     "json-to-pretty-yaml": "^1.2.2",
-    "keycloak-js": "^10.0.2",
+    "keycloak-js": "^20.0.2",
     "meteor-node-stubs": "^1.2.5",
     "moment": "^2.29.4",
     "popper.js": "^1.16.1-lts",
