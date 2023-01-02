@@ -514,6 +514,18 @@
           this.setupProject();
         }
       },
+      getStepIndex(stepTitle){
+        for(let stepIndex = 0; stepIndex < this.steps.length; stepIndex++)
+          if(this.steps[stepIndex].title === stepTitle)
+            return stepIndex;
+      },
+      buildGitSystemOptions(){
+        let credentialTypes = this.gitCredentials.map(gitCredential => gitCredential.type);
+        let uniqueTypes = [...new Set(credentialTypes)].sort();
+        const stepIndex = this.getStepIndex("Git Setup");
+
+        uniqueTypes.forEach(type => this.steps[stepIndex].fields.gitSystem.options.push({ text: type, value: type }));
+      },
       fetchGitCredentials(){
         Meteor.call("request", {
             operationID: this.$store.state.apis.backend.endpoints.getGitCredentials.operationID,
@@ -531,35 +543,32 @@
           }
         );
       },
-      buildGitSystemOptions(){
-        let credentialTypes = this.gitCredentials.map(gitCredential => gitCredential.type);
-        let uniqueTypes = [...new Set(credentialTypes)].sort();
-
-        uniqueTypes.forEach(type => this.steps[0].fields.gitSystem.options.push({ text: type, value: type }));
-      },
       changedGitSystem(){
         this.resetCredentialsOptions();
 
         let newOptions = [];
+        const stepIndex = this.getStepIndex("Git Setup");
 
         this.gitCredentials.forEach(gitCredential => {
-          if(gitCredential.type === this.steps[0].fields.gitSystem.value)
+          if(gitCredential.type === this.steps[stepIndex].fields.gitSystem.value)
             newOptions.push({
               text: `${gitCredential.username}`,
               value: gitCredential
             });
         });
 
-        this.steps[0].fields.credentials.options.push(...newOptions.sort());
+        this.steps[stepIndex].fields.credentials.options.push(...newOptions.sort());
       },
       resetCredentialsOptions(){
-        this.steps[0].fields.credentials.options.splice(1);
+        const stepIndex = this.getStepIndex("Git Setup");
+        this.steps[stepIndex].fields.credentials.options.splice(1);
       },
       buildAPSResponsesArray(){
         let responses = [];
+        const stepIndex = this.getStepIndex("Architectural Pattern Selection");
 
-        for(const field of Object.keys(this.steps[2].fields))
-          responses.push(...this.steps[2].fields[field].values);
+        for(const field of Object.keys(this.steps[stepIndex].fields))
+          responses.push(...this.steps[stepIndex].fields[field].values);
 
         return responses;
       },
@@ -578,34 +587,37 @@
         });
       },
       fillFormIn(){
-        this.steps[1].fields.name.value = this.receivedService.name;
-        this.steps[1].fields.description.value = this.receivedService.description;
+        const stepIndex = this.getStepIndex("Service Details");
+        this.steps[stepIndex].fields.name.value = this.receivedService.name;
+        this.steps[stepIndex].fields.description.value = this.receivedService.description;
       },
       setupProject(){
         let createRepositoryMethod;
         let parameters = {};
         let headers = {};
+        const gitStepIndex = this.getStepIndex("Git Setup");
+        const detailsStepIndex = this.getStepIndex("Service Details");
 
         if(Object.keys(this.$route.query).length !== 0){
           createRepositoryMethod = "importRepository";
           parameters = {
             'repoUrl': this.receivedService.url.replace(".git", ""),
-            'name': this.steps[1].fields.name.value,
-            'visibility': this.steps[1].fields.visibility.value
+            'name': this.steps[detailsStepIndex].fields.name.value,
+            'visibility': this.steps[detailsStepIndex].fields.visibility.value
           };
           headers = {
-            'gitLabServerURL': this.steps[0].fields.credentials.value.url,
-            'gitlabToken': this.steps[0].fields.credentials.value.token
+            'gitLabServerURL': this.steps[gitStepIndex].fields.credentials.value.url,
+            'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token
           };
         }
         else{
           createRepositoryMethod = "createRepository";
           headers = {
-            'projectName': this.steps[1].fields.name.value,
-            'projVisibility': this.steps[1].fields.visibility.value,
-            'projDescription': this.steps[1].fields.description.value,
-            'gitLabServerURL': this.steps[0].fields.credentials.value.url,
-            'gitlabToken': this.steps[0].fields.credentials.value.token
+            'projectName': this.steps[detailsStepIndex].fields.name.value,
+            'projVisibility': this.steps[detailsStepIndex].fields.visibility.value,
+            'projDescription': this.steps[detailsStepIndex].fields.description.value,
+            'gitLabServerURL': this.steps[gitStepIndex].fields.credentials.value.url,
+            'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token
           };
         }
 
@@ -613,7 +625,7 @@
           if(result){
             if(result.status === 0 || (Object.keys(this.$route.query).length !== 0 && result === 201)){
               const repositoryURL = Object.keys(this.$route.query).length !== 0 ? parameters.repoUrl : result.message;
-              const devfileURL = this.steps[1].fields.framework.value;
+              const devfileURL = this.steps[detailsStepIndex].fields.framework.value;
 
               Meteor.call("getDevfile", this.$store.state.keycloak.idToken, devfileURL, (error, result) => {
                 if(result){
@@ -626,16 +638,16 @@
                       Meteor.call("request", {
                         operationID: this.$store.state.apis.backend.endpoints.addServices.operationID,
                         requestBody: {
-                          name: this.steps[1].fields.name.value,
+                          name: this.steps[detailsStepIndex].fields.name.value,
                           user_id: this.$store.state.keycloak.subject,
                           registry_id: "internal",
                           workspace_id: workspaceID,
                           url: repositoryURL,
-                          description: this.steps[1].fields.description.value,
+                          description: this.steps[detailsStepIndex].fields.description.value,
                           framework: this.getSelectedFrameworkName(),
                           updated: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
                           deployable: false,
-                          is_public: this.steps[1].fields.visibility.value === 0
+                          is_public: this.steps[detailsStepIndex].fields.visibility.value === 0
                         },
                         token: this.$store.state.keycloak.idToken
                       }, (error, result) => {
@@ -669,16 +681,18 @@
         alert(message);
       },
       fillDevfileTemplate(devfile, repositoryURL){
-        devfile.metadata.name = `${this.steps[1].fields.name.value}-${(+new Date).toString(36)}`;
+        const stepIndex = this.getStepIndex("Service Details");
+        devfile.metadata.name = `${this.steps[stepIndex].fields.name.value}-${(+new Date).toString(36)}`;
         devfile.projects = [{
-          name: this.steps[1].fields.name.value,
+          name: this.steps[stepIndex].fields.name.value,
           source: { location: repositoryURL, type: "git" }
         }];
 
         return devfile;
       },
       getSelectedFrameworkName(){
-        const selectedOption = this.steps[1].fields.framework.options.filter(option => option.value === this.steps[1].fields.framework.value)[0];
+        const stepIndex = this.getStepIndex("Service Details");
+        const selectedOption = this.steps[stepIndex].fields.framework.options.filter(option => option.value === this.steps[stepIndex].fields.framework.value)[0];
 
         return selectedOption.text;
       },
