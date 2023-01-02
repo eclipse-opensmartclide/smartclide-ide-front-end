@@ -9,14 +9,13 @@
  -------------------------------------------------------------------------------->
 
 <template>
-  <div class="mx-4 mt-4">
+  <div class="mx-4 my-4">
     <b-card
       :title="`[Step ${currentStep}/${totalSteps}] ${steps[currentStep-1].title}`"
       :sub-title="steps[currentStep-1].sub_title"
     >
       <b-form class="mt-4" @submit="nextButtonClicked">
         <b-form-group
-          class="w-50"
           v-for="field in Object.keys(steps[currentStep-1].fields)"
           :label="steps[currentStep-1].fields[field].label"
         >
@@ -34,19 +33,47 @@
               {{option.text}}
             </b-form-select-option>
           </b-form-select>
+          <b-form-input
+              v-else-if="steps[currentStep-1].fields[field].formType === 'text'"
+              :type="steps[currentStep-1].fields[field].formType"
+              v-model="steps[currentStep-1].fields[field].value"
+              :placeholder="steps[currentStep-1].fields[field].placeholder"
+              required
+          />
           <b-form-textarea
             v-else-if="steps[currentStep-1].fields[field].formType === 'textarea'"
             v-model="steps[currentStep-1].fields[field].value"
+            :placeholder="steps[currentStep-1].fields[field].placeholder"
             rows="3"
             no-resize
             required
-          ></b-form-textarea>
-          <b-form-input
-            v-else
-            :type="steps[currentStep-1].fields[field].formType"
-            v-model="steps[currentStep-1].fields[field].value"
-            required
           />
+          <b-form-radio-group
+            v-else-if="steps[currentStep-1].fields[field].formType === 'radio'"
+            v-model="steps[currentStep-1].fields[field].values"
+            required
+            stacked
+          >
+            <b-form-radio
+              v-for="option in steps[currentStep-1].fields[field].options"
+              :value="option.id"
+            >
+              {{option.text}}
+            </b-form-radio>
+          </b-form-radio-group>
+          <b-form-checkbox-group
+            v-else-if="steps[currentStep-1].fields[field].formType === 'checkbox'"
+            v-model="steps[currentStep-1].fields[field].values"
+            :required="steps[currentStep-1].fields[field].values.length === 0"
+            stacked
+          >
+            <b-form-checkbox
+              v-for="option in steps[currentStep-1].fields[field].options"
+              :value="option.id"
+            >
+              {{option.text}}
+            </b-form-checkbox>
+          </b-form-checkbox-group>
         </b-form-group>
 
         <b-row>
@@ -137,11 +164,13 @@
               name: {
                 label: "Name",
                 formType: "text",
+                placeholder: "Provide the name of the service",
                 value: null
               },
               description: {
                 label: "Description",
                 formType: "textarea",
+                placeholder: "Provide a short description of the service",
                 value: null
               },
               visibility: {
@@ -187,11 +216,265 @@
                 value: null
               }
             }
+          },
+          {
+            title: "Architectural Pattern Selection",
+            sub_title: "Provide the input for the Architectural Pattern component",
+            fields: {
+              appDomain: {
+                id: "Q1",
+                label: "Please choose the domain of your application",
+                formType: "radio",
+                options: [
+                  {
+                    id: "Q1_1",
+                    text: "Web-based systems"
+                  },
+                  {
+                    id: "Q1_2",
+                    text: "Web services"
+                  },
+                  {
+                    id: "Q1_3",
+                    text: "Service-based systems"
+                  },
+                  {
+                    id: "Q1_4",
+                    text: "Distributed systems"
+                  },
+                  {
+                    id: "Q1_5",
+                    text: "Cloud computing applications"
+                  },
+                  {
+                    id: "Q1_6",
+                    text: "Mobile applications"
+                  },
+                  {
+                    id: "Q1_7",
+                    text: "Compiler design"
+                  },
+                  {
+                    id: "Q1_8",
+                    text: "Case and related developer tools"
+                  },
+                  {
+                    id: "Q1_9",
+                    text: "Database systems"
+                  },
+                  {
+                    id: "Q1_10",
+                    text: "Context-aware systems"
+                  },
+                  {
+                    id: "Q1_11",
+                    text: "Adaptable systems"
+                  },
+                  {
+                    id: "Q1_12",
+                    text: "Enterprise application integration"
+                  },
+                  {
+                    id: "Q1_13",
+                    text: "Customer relationship management"
+                  },
+                  {
+                    id: "Q1_14",
+                    text: "Information management and decision support system"
+                  },
+                  {
+                    id: "Q1_15",
+                    text: "Transaction processing"
+                  },
+                  {
+                    id: "Q1_16",
+                    text: "None of the above"
+                  }
+                ],
+                values: []
+              },
+              appType: {
+                id: "Q2",
+                label: "Please choose the type of your application",
+                formType: "checkbox",
+                options: [
+                  {
+                    id: "Q2_1",
+                    text: "Web application / website with small components"
+                  },
+                  {
+                    id: "Q2_2",
+                    text: "Large scale web application like e-commerce or social website development"
+                  },
+                  {
+                    id: "Q2_3",
+                    text: "General desktop application"
+                  },
+                  {
+                    id: "Q2_4",
+                    text: "Application with a simply business logic that does not need to scale out"
+                  },
+                  {
+                    id: "Q2_5",
+                    text: "Enterprise or business application with traditional IT departments and processes"
+                  },
+                  {
+                    id: "Q2_6",
+                    text: "Application with a fixed set of core functionalities and a dynamic set of functionalities that need frequent updates"
+                  },
+                  {
+                    id: "Q2_7",
+                    text: "Large, complex, enterprise-wide systems that require integration with many heterogeneous applications and services"
+                  },
+                  {
+                    id: "Q2_8",
+                    text: "Application that has many shared components, particularly components across the enterprise"
+                  },
+                  {
+                    id: "Q2_9",
+                    text: "Application with immense and rapidly growing data systems"
+                  },
+                  {
+                    id: "Q2_10",
+                    text: "Application that requires strict standards of testability"
+                  },
+                  {
+                    id: "Q2_11",
+                    text: "None of the above"
+                  }
+                ],
+                values: []
+              },
+              nonFunctionalReqs: {
+                id: "Q3",
+                label: "Please choose the most relevant non-functional requirements for your application",
+                formType: "checkbox",
+                options: [
+                  {
+                    id: "Q3_1",
+                    text: "Maintainability (how easy the software system can be modified to correct faults, improve performance, or other attributes, or adapt to a changed environment)"
+                  },
+                  {
+                    id: "Q3_2",
+                    text: "Performance (amount of work accomplished by a system and the limiting factor in the end-usability of the system)"
+                  },
+                  {
+                    id: "Q3_3",
+                    text: "Portability (the degree in which the same architecture can be used in different environments)"
+                  },
+                  {
+                    id: "Q3_4",
+                    text: "Reliability (consistency in the anticipation of software operations - e.g., in terms of the number of software faults (bugs), expressed as faults per thousand lines of code)"
+                  },
+                  {
+                    id: "Q3_5",
+                    text: "Security (the ability to control who can perform what actions on particular resources)"
+                  }
+                ],
+                values: []
+              },
+              appFeatures: {
+                id: "Q4",
+                label: "Please choose the desired features of your application for development and deployment",
+                formType: "checkbox",
+                options: [
+                  {
+                    id: "Q4_1",
+                    text: "High ease of development / quick development with fewer developers"
+                  },
+                  {
+                    id: "Q4_2",
+                    text: "Easy to understand and modify the development"
+                  },
+                  {
+                    id: "Q4_3",
+                    text: "Easy to rewrite and update parts of the development"
+                  },
+                  {
+                    id: "Q4_4",
+                    text: "Development teams that are spread out"
+                  },
+                  {
+                    id: "Q4_5",
+                    text: "Special functionality to address without rewriting the original application"
+                  },
+                  {
+                    id: "Q4_6",
+                    text: "High ease of deployment"
+                  },
+                  {
+                    id: "Q4_7",
+                    text: "Rapid and frequent development and deployment"
+                  },
+                  {
+                    id: "Q4_8",
+                    text: "Independently deployable"
+                  },
+                  {
+                    id: "Q4_9",
+                    text: "High speed with creating and deploying new applications"
+                  },
+                  {
+                    id: "Q4_10",
+                    text: "Add new modules without making changes to the existing system"
+                  },
+                  {
+                    id: "Q4_11",
+                    text: "Quick response to a constantly changing environment"
+                  },
+                  {
+                    id: "Q4_12",
+                    text: "Reusability of integrations and component sharing"
+                  }
+                ],
+                values: []
+              },
+              architecturalFeatures: {
+                id: "Q5",
+                label: "Please choose the desired features of your architecture",
+                formType: "checkbox",
+                options: [
+                  {
+                    id: "Q5_1",
+                    text: "Asynchronous communication / data flow (information can be exchanged independent of time)"
+                  },
+                  {
+                    id: "Q5_2",
+                    text: "Asynchronous communication / data flow (information can be exchanged in real time)"
+                  },
+                  {
+                    id: "Q5_3",
+                    text: "Loose coupling (degree of dependency between components is very low)"
+                  },
+                  {
+                    id: "Q5_4",
+                    text: "Independent services (services can be developed and deployed independently of one another)"
+                  },
+                  {
+                    id: "Q5_5",
+                    text: "Separation of concerns (separating an application into distinct sections each of which address a separate concern)"
+                  },
+                  {
+                    id: "Q5_6",
+                    text: "Plug-in components (adding additional feature as plugins to the core application)"
+                  },
+                  {
+                    id: "Q5_7",
+                    text: "Dynamic (system components and connections can be created and destroyed during runtimes)"
+                  },
+                  {
+                    id: "Q5_8",
+                    text: "High volume data (size of the data sets to be processed larger than terabytes)"
+                  }
+                ],
+                values: []
+              }
+            }
           }
         ],
         gitCredentials: [],
         currentStep: 1,
-        totalSteps: 2,
+        totalSteps: 3,
         receivedService: {},
         serviceCreated: false
       }
@@ -271,6 +554,14 @@
       },
       resetCredentialsOptions(){
         this.steps[0].fields.credentials.options.splice(1);
+      },
+      buildAPSResponsesArray(){
+        let responses = [];
+
+        for(const field of Object.keys(this.steps[2].fields))
+          responses.push(...this.steps[2].fields[field].values);
+
+        return responses;
       },
       fetchService(){
         Meteor.call("request", {
