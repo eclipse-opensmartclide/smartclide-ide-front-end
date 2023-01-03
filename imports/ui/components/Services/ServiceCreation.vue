@@ -50,7 +50,7 @@
           />
           <b-form-radio-group
             v-else-if="steps[currentStep-1].fields[field].formType === 'radio'"
-            v-model="steps[currentStep-1].fields[field].values"
+            v-model="steps[currentStep-1].fields[field].value"
             required
             stacked
           >
@@ -291,7 +291,7 @@
                     text: "None of the above"
                   }
                 ],
-                values: []
+                value: null
               },
               appType: {
                 id: "Q2",
@@ -567,8 +567,10 @@
         let responses = [];
         const stepIndex = this.getStepIndex("Architectural Pattern Selection");
 
-        for(const field of Object.keys(this.steps[stepIndex].fields))
-          responses.push(...this.steps[stepIndex].fields[field].values);
+        for(const field of Object.keys(this.steps[stepIndex].fields)){
+          const values = this.steps[stepIndex].fields[field].values;
+          values ? responses.push(...values) : responses.push(this.steps[stepIndex].fields[field].value);
+        }
 
         return responses;
       },
