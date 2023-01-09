@@ -152,6 +152,23 @@ Meteor.methods({
             throw e;
         }
     },
+    async evaluateAPSInput(keycloakToken, responsesArray){
+        const url = `${process.env.SMARTCLIDE_BACKEND_URL}/architectural-patterns/evaluation`;
+
+        const config = {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${keycloakToken}`,
+            }
+        };
+
+        try{
+            const res = await axios.post(url, responsesArray, config);
+            return res.data;
+        } catch(e){
+            throw e;
+        }
+    },
     // Keycloak
     getKeycloakConfiguration(){
         return {
