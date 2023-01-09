@@ -218,7 +218,7 @@
             }
           },
           {
-            title: "Architectural Pattern Selection",
+            title: "Architectural Pattern Form",
             sub_title: "Provide the input for the Architectural Pattern component",
             fields: {
               appDomain: {
@@ -470,11 +470,48 @@
                 values: []
               }
             }
+          },
+          {
+            title: "Architectural Pattern Selection",
+            sub_title: "Choose the desired Architectural Pattern according to the recommendations",
+            fields: {
+              architecturalPattern: {
+                label: "Please choose an Architectural Pattern",
+                formType: "radio",
+                options: [
+                  {
+                    id: "AP1",
+                    text: "Service-oriented"
+                  },
+                  {
+                    id: "AP2",
+                    text: "Space-based"
+                  },
+                  {
+                    id: "AP3",
+                    text: "Microservices"
+                  },
+                  {
+                    id: "AP4",
+                    text: "Layered"
+                  },
+                  {
+                    id: "AP5",
+                    text: "Event-driven"
+                  },
+                  {
+                    id: "AP6",
+                    text: "Microkernel"
+                  }
+                ],
+                value: null
+              }
+            }
           }
         ],
         gitCredentials: [],
         currentStep: 1,
-        totalSteps: 3,
+        totalSteps: 4,
         receivedService: {},
         serviceCreated: false
       }
@@ -504,14 +541,41 @@
       previousButtonClicked(){
         this.currentStep--;
       },
-      nextButtonClicked(event){
+      buildAPSResponsesArray(){
+        let responses = [];
+        const stepIndex = this.getStepIndex("Architectural Pattern Form");
+
+        for(const field of Object.keys(this.steps[stepIndex].fields)){
+          const values = this.steps[stepIndex].fields[field].values;
+          values ? responses.push(...values) : responses.push(this.steps[stepIndex].fields[field].value);
+        }
+
+        return responses;
+      },
+      getAPSEvaluation(){
+        Meteor.call("evaluateAPSInput", this.$store.state.keycloak.token, this.buildAPSResponsesArray(),
+          (error, result) => {
+            if(result){
+              console.log(result);
+              this.currentStep++;
+            }
+          }
+        );
+      },
+      async nextButtonClicked(event){
         event.preventDefault();
 
-        if(this.currentStep < this.totalSteps)
-          this.currentStep++;
-        else{
-          this.showOverlay();
-          this.setupProject();
+        switch (this.currentStep) {
+          case 1:
+          case 2:
+            this.currentStep++;
+            break;
+          case 3:
+            await this.getAPSEvaluation();
+            break;
+          default:
+            this.showOverlay();
+            this.setupProject();
         }
       },
       getStepIndex(stepTitle){
@@ -562,17 +626,6 @@
       resetCredentialsOptions(){
         const stepIndex = this.getStepIndex("Git Setup");
         this.steps[stepIndex].fields.credentials.options.splice(1);
-      },
-      buildAPSResponsesArray(){
-        let responses = [];
-        const stepIndex = this.getStepIndex("Architectural Pattern Selection");
-
-        for(const field of Object.keys(this.steps[stepIndex].fields)){
-          const values = this.steps[stepIndex].fields[field].values;
-          values ? responses.push(...values) : responses.push(this.steps[stepIndex].fields[field].value);
-        }
-
-        return responses;
       },
       fetchService(){
         Meteor.call("request", {
