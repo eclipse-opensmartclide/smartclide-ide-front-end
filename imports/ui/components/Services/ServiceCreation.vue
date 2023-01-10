@@ -222,7 +222,6 @@
             sub_title: "Provide the input for the Architectural Pattern component",
             fields: {
               appDomain: {
-                id: "Q1",
                 label: "Please choose the domain of your application",
                 formType: "radio",
                 options: [
@@ -294,9 +293,8 @@
                 value: null
               },
               appType: {
-                id: "Q2",
                 label: "Please choose the type of your application",
-                formType: "checkbox",
+                formType: "radio",
                 options: [
                   {
                     id: "Q2_1",
@@ -346,7 +344,6 @@
                 values: []
               },
               nonFunctionalReqs: {
-                id: "Q3",
                 label: "Please choose the most relevant non-functional requirements for your application",
                 formType: "checkbox",
                 options: [
@@ -374,7 +371,6 @@
                 values: []
               },
               appFeatures: {
-                id: "Q4",
                 label: "Please choose the desired features of your application for development and deployment",
                 formType: "checkbox",
                 options: [
@@ -430,7 +426,6 @@
                 values: []
               },
               architecturalFeatures: {
-                id: "Q5",
                 label: "Please choose the desired features of your architecture",
                 formType: "checkbox",
                 options: [
