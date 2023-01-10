@@ -136,7 +136,7 @@ Meteor.methods({
             throw e;
         }
     },
-    async getDevfile(keycloakToken, devfileURL){
+    async getDevfile(devfileURL){
         const configuration = {
             method: 'GET',
             url: devfileURL,
