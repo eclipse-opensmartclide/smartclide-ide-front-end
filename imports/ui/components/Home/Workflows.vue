@@ -11,7 +11,7 @@
 <template>
   <div class="d-flex flex-column h-100">
     <div class="d-flex h-100">
-      <iframe id="jbpm-iframe" src="https://jbpm.dev.smartclide.eu/business-central/kie-wb.jsp"/>
+      <iframe id="jbpm-iframe" :src="jBPMURL"/>
     </div>
   </div>
 </template>
@@ -23,11 +23,12 @@
     name: "Workflows",
     mounted(){
       this.$store.state.context = 'home';
+      this.getjBPMURL();
       this.setupIframeCommunication();
     },
     data(){
       return{
-        placeholder: null
+        jBPMURL: null
       }
     },
     beforeRouteLeave(to, from, next){
@@ -35,6 +36,9 @@
       next();
     },
     methods:{
+      getjBPMURL(){
+        Meteor.call("getjBPMURL", (error, result) => { if(result) this.jBPMURL = result; });
+      },
       sendMessageToIframe(messageType){
         const iframe = document.getElementById("jbpm-iframe");
 
