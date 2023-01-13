@@ -396,7 +396,7 @@
       },
       //CHANGE THIS METHOD TO USE THE APS component's API
       fetchAPSSurvey(){
-        Meteor.call("getDevfile", "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-architectural-pattern/update-survey-json/src/main/resources/jsonfiles/survey.json", (error, result) => {
+        Meteor.call("getDevfile", "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-architectural-pattern/main/src/main/resources/jsonfiles/survey.json", (error, result) => {
           if(result){
             for(const field of Object.keys(result.fields)){
               if(result.fields[field].formType === "radio")
