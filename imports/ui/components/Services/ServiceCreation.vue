@@ -301,7 +301,7 @@
         return responses;
       },
       getAPSEvaluation(){
-        Meteor.call("evaluateAPSInput", this.$store.state.keycloak.token, this.buildAPSResponsesArray(),
+        Meteor.call("evaluateAPSInput", this.$store.state.keycloak.idToken, this.buildAPSResponsesArray(),
           (error, result) => {
             if(result){
               console.log(result);
@@ -394,9 +394,8 @@
         this.steps[stepIndex].fields.name.value = this.receivedService.name;
         this.steps[stepIndex].fields.description.value = this.receivedService.description;
       },
-      //CHANGE THIS METHOD TO USE THE APS component's API
       fetchAPSSurvey(){
-        Meteor.call("getDevfile", "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-architectural-pattern/main/src/main/resources/jsonfiles/survey.json", (error, result) => {
+        Meteor.call("getAPSSurvey", this.$store.state.keycloak.idToken, (error, result) => {
           if(result){
             for(const field of Object.keys(result.fields)){
               if(result.fields[field].formType === "radio")

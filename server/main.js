@@ -152,6 +152,23 @@ Meteor.methods({
             throw e;
         }
     },
+    async getAPSSurvey(keycloakToken){
+        const config = {
+            method: 'GET',
+            url: `${process.env.SMARTCLIDE_BACKEND_URL}/architectural-patterns/survey`,
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${keycloakToken}`,
+            }
+        };
+
+        try{
+            const res = await axios(config);
+            return res.data;
+        } catch(e){
+            throw e;
+        }
+    },
     async evaluateAPSInput(keycloakToken, responsesArray){
         const url = `${process.env.SMARTCLIDE_BACKEND_URL}/architectural-patterns/evaluation`;
 
