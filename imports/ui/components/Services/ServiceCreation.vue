@@ -397,12 +397,11 @@
       fetchAPSSurvey(){
         Meteor.call("getAPSSurvey", this.$store.state.keycloak.idToken, (error, result) => {
           if(result){
-            for(const field of Object.keys(result.fields)){
+            for(const field of Object.keys(result.fields))
               if(result.fields[field].formType === "radio")
                 result.fields[field].value = null;
               else if(result.fields[field].formType === "checkbox")
                 result.fields[field].values = [];
-            }
 
             this.steps.splice(2, 0, result);
           }

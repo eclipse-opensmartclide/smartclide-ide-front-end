@@ -10,15 +10,28 @@
 
 <template>
   <div class="d-flex h-100">
-    <iframe class="border-0 w-100" src="https://keycloak-smartclide-che.che.smartclide.eu/auth/realms/che/account"/>
+    <iframe class="border-0 w-100" :src="keycloakPageURL"/>
   </div>
 </template>
 
 <script>
+  import keycloakConfig from "/public/keycloak.json";
+
   export default {
     name: "Profile",
+    data(){
+      return {
+        keycloakPageURL: null, // https://keycloak-smartclide-che.che.smartclide.eu/auth/realms/che/account
+      }
+    },
     mounted(){
       this.$store.state.context = 'my-account';
+      this.getKeycloakPageURL();
+    },
+    methods: {
+      getKeycloakPageURL(){
+        this.keycloakPageURL = `${keycloakConfig["auth-server-url"]}/realms/${keycloakConfig.realm}/account`;
+      }
     }
   }
 </script>
