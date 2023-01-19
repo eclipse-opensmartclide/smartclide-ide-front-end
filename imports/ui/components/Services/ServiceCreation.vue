@@ -257,7 +257,7 @@
         ],
         gitCredentials: [],
         currentStep: 1,
-        totalSteps: 4,
+        totalSteps: 2,
         receivedService: {},
         serviceCreated: false
       }
@@ -315,12 +315,14 @@
 
         switch (this.currentStep) {
           case 1:
-          case 2:
             this.currentStep++;
             break;
-          case 3:
-            await this.getAPSEvaluation();
-            break;
+          case 2:
+            // this.currentStep++;
+            // break;
+          // case 3:
+          //   await this.getAPSEvaluation();
+          //   break;
           default:
             this.showOverlay();
             this.setupProject();
