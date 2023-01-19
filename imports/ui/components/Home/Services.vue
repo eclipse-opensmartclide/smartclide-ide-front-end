@@ -132,7 +132,7 @@
               "${this.$store.state.apis.backend.endpoints.getServices.parameters.userID}": "${this.$store.state.keycloak.subject}",
               "${this.$store.state.apis.backend.endpoints.getServices.parameters.registryID}": "internal"
             }`),
-            token: this.$store.state.keycloak.token
+            token: this.$store.state.keycloak.idToken
           },
           (error, result) => {
             if(result){
@@ -185,7 +185,7 @@
           parameters: JSON.parse(`{
             "${this.$store.state.apis.backend.endpoints.deleteService.parameters.serviceID}": "${rowData.id}"
           }`),
-          token: this.$store.state.keycloak.token
+          token: this.$store.state.keycloak.idToken
         }, () => {
           Meteor.call("deleteWorkspace", this.$store.state.keycloak.idToken, rowData.workspaceID, () => {
             this.fetchServices();

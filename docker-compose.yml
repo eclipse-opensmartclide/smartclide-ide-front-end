@@ -14,8 +14,9 @@ services:
       KEYCLOAK_URL:
       KEYCLOAK_REALM:
       KEYCLOAK_CLIENT_ID:
-      CHE_URL:
-      SMARTCLIDE_BACKEND_URL:
+      CHE_URL: https://che-smartclide-che.che.smartclide.eu
+      SMARTCLIDE_BACKEND_URL: https://api.dev.smartclide.eu
+      JBPM_URL: https://jbpm.dev.smartclide.eu/business-central/kie-wb.jsp
     deploy:
       resources:
         limits:

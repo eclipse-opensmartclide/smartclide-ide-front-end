@@ -136,7 +136,7 @@ Meteor.methods({
             throw e;
         }
     },
-    async getDevfile(keycloakToken, devfileURL){
+    async getDevfile(devfileURL){
         const configuration = {
             method: 'GET',
             url: devfileURL,
@@ -152,12 +152,50 @@ Meteor.methods({
             throw e;
         }
     },
+    async getAPSSurvey(keycloakToken){
+        const config = {
+            method: 'GET',
+            url: `${process.env.SMARTCLIDE_BACKEND_URL}/architectural-patterns/survey`,
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${keycloakToken}`,
+            }
+        };
+
+        try{
+            const res = await axios(config);
+            return res.data;
+        } catch(e){
+            throw e;
+        }
+    },
+    async evaluateAPSInput(keycloakToken, responsesArray){
+        const url = `${process.env.SMARTCLIDE_BACKEND_URL}/architectural-patterns/evaluation`;
+
+        const config = {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${keycloakToken}`,
+            }
+        };
+
+        try{
+            const res = await axios.post(url, responsesArray, config);
+            return res.data;
+        } catch(e){
+            throw e;
+        }
+    },
     // Keycloak
     getKeycloakConfiguration(){
         return {
             url: process.env.KEYCLOAK_URL,
             realm: process.env.KEYCLOAK_REALM,
             clientId: process.env.KEYCLOAK_CLIENT_ID
-        }
+        };
+    },
+    // jBPM
+    getjBPMURL(){
+        return process.env.JBPM_URL;
     }
 });

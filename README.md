@@ -34,7 +34,7 @@ curl https://install.meteor.com/ | sh
 npm install -g meteor
 ```
 
-### Clone the project from GitLab 
+### Clone the project from GitHub 
 
 ```shell
 git clone https://github.com/eclipse-opensmartclide/smartclide-ide-front-end.git
@@ -43,7 +43,7 @@ git clone https://github.com/eclipse-opensmartclide/smartclide-ide-front-end.git
 ### Install dependencies and run the project
 
 ```shell
-cd ide
+# Inside the cloned directory
 meteor npm install
 meteor --port 8080
 ```
