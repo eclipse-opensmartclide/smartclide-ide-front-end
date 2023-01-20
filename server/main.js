@@ -187,12 +187,21 @@ Meteor.methods({
         }
     },
     // Keycloak
-    getKeycloakConfiguration(){
-        return {
-            url: process.env.KEYCLOAK_URL,
-            realm: process.env.KEYCLOAK_REALM,
-            clientId: process.env.KEYCLOAK_CLIENT_ID
-        };
+    async getKeycloakConfiguration(){
+        const configuration = {
+            method: 'GET',
+            url: `${process.env.ROOT_URL}/keycloak.json`,
+            headers: {
+                'Accept': 'application/json'
+            }
+        }
+
+        try{
+            const res = await axios(configuration);
+            return res.data;
+        } catch(e){
+            throw e;
+        }
     },
     // jBPM
     getjBPMURL(){

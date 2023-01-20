@@ -15,8 +15,6 @@
 </template>
 
 <script>
-  import keycloakConfig from "/public/keycloak.json";
-
   export default {
     name: "Profile",
     data(){
@@ -30,7 +28,9 @@
     },
     methods: {
       getKeycloakPageURL(){
-        this.keycloakPageURL = `${keycloakConfig["auth-server-url"]}/realms/${keycloakConfig.realm}/account`;
+        Meteor.call("getKeycloakConfiguration", (error, result) => {
+          this.keycloakPageURL = `${result["auth-server-url"]}/realms/${result.realm}/account`;
+        });
       }
     }
   }
