@@ -409,6 +409,38 @@
           }
         });
       },
+      fillDevfileTemplate(devfile, repositoryURL){
+        const stepIndex = this.getStepIndex("Service Details");
+
+        devfile.components.forEach(component => {
+          if(component.type === "cheEditor"){
+            component.env = [{
+              name: "SMARTCLIDE_BACKEND_URL",
+              value: Meteor.settings.public.SMARTCLIDE_BACKEND_URL
+            }];
+          }
+        });
+        devfile.metadata.name = `${this.steps[stepIndex].fields.name.value}-${(+new Date).toString(36)}`;
+        devfile.projects = [{
+          name: this.steps[stepIndex].fields.name.value,
+          source: {location: repositoryURL, type: "git"}
+        }];
+
+        return devfile;
+      },
+      getSelectedFrameworkName(){
+        const stepIndex = this.getStepIndex("Service Details");
+        const selectedOption = this.steps[stepIndex].fields.framework.options.filter(option => option.value === this.steps[stepIndex].fields.framework.value)[0];
+
+        return selectedOption.text;
+      },
+      developButtonClicked(){
+        router.push(`/project/${this.serviceCreated}`);
+      },
+      serviceCreationError(message){
+        this.hideOverlay();
+        alert(message);
+      },
       setupProject(){
         let createRepositoryMethod;
         let parameters = {};
@@ -493,29 +525,6 @@
             this.serviceCreationError("Repository creation failed.");
           }
         });
-      },
-      serviceCreationError(message){
-        this.hideOverlay();
-        alert(message);
-      },
-      fillDevfileTemplate(devfile, repositoryURL){
-        const stepIndex = this.getStepIndex("Service Details");
-        devfile.metadata.name = `${this.steps[stepIndex].fields.name.value}-${(+new Date).toString(36)}`;
-        devfile.projects = [{
-          name: this.steps[stepIndex].fields.name.value,
-          source: { location: repositoryURL, type: "git" }
-        }];
-
-        return devfile;
-      },
-      getSelectedFrameworkName(){
-        const stepIndex = this.getStepIndex("Service Details");
-        const selectedOption = this.steps[stepIndex].fields.framework.options.filter(option => option.value === this.steps[stepIndex].fields.framework.value)[0];
-
-        return selectedOption.text;
-      },
-      developButtonClicked(){
-        router.push(`/project/${this.serviceCreated}`);
       }
     }
   }
