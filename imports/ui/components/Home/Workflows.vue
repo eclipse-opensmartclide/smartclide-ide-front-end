@@ -23,12 +23,11 @@
     name: "Workflows",
     mounted(){
       this.$store.state.context = 'home';
-      this.getjBPMURL();
       this.setupIframeCommunication();
     },
     data(){
       return{
-        jBPMURL: null
+        jBPMURL: Meteor.settings.public.JBPM_URL
       }
     },
     beforeRouteLeave(to, from, next){
@@ -36,9 +35,6 @@
       next();
     },
     methods:{
-      getjBPMURL(){
-        Meteor.call("getjBPMURL", (error, result) => { if(result) this.jBPMURL = result; });
-      },
       sendMessageToIframe(messageType){
         const iframe = document.getElementById("jbpm-iframe");
 
