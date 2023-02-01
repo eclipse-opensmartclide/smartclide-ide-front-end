@@ -29,7 +29,8 @@
     methods: {
       getKeycloakPageURL(){
         Meteor.call("getKeycloakConfiguration", (error, result) => {
-          this.keycloakPageURL = `${result["auth-server-url"]}/realms/${result.realm}/account`;
+          if(result)
+            this.keycloakPageURL = `${result["auth-server-url"]}/realms/${result.realm}/account`;
         });
       }
     }

@@ -13,6 +13,7 @@ import { Accounts } from "meteor/accounts-base";
 import { Connector } from '@unparallel/smartclide-che-rest-client';
 import SmartCLIDEBackendConnector from "@unparallel/smartclide-backend-connector";
 import axios from "axios";
+import {WebAppInternals} from "meteor/webapp";
 
 const users = [
     {
@@ -21,11 +22,15 @@ const users = [
     }
 ];
 
+// Share environment variables with the client
+Meteor.settings.public.SMARTCLIDE_BACKEND_URL = process.env.SMARTCLIDE_BACKEND_URL;
+Meteor.settings.public.JBPM_URL = process.env.JBPM_URL;
+WebAppInternals.reloadClientPrograms();
+
 Meteor.startup(() => {
     users.forEach(user => {
-        if (!Accounts.findUserByUsername(user.username)) {
+        if(!Accounts.findUserByUsername(user.username))
             Accounts.createUser(user);
-        }
     });
 });
 
