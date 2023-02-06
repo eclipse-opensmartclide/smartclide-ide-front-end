@@ -36,9 +36,6 @@ export default new Vuex.Store({
                     {
                         category: "root",
                         options: [
-                            { title: 'Statistics', link: '/statistics' },
-                            { title: 'Logs', link: '/logs' },
-                            { title: 'Appearance', link: '/appearance' },
                             { title: 'Help', link: '/help' },
                             { title: 'About', link: '/about' }
                         ]
@@ -53,8 +50,7 @@ export default new Vuex.Store({
                         options: [
                             { title: 'Profile', link: '/profile' },
                             { title: 'Credentials', link: '/credentials' },
-                            { title: 'Service Registries', link: '/service-registries' },
-                            { title: 'Team', link: '/team' }
+                            { title: 'Service Registries', link: '/service-registries' }
                         ]
                     }
                 ]

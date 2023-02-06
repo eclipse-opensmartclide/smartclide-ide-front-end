@@ -21,7 +21,7 @@
 
       <!-- IDE SETTINGS -->
       <div class="ide" >
-        <router-link to="/statistics"><b-icon-gear class="icon" @click="optionClicked('settings')"/></router-link>
+        <router-link to="/help"><b-icon-gear class="icon" @click="optionClicked('settings')"/></router-link>
       </div>
 
       <!-- USER SETTINGS -->

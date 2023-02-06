@@ -207,9 +207,5 @@ Meteor.methods({
         } catch(e){
             throw e;
         }
-    },
-    // jBPM
-    getjBPMURL(){
-        return process.env.JBPM_URL;
     }
 });

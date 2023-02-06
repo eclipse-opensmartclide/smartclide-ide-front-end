@@ -23,13 +23,9 @@ import CheTheia from "../imports/ui/components/CheTheia/CheTheia";
 import Credentials from "../imports/ui/components/MyAccount/Credentials";
 import Profile from "../imports/ui/components/MyAccount/Profile";
 import ServiceRegistries from "../imports/ui/components/MyAccount/ServiceRegistries";
-import Team from "../imports/ui/components/MyAccount/Team";
 
 import About from "../imports/ui/components/Settings/About";
-import Appearance from "../imports/ui/components/Settings/Appearance";
 import Help from "../imports/ui/components/Settings/Help";
-import Logs from "../imports/ui/components/Settings/Logs";
-import Statistics from "../imports/ui/components/Settings/Statistics";
 
 import NotImplemented from "../imports/ui/components/NotImplemented";
 
@@ -72,21 +68,6 @@ const routes = [
         component: CheTheia
     },
     {
-        path: "/statistics",
-        name: 'Statistics',
-        component: Statistics
-    },
-    {
-        path: "/logs",
-        name: 'Logs',
-        component: Logs
-    },
-    {
-        path: "/appearance",
-        name: 'Appearance',
-        component: Appearance
-    },
-    {
         path: "/help",
         name: 'Help',
         component: Help
@@ -100,11 +81,6 @@ const routes = [
         path: "/profile",
         name: 'Profile',
         component: Profile
-    },
-    {
-        path: "/team",
-        name: 'Team',
-        component: Team
     },
     {
         path: "/service-registries",
