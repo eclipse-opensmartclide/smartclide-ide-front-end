@@ -9,20 +9,26 @@
  -------------------------------------------------------------------------------->
 
 <template>
-  <div>
-    Coming soon: Help...
+  <div class="d-flex flex-column h-100">
+    <div class="d-flex h-100">
+      <iframe id="docs-iframe" src="https://eclipse-opensmartclide.github.io/smartclide-docs/"/>
+    </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "Help",
-    mounted(){
-      this.$store.state.context = 'settings';
-    }
+export default {
+  name: "Help",
+  mounted(){
+    this.$store.state.context = 'settings';
   }
+}
 </script>
 
 <style scoped>
-
+#docs-iframe{
+  border: 0;
+  height: 100%;
+  width: 100%;
+}
 </style>
