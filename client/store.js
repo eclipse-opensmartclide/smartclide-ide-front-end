@@ -31,18 +31,6 @@ export default new Vuex.Store({
                 ]
             },
             {
-                name: 'settings',
-                categories: [
-                    {
-                        category: "root",
-                        options: [
-                            { title: 'Help', link: '/help' },
-                            { title: 'About', link: '/about' }
-                        ]
-                    }
-                ]
-            },
-            {
                 name: 'my-account',
                 categories: [
                     {
