@@ -24,8 +24,7 @@ import Credentials from "../imports/ui/components/MyAccount/Credentials";
 import Profile from "../imports/ui/components/MyAccount/Profile";
 import ServiceRegistries from "../imports/ui/components/MyAccount/ServiceRegistries";
 
-import About from "../imports/ui/components/Settings/About";
-import Help from "../imports/ui/components/Settings/Help";
+import About from "../imports/ui/components/Help/About";
 
 import NotImplemented from "../imports/ui/components/NotImplemented";
 
@@ -66,11 +65,6 @@ const routes = [
         path: '/project/:id',
         name: 'Project',
         component: CheTheia
-    },
-    {
-        path: "/help",
-        name: 'Help',
-        component: Help
     },
     {
         path: "/about",
