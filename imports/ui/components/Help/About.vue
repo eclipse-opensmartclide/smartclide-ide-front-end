@@ -38,9 +38,9 @@
         </div>
         <div class="about-text">
           <p>
-            The SmartCLIDE source code was submitted as an open-source platform extending Eclipse Theia,
-            which originated the Eclipse project called
-            <a href="https://projects.eclipse.org/projects/ecd.opensmartclide" target="_blank">Eclipse OpenSmartCLIDE</a>.
+            The source code was submitted as an open-source platform extending Eclipse Theia, which originated the
+            <a href="https://projects.eclipse.org/projects/ecd.opensmartclide" target="_blank">Eclipse OpenSmartCLIDE</a>
+            project.
           </p>
         </div>
         <div class="about-text">
