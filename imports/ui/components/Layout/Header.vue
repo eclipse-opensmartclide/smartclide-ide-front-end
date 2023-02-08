@@ -104,10 +104,6 @@
     flex-grow: 1;
   }
 
-  .help{
-    margin-right: 8px;
-  }
-
   .user {
     margin-right: 10px;
   }
