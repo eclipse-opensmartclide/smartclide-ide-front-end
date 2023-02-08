@@ -20,21 +20,33 @@
       </b-col>
       <b-col class="pl-0" align="justify">
         <div>
-          <p><b>SmartCLIDE IDE</b></p>
+          <p>
+            <b>SmartCLIDE IDE</b>
+          </p>
         </div>
         <div class="about-text">
-          <p>The SmartCLIDE IDE is a Cloud-based IDE named after and developed under the scope
-            of the <a href="https://smartclide.eu" target="_blank">SmartCLIDE</a> research project.</p>
+          <p>
+            The SmartCLIDE IDE is a Cloud-based IDE named after and developed under the scope
+            of the <a href="https://smartclide.eu" target="_blank">SmartCLIDE</a> research project.
+          </p>
         </div>
         <div class="about-text">
-          <p>The SmartCLIDE source code was submitted as an open-source platform extending Eclipse Theia,
+          <p>
+            SmartCLIDE has received funding from the European Union&apos;s Horizon 2020
+            research and innovation programme under grant agreement no. 871177.
+          </p>
+        </div>
+        <div class="about-text">
+          <p>
+            The SmartCLIDE source code was submitted as an open-source platform extending Eclipse Theia,
             which originated the Eclipse project called
             <a href="https://projects.eclipse.org/projects/ecd.opensmartclide" target="_blank">Eclipse OpenSmartCLIDE</a>.
-            <br>Report an issue <a href="https://github.com/eclipse-opensmartclide/smartclide-ide-front-end/issues" target="_blank">here</a>.</p>
+          </p>
         </div>
         <div class="about-text">
-          SmartCLIDE has received funding from the European Union&apos;s Horizon 2020
-          research and innovation programme under grant agreement no. 871177.
+          <p>
+            Report an issue <a href="https://github.com/eclipse-opensmartclide/smartclide-ide-front-end/issues" target="_blank">here</a>.
+          </p>
         </div>
       </b-col>
     </b-row>
