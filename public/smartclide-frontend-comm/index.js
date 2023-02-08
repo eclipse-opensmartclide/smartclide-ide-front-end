@@ -27,8 +27,8 @@ export function buildMessage(messageType, messageContent){
         case messageTypes.COMM_END:
             break;
         case messageTypes.COMM_START_REPLY:
-            if(!messageContent.token || !messageContent.serviceID)
-                throw new Error("Message type COMM_START_REPLY requires 'token' and 'serviceID' fields");
+            if(!messageContent.token)
+                throw new Error("Message type COMM_START_REPLY requires 'token' field");
             message.content = messageContent;
             break;
         case messageTypes.KEYCLOAK_TOKEN:
