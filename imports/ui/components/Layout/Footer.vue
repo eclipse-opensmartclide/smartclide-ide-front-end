@@ -15,7 +15,7 @@
       <div class="ml-3 flex-grow-1">
         <div class="text d-inline-block" >
           SmartCLIDE has received funding from the European Union&apos;s Horizon 2020
-          research and innovation programme under grant agreement no. 871177
+          research and innovation programme under grant agreement no. 871177.
         </div>
       </div>
       <div class="privacy ml-3 mr-4 float-right">Privacy Policy</div>
