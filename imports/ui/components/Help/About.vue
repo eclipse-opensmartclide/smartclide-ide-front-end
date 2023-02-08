@@ -32,14 +32,9 @@
             <a href="https://projects.eclipse.org/projects/ecd.opensmartclide" target="_blank">Eclipse OpenSmartCLIDE</a>.
             <br>Report an issue <a href="https://github.com/eclipse-opensmartclide/smartclide-ide-front-end/issues" target="_blank">here</a>.</p>
         </div>
-        <div class="d-flex flex-row align-items-center">
-          <b-col class="p-0" cols="3">
-            <b-img src="/assets/EUFlag.png" fluid/>
-          </b-col>
-          <b-col class="about-text">
-            SmartCLIDE has received funding from the European Union&apos;s Horizon 2020
-            research and innovation programme under grant agreement no. 871177.
-          </b-col>
+        <div class="about-text">
+          SmartCLIDE has received funding from the European Union&apos;s Horizon 2020
+          research and innovation programme under grant agreement no. 871177.
         </div>
       </b-col>
     </b-row>
