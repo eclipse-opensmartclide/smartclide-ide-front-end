@@ -1,6 +1,6 @@
 {
   "name": "@unparallel/smartclide-frontend-comm",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "This module builds a message according to the protocol established for the communication between the SmartCLIDE IDE frontend and its components.",
   "main": "index.js",
   "type": "module",

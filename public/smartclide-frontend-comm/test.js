@@ -12,7 +12,10 @@
 import {messageTypes, buildMessage} from "./index.js";
 
 try{
-    let data = buildMessage(messageTypes.TOKEN_INFO, "token")
+    let data = buildMessage(messageTypes.COMM_START_REPLY, {
+        token: "token",
+        serviceID: "serviceID"
+    })
     console.log(JSON.stringify(data, undefined, 4))
 }catch (e) {
     console.log(e)
