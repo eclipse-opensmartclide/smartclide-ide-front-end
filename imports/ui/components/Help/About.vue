@@ -11,7 +11,7 @@
 <template>
   <b-modal
     id="modal-about"
-    title="About SmartCLIDE"
+    title="About SmartCLIDE IDE"
     hide-footer
   >
     <b-row>
