@@ -10,9 +10,10 @@
  */
 
 export const messageTypes = {
-    "TOKEN_INFO": 0,
-    "COMPONENT_HELLO": 1,
-    "TOKEN_REVOKE": 2
+    "COMM_START": 0,
+    "COMM_END": 1,
+    "COMM_START_REPLY": 2,
+    "KEYCLOAK_TOKEN": 3,
 };
 
 export function buildMessage(messageType, messageContent){
@@ -21,14 +22,19 @@ export function buildMessage(messageType, messageContent){
     };
 
     switch (messageType){
-        case messageTypes.TOKEN_INFO:
-            if(!messageContent)
-                throw new Error("Message type TOKEN_INFO requires non-null content");
+        case messageTypes.COMM_START:
+            break;
+        case messageTypes.COMM_END:
+            break;
+        case messageTypes.COMM_START_REPLY:
+            if(!messageContent.token || !messageContent.serviceID)
+                throw new Error("Message type COMM_START_REPLY requires 'token' and 'serviceID' fields");
             message.content = messageContent;
             break;
-        case messageTypes.COMPONENT_HELLO:
-            break;
-        case messageTypes.TOKEN_REVOKE:
+        case messageTypes.KEYCLOAK_TOKEN:
+            if(!messageContent.token)
+                throw new Error("Message type TOKEN requires 'token' field");
+            message.content = messageContent;
             break;
         default:
             throw new Error("Invalid message type");
