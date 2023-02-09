@@ -100,25 +100,39 @@
 
           switch (messageType){
             case messageTypes.COMM_START_REPLY:
-              message = buildMessage(messageType, {
-                token: keycloak.token,
-                serviceID: ""
-              });
+              Meteor.call("request", {
+                  operationID: this.$store.state.apis.backend.endpoints.getServices.operationID,
+                  parameters: JSON.parse(`{
+                    "${this.$store.state.apis.backend.endpoints.getServices.parameters.workspaceID}": "${this.$store.state.currentWorkspace}"
+                  }`),
+                  token: this.$store.state.keycloak.idToken
+                },
+                (error, result) => {
+                  if(result){
+                    message = buildMessage(messageType, {
+                      token: this.$store.state.keycloak.token,
+                      serviceID: result?.body[0].id
+                    });
+                    iframe.contentWindow.postMessage(message, "*");
+                    console.log("SENT", JSON.stringify(message, undefined, 4));
+                  }
+                }
+              );
               break;
             case messageTypes.KEYCLOAK_TOKEN:
-              const keycloak = this.$store.state.keycloak;
               message = buildMessage(messageType, {
-                token: keycloak.token
+                token: this.$store.state.keycloak.token
               });
+              iframe.contentWindow.postMessage(message, "*");
+              console.log("SENT", JSON.stringify(message, undefined, 4));
               break;
             case messageTypes.COMM_END:
               message = buildMessage(messageType);
+              iframe.contentWindow.postMessage(message, "*");
+              console.log("SENT", JSON.stringify(message, undefined, 4));
               break;
             default:
           }
-
-          iframe.contentWindow.postMessage(message, "*");
-          console.log("SENT", JSON.stringify(message, undefined, 4));
         }catch(error) {
           console.log(error);
         }
