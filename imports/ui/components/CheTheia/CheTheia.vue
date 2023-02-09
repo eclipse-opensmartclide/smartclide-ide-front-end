@@ -99,11 +99,19 @@
           let message;
 
           switch (messageType){
-            case messageTypes.TOKEN_INFO:
-              const keycloak = this.$store.state.keycloak;
-              message = buildMessage(messageType, keycloak.token);
+            case messageTypes.COMM_START_REPLY:
+              message = buildMessage(messageType, {
+                token: keycloak.token,
+                serviceID: ""
+              });
               break;
-            case messageTypes.TOKEN_REVOKE:
+            case messageTypes.KEYCLOAK_TOKEN:
+              const keycloak = this.$store.state.keycloak;
+              message = buildMessage(messageType, {
+                token: keycloak.token
+              });
+              break;
+            case messageTypes.COMM_END:
               message = buildMessage(messageType);
               break;
             default:
@@ -117,9 +125,9 @@
       },
       onReceiveMessage({data}){
         switch(data.type){
-          case messageTypes.COMPONENT_HELLO:
+          case messageTypes.COMM_START:
             console.log("RECEIVED", JSON.stringify(data, undefined, 4));
-            this.sendMessageToIframe(messageTypes.TOKEN_INFO);
+            this.sendMessageToIframe(messageTypes.COMM_START_REPLY);
             break;
           default:
             break;
@@ -129,11 +137,11 @@
         window.addEventListener("message", this.onReceiveMessage);
 
         this.$store.state.keycloak.onAuthRefreshSuccess = () => {
-          this.sendMessageToIframe(messageTypes.TOKEN_INFO);
+          this.sendMessageToIframe(messageTypes.KEYCLOAK_TOKEN);
         };
       },
       cancelIframeCommunication(){
-        this.sendMessageToIframe(messageTypes.TOKEN_REVOKE)
+        this.sendMessageToIframe(messageTypes.COMM_END)
 
         window.removeEventListener("message", this.onReceiveMessage);
 
