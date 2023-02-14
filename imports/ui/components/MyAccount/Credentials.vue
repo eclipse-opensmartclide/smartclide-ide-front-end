@@ -42,12 +42,12 @@
               variant="primary"
               font-scale="1.5"
               @click="plusIconClicked"
-              v-b-modal="`modal-add-edit-${index}`"
+              v-b-modal="`add-edit-modal-${index}`"
               v-b-tooltip.hover
               title="Add new"
             />
             <b-modal
-              :id="`modal-add-edit-${index}`"
+              :id="`add-edit-modal-${index}`"
               :title="`${currentModal.type} ${table.title} Credentials`"
               @hidden="resetModal"
               hide-footer
@@ -112,7 +112,7 @@
                     class="mx-2"
                     font-scale="1.2"
                     @click="pencilIconClicked(data.item)"
-                    v-b-modal="`modal-add-edit-${index}`"
+                    v-b-modal="`add-edit-modal-${index}`"
                     v-b-tooltip.hover
                     title="Edit"
                   />
@@ -406,7 +406,7 @@
       },
       closeModal(){
         this.$nextTick(() => {
-          this.$bvModal.hide(`modal-add-edit-${this.currentModal.currentTabId}`);
+          this.$bvModal.hide(`add-edit-modal-${this.currentModal.currentTabId}`);
         });
       },
       pencilIconClicked(rowData){

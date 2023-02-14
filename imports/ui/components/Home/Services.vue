@@ -183,7 +183,9 @@
         //   }
         // });
       },
-      trashIconClicked(rowData){
+      deleteService(rowData){
+        this.table.loaded = false;
+
         Meteor.call("getWorkspace", this.$store.state.keycloak.token, rowData.workspaceID, (error, result) => {
           if(result){
             switch(result.status){
@@ -191,7 +193,7 @@
               case "RUNNING":
                 Meteor.call("stopWorkspace", this.$store.state.keycloak.token, rowData.workspaceID);
               case "STOPPING":
-                this.stopWorkspaceTimeout = setTimeout(this.trashIconClicked.bind(null, rowData), 2000);
+                this.stopWorkspaceTimeout = setTimeout(this.deleteService.bind(null, rowData), 2000);
                 break;
               case "STOPPED":
                 Meteor.call("request", {
@@ -211,8 +213,20 @@
             }
           }
         });
-
-        this.table.loaded = false;
+      },
+      trashIconClicked(rowData){
+        this.$bvModal.msgBoxConfirm('Are you sure you want to delete this service?', {
+            okVariant: "danger",
+            okTitle: "Delete"
+          }
+        )
+        .then(value => {
+          if(value)
+            this.deleteService(rowData);
+        })
+        .catch(error => {
+          throw new Error(error);
+        });
       }
     }
   }
