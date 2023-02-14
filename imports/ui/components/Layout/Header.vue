@@ -31,7 +31,7 @@
             <b-col class="text-right"><b-icon-box-arrow-up-right variant="primary" class="mb-1" font-scale="0.75"/></b-col>
           </b-row>
         </b-dropdown-item>
-        <b-dropdown-item v-b-modal.modal-about>About</b-dropdown-item>
+        <b-dropdown-item v-b-modal.about-modal>About</b-dropdown-item>
         <About/>
       </b-dropdown>
     </div>

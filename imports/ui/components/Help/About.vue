@@ -10,7 +10,7 @@
 
 <template>
   <b-modal
-    id="modal-about"
+    id="about-modal"
     title="About SmartCLIDE IDE"
     hide-footer
   >
