@@ -117,12 +117,16 @@
           currentPage: 1,
           disablePagination: null
         },
-        currentRowId: null
+        stopWorkspaceTimeout: undefined
       };
     },
     mounted(){
       this.$store.state.context = 'home';
       this.fetchServices();
+    },
+    beforeRouteLeave(to, from, next){
+      clearTimeout(this.stopWorkspaceTimeout);
+      next();
     },
     methods: {
       fetchServices(){
@@ -180,19 +184,34 @@
         // });
       },
       trashIconClicked(rowData){
-        Meteor.call("request", {
-          operationID: this.$store.state.apis.backend.endpoints.deleteService.operationID,
-          parameters: JSON.parse(`{
-            "${this.$store.state.apis.backend.endpoints.deleteService.parameters.serviceID}": "${rowData.id}"
-          }`),
-          token: this.$store.state.keycloak.idToken
-        }, () => {
-          Meteor.call("deleteWorkspace", this.$store.state.keycloak.idToken, rowData.workspaceID, () => {
-            this.fetchServices();
-          })
+        Meteor.call("getWorkspace", this.$store.state.keycloak.token, rowData.workspaceID, (error, result) => {
+          if(result){
+            switch(result.status){
+              case "STARTING":
+              case "RUNNING":
+                Meteor.call("stopWorkspace", this.$store.state.keycloak.token, rowData.workspaceID);
+              case "STOPPING":
+                this.stopWorkspaceTimeout = setTimeout(this.trashIconClicked.bind(null, rowData), 2000);
+                break;
+              case "STOPPED":
+                Meteor.call("request", {
+                  operationID: this.$store.state.apis.backend.endpoints.deleteService.operationID,
+                  parameters: JSON.parse(`{
+                    "${this.$store.state.apis.backend.endpoints.deleteService.parameters.serviceID}": "${rowData.id}"
+                  }`),
+                  token: this.$store.state.keycloak.idToken
+                }, () => {
+                  Meteor.call("deleteWorkspace", this.$store.state.keycloak.idToken, rowData.workspaceID, () => {
+                    this.fetchServices();
+                  })
+                });
+                break;
+              default:
+                break;
+            }
+          }
         });
 
-        this.currentRowId = null;
         this.table.loaded = false;
       }
     }
