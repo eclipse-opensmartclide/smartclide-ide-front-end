@@ -64,12 +64,12 @@
 
         if(workspaceId){
           Meteor.call("getWorkspace", keycloakToken, workspaceId, (error, result) => {
-            if (result) {
+            if(result){
               const workspace = result;
               const status = workspace.status;
               this.projectName = workspace?.devfile.metadata.name;
 
-              switch (status) {
+              switch(status){
                 case "STOPPED":
                   Meteor.call("startWorkspace", keycloakToken, workspaceId);
                 case "STOPPING":
