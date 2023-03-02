@@ -214,6 +214,17 @@
                   }
                 ],
                 value: null
+              },
+              licence: {
+                label: "Licence",
+                formType: "select",
+                options: [
+                  {
+                    text: "Please select a licence",
+                    value: null
+                  }
+                ],
+                value: null
               }
             }
           },
@@ -269,6 +280,7 @@
       if(this.$route.query.serviceID)
         this.fetchService();
 
+      this.fetchLicences();
       this.fetchAPSSurvey();
     },
     methods: {
@@ -396,6 +408,14 @@
         this.steps[stepIndex].fields.name.value = this.receivedService.name;
         this.steps[stepIndex].fields.description.value = this.receivedService.description;
       },
+      fetchLicences(){
+        Meteor.call("getRequest", "https://gitlab.com/api/v4/templates/licenses", (error, result) => {
+          if(result){
+            let licences = result.map(licence => { return { text: licence.name, value: licence.key } });
+            this.steps[this.getStepIndex("Service Details")].fields.licence.options.push(...licences);
+          }
+        })
+      },
       fetchAPSSurvey(){
         Meteor.call("getAPSSurvey", this.$store.state.keycloak.idToken, (error, result) => {
           if(result){
@@ -467,7 +487,8 @@
             'projVisibility': this.steps[detailsStepIndex].fields.visibility.value,
             'projDescription': this.steps[detailsStepIndex].fields.description.value,
             'gitLabServerURL': this.steps[gitStepIndex].fields.credentials.value.url,
-            'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token
+            'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token,
+            'license': this.steps[detailsStepIndex].fields.licence.value
           };
         }
 
@@ -477,7 +498,7 @@
               const repositoryURL = Object.keys(this.$route.query).length !== 0 ? parameters.repoUrl : result.message;
               const devfileURL = this.steps[detailsStepIndex].fields.framework.value;
 
-              Meteor.call("getDevfile", devfileURL, (error, result) => {
+              Meteor.call("getRequest", devfileURL, (error, result) => {
                 if(result){
                   const devfile = this.fillDevfileTemplate(YAML_JSON.parse(result), repositoryURL);
 

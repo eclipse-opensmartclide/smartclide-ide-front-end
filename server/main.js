@@ -35,7 +35,24 @@ Meteor.startup(() => {
 });
 
 Meteor.methods({
-    // Che REST API
+    // Keycloak
+    async getKeycloakConfiguration(){
+        const configuration = {
+            method: 'GET',
+            url: `${process.env.ROOT_URL}/keycloak.json`,
+            headers: {
+                'Accept': 'application/json'
+            }
+        }
+
+        try{
+            const res = await axios(configuration);
+            return res.data;
+        } catch(e){
+            throw e;
+        }
+    },
+    // Che
     async getLatestWorkflows(){
         const connector = new Connector(process.env.CHE_URL);
 
@@ -91,7 +108,7 @@ Meteor.methods({
 
         await connector.deleteWorkspace(keycloakToken, workspaceID);
     },
-    // SmartCLIDE Backend APIs
+    // SmartCLIDE Database
     async request(configuration){
         let connector = await new SmartCLIDEBackendConnector("https://raw.githubusercontent.com/goncalorolo/swagger-json/main/smartCLIDE_DB_API_swagger.json");
 
@@ -102,7 +119,8 @@ Meteor.methods({
 
         return await connector.exists(entity, id, keycloakToken);
     },
-    async createRepository(keycloakToken, inputHeaders, inputParameters){
+    // Service Creation
+    async createRepository(keycloakToken, inputHeaders){
         const configuration = {
             method: 'POST',
             url: `${process.env.SMARTCLIDE_BACKEND_URL}/service-creation/createStructure`,
@@ -121,6 +139,7 @@ Meteor.methods({
             throw e;
         }
     },
+    // External Project Importer
     async importRepository(keycloakToken, inputHeaders, inputParameters){
         const configuration = {
             method: 'POST',
@@ -141,22 +160,7 @@ Meteor.methods({
             throw e;
         }
     },
-    async getDevfile(devfileURL){
-        const configuration = {
-            method: 'GET',
-            url: devfileURL,
-            headers: {
-                'Accept': 'application/json'
-            }
-        }
-
-        try{
-            const res = await axios(configuration);
-            return res.data;
-        } catch(e){
-            throw e;
-        }
-    },
+    // Architectural Pattern Selection
     async getAPSSurvey(keycloakToken){
         const config = {
             method: 'GET',
@@ -191,11 +195,11 @@ Meteor.methods({
             throw e;
         }
     },
-    // Keycloak
-    async getKeycloakConfiguration(){
+    // Other
+    async getRequest(URL){
         const configuration = {
             method: 'GET',
-            url: `${process.env.ROOT_URL}/keycloak.json`,
+            url: URL,
             headers: {
                 'Accept': 'application/json'
             }
