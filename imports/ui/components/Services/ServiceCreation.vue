@@ -473,6 +473,7 @@
           parameters = {
             'repoUrl': this.receivedService.url.replace(".git", ""),
             'name': this.steps[detailsStepIndex].fields.name.value,
+            // 'description': this.steps[detailsStepIndex].fields.description.value,
             'visibility': this.steps[detailsStepIndex].fields.visibility.value
           };
           headers = {
