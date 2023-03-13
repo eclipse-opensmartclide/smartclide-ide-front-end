@@ -205,115 +205,115 @@
               }
             }
           },
-          {
-            title: "Deployment Platforms",
-            fields: [{ key: "url", label: "URL" }, "username", "actions"],
-            content: [],
-            loaded: false,
-            filter: null,
-            totalRows: null,
-            perPage: 10,
-            currentPage: 1,
-            disablePagination: true,
-            modalFields: {
-              url: {
-                label: "URL",
-                formType: "url",
-                value: null
-              },
-              username: {
-                label: "Username",
-                formType: "text",
-                value: null
-              },
-              token: {
-                label: "Token",
-                formType: "password",
-                value: null
-              }
-            },
-            endpoints: {
-              add: {
-                operationID: this.$store.state.apis.backend.endpoints.addDeploymentPlatforms.operationID
-              },
-              edit: {
-                operationID: this.$store.state.apis.backend.endpoints.editDeploymentPlatform.operationID,
-                parameter: this.$store.state.apis.backend.endpoints.editDeploymentPlatform.parameters.deploymentPlatformID
-              },
-              delete: {
-                operationID: this.$store.state.apis.backend.endpoints.deleteDeploymentPlatform.operationID,
-                parameter: this.$store.state.apis.backend.endpoints.deleteDeploymentPlatform.parameters.deploymentPlatformID
-              }
-            }
-          },
-          {
-            title: "CI Managers",
-            fields: ["type", { key: "url", label: "URL" }, "username", "actions"],
-            content: [],
-            loaded: false,
-            filter: null,
-            totalRows: null,
-            perPage: 10,
-            currentPage: 1,
-            disablePagination: true,
-            modalFields: {
-              type: {
-                label: "Type",
-                formType: "select",
-                options: [
-                  {
-                    text: "Please select a type of CI Manager",
-                    value: null
-                  },
-                  {
-                    text: "GitHub Actions",
-                    value: "GitHub Actions"
-                  },
-                  {
-                    text: "GitLab CI/CD",
-                    value: "GitLab CI/CD"
-                  },
-                  {
-                    text: "Jenkins",
-                    value: "Jenkins"
-                  },
-                  {
-                    text: "Travis",
-                    value: "Travis"
-                  }
-                ],
-                value: null
-              },
-              url: {
-                label: "URL",
-                formType: "url",
-                value: null
-              },
-              username: {
-                label: "Username",
-                formType: "text",
-                value: null
-              },
-              token: {
-                label: "Token",
-                formType: "password",
-                value: null
-              }
-            },
-            endpoints: {
-              add: {
-                operationID: this.$store.state.apis.backend.endpoints.addCIManagers.operationID
-              },
-              edit: {
-                operationID: this.$store.state.apis.backend.endpoints.editCIManager.operationID,
-                parameter: this.$store.state.apis.backend.endpoints.editCIManager.parameters.ciManagerID
-              },
-              delete: {
-                operationID: this.$store.state.apis.backend.endpoints.deleteCIManager.operationID,
-                parameter: this.$store.state.apis.backend.endpoints.deleteCIManager.parameters.ciManagerID
-              }
-            }
-          }
+          // {
+          //   title: "Deployment Platforms",
+          //   fields: [{ key: "url", label: "URL" }, "username", "actions"],
+          //   content: [],
+          //   loaded: false,
+          //   filter: null,
+          //   totalRows: null,
+          //   perPage: 10,
+          //   currentPage: 1,
+          //   disablePagination: true,
+          //   modalFields: {
+          //     url: {
+          //       label: "URL",
+          //       formType: "url",
+          //       value: null
+          //     },
+          //     username: {
+          //       label: "Username",
+          //       formType: "text",
+          //       value: null
+          //     },
+          //     token: {
+          //       label: "Token",
+          //       formType: "password",
+          //       value: null
+          //     }
+          //   },
+          //   endpoints: {
+          //     add: {
+          //       operationID: this.$store.state.apis.backend.endpoints.addDeploymentPlatforms.operationID
+          //     },
+          //     edit: {
+          //       operationID: this.$store.state.apis.backend.endpoints.editDeploymentPlatform.operationID,
+          //       parameter: this.$store.state.apis.backend.endpoints.editDeploymentPlatform.parameters.deploymentPlatformID
+          //     },
+          //     delete: {
+          //       operationID: this.$store.state.apis.backend.endpoints.deleteDeploymentPlatform.operationID,
+          //       parameter: this.$store.state.apis.backend.endpoints.deleteDeploymentPlatform.parameters.deploymentPlatformID
+          //     }
+          //   }
+          // },
+          // {
+          //   title: "CI Managers",
+          //   fields: ["type", { key: "url", label: "URL" }, "username", "actions"],
+          //   content: [],
+          //   loaded: false,
+          //   filter: null,
+          //   totalRows: null,
+          //   perPage: 10,
+          //   currentPage: 1,
+          //   disablePagination: true,
+          //   modalFields: {
+          //     type: {
+          //       label: "Type",
+          //       formType: "select",
+          //       options: [
+          //         {
+          //           text: "Please select a type of CI Manager",
+          //           value: null
+          //         },
+          //         {
+          //           text: "GitHub Actions",
+          //           value: "GitHub Actions"
+          //         },
+          //         {
+          //           text: "GitLab CI/CD",
+          //           value: "GitLab CI/CD"
+          //         },
+          //         {
+          //           text: "Jenkins",
+          //           value: "Jenkins"
+          //         },
+          //         {
+          //           text: "Travis",
+          //           value: "Travis"
+          //         }
+          //       ],
+          //       value: null
+          //     },
+          //     url: {
+          //       label: "URL",
+          //       formType: "url",
+          //       value: null
+          //     },
+          //     username: {
+          //       label: "Username",
+          //       formType: "text",
+          //       value: null
+          //     },
+          //     token: {
+          //       label: "Token",
+          //       formType: "password",
+          //       value: null
+          //     }
+          //   },
+          //   endpoints: {
+          //     add: {
+          //       operationID: this.$store.state.apis.backend.endpoints.addCIManagers.operationID
+          //     },
+          //     edit: {
+          //       operationID: this.$store.state.apis.backend.endpoints.editCIManager.operationID,
+          //       parameter: this.$store.state.apis.backend.endpoints.editCIManager.parameters.ciManagerID
+          //     },
+          //     delete: {
+          //       operationID: this.$store.state.apis.backend.endpoints.deleteCIManager.operationID,
+          //       parameter: this.$store.state.apis.backend.endpoints.deleteCIManager.parameters.ciManagerID
+          //     }
+          //   }
+          // }
         ],
         currentModal: {
           type: null,
@@ -329,8 +329,8 @@
     methods: {
       fetchContent(){
         this.fetchGitCredentials();
-        this.fetchDeploymentPlatformsCredentials();
-        this.fetchCIManagersCredentials();
+        // this.fetchDeploymentPlatformsCredentials();
+        // this.fetchCIManagersCredentials();
       },
       fetchGitCredentials(){
         Meteor.call("request", {
