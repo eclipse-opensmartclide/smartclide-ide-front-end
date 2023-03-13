@@ -47,15 +47,15 @@ export default new Vuex.Store({
                 name: "project",
                 categories: [
                     {
-                        name: "Project",
+                        name: "Options",
                         options: [
                             { title: "Close Project", link: "/" }
                         ]
-                    },
-                    {
-                        name: "Other workspaces",
-                        options: []
                     }
+                    // {
+                    //     name: "Other workspaces",
+                    //     options: []
+                    // }
                 ]
             },
         ],
