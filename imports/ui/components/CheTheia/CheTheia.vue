@@ -34,7 +34,7 @@
       this.$store.state.context = "project";
       this.$store.state.currentWorkspace = this.$route.params.id;
       this.openWorkspace();
-      this.fetchOtherWorkspaces();
+      // this.fetchOtherWorkspaces();
       this.setupIframeCommunication();
     },
     data(){
@@ -72,9 +72,7 @@
                   title: workspace.devfile.metadata.name,
                   link: `/project/${workspace.id}`
                 });
-            })
-
-            console.log(this.$store.state.contextBars[contextBarIndex].categories[categoryIndex].options)
+            });
           }
         });
       },
