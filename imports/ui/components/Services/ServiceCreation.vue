@@ -268,7 +268,7 @@
         ],
         gitCredentials: [],
         currentStep: 1,
-        totalSteps: 2,
+        totalSteps: 4,
         receivedService: {},
         serviceCreated: false
       }
@@ -325,19 +325,14 @@
       async nextButtonClicked(event){
         event.preventDefault();
 
-        switch (this.currentStep) {
-          case 1:
+        if(this.currentStep < this.totalSteps - 1)
             this.currentStep++;
-            break;
-          case 2:
-            // this.currentStep++;
-            // break;
-          // case 3:
-          //   await this.getAPSEvaluation();
-          //   break;
-          default:
-            this.showOverlay();
-            this.setupProject();
+        else
+          if(this.currentStep === this.totalSteps - 1)
+            await this.getAPSEvaluation();
+        else{
+          this.showOverlay();
+          this.setupProject();
         }
       },
       getStepIndex(stepTitle){
