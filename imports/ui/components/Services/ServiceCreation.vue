@@ -420,7 +420,7 @@
               else if(result.fields[field].formType === "checkbox")
                 result.fields[field].values = [];
 
-            this.steps.splice(2, 0, result);
+            this.steps.splice(this.getStepIndex("Architectural Pattern Selection"), 0, result);
           }
         });
       },
