@@ -76,11 +76,11 @@ const routes = [
         name: 'Profile',
         component: Profile
     },
-    {
-        path: "/service-registries",
-        name: 'ServiceRegistries',
-        component: ServiceRegistries
-    },
+    // {
+    //     path: "/service-registries",
+    //     name: 'ServiceRegistries',
+    //     component: ServiceRegistries
+    // },
     {
         path: "/credentials",
         name: 'Credentials',
