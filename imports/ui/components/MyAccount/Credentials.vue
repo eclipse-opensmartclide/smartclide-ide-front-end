@@ -160,14 +160,14 @@
                     text: "Please select a type of Git platform",
                     value: null
                   },
-                  {
-                    text: "Bitbucket",
-                    value: "Bitbucket"
-                  },
-                  {
-                    text: "GitHub",
-                    value: "GitHub"
-                  },
+                  // {
+                  //   text: "Bitbucket",
+                  //   value: "Bitbucket"
+                  // },
+                  // {
+                  //   text: "GitHub",
+                  //   value: "GitHub"
+                  // },
                   {
                     text: "GitLab",
                     value: "GitLab"
