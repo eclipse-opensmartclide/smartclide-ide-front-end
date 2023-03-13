@@ -18,7 +18,7 @@
   export default {
     name: "Deployments",
     mounted(){
-      this.$store.state.context = 'home';
+      this.$store.state.context = "home";
     }
   }
 </script>

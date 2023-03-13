@@ -22,7 +22,7 @@ import CheTheia from "../imports/ui/components/CheTheia/CheTheia";
 
 import Credentials from "../imports/ui/components/MyAccount/Credentials";
 import Profile from "../imports/ui/components/MyAccount/Profile";
-import ServiceRegistries from "../imports/ui/components/MyAccount/ServiceRegistries";
+// import ServiceRegistries from "../imports/ui/components/MyAccount/ServiceRegistries";
 
 import About from "../imports/ui/components/Help/About";
 

@@ -22,7 +22,7 @@
   export default {
     name: "Workflows",
     mounted(){
-      this.$store.state.context = 'home';
+      this.$store.state.context = "home";
       this.setupIframeCommunication();
     },
     data(){

@@ -9,7 +9,7 @@
  ********************************************************************************/
 
 import Vue from "vue";
-import Vuex from 'vuex'
+import Vuex from "vuex";
 
 Vue.use(Vuex)
 
@@ -18,57 +18,43 @@ export default new Vuex.Store({
         context: "home",
         contextBars: [
            {
-                name: 'home',
+                name: "home",
                 categories: [
                     {
-                        category: "root",
+                        name: "root",
                         options: [
-                            { title: 'Workflows', link: '/workflows' },
-                            { title: 'Services', link: '/services' },
-                            { title: 'Deployments', link: '/deployments' }
+                            { title: "Workflows", link: "/workflows" },
+                            { title: "Services", link: "/services" },
+                            { title: "Deployments", link: "/deployments" }
                         ]
                     }
                 ]
             },
             {
-                name: 'my-account',
+                name: "my-account",
                 categories: [
                     {
-                        category: "root",
+                        name: "root",
                         options: [
-                            { title: 'Profile', link: '/profile' },
-                            { title: 'Credentials', link: '/credentials' }
-                            // { title: 'Service Registries', link: '/service-registries' }
+                            { title: "Profile", link: "/profile" },
+                            { title: "Credentials", link: "/credentials" }
+                            // { title: "Service Registries", link: "/service-registries" }
                         ]
                     }
                 ]
             },
             {
-                name: 'project',
+                name: "project",
                 categories: [
                     {
-                        category: "Testing",
+                        name: "Project",
                         options: [
-                            { title: 'New Test', link: '' },
-                            { title: 'Define Pipelines', link: '' },
-                            { title: 'Check Pipelines', link: '' },
-                            { title: 'Check Security Analysis', link: '' }
+                            { title: "Close Project", link: "/" }
                         ]
                     },
                     {
-                        category: "Deployment",
-                        options: [
-                            { title: 'New Deployment', link: '' },
-                            { title: 'Check Deployments', link: '' },
-                            { title: 'Cost Calculator', link: '' }
-                        ]
-                    },
-                    {
-                        category: "Project",
-                        options: [
-                            { title: 'Edit Project Settings', link: '' },
-                            { title: 'Close Project', link: '/' }
-                        ]
+                        name: "Other workspaces",
+                        options: []
                     }
                 ]
             },
