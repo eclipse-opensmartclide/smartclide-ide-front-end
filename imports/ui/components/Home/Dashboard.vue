@@ -142,7 +142,7 @@
       }
     },
     mounted(){
-      this.$store.state.context = 'home';
+      this.$store.state.context = "home";
       this.fetchContent();
     },
     methods: {
