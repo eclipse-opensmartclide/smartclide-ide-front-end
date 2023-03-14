@@ -43,10 +43,6 @@
 
           switch (messageType){
             case messageTypes.COMM_START_REPLY:
-              message = buildMessage(messageType, {
-                token: this.$store.state.keycloak.token
-              });
-              break;
             case messageTypes.KEYCLOAK_TOKEN:
               message = buildMessage(messageType, {
                 token: this.$store.state.keycloak.token
