@@ -47,6 +47,7 @@
     beforeRouteLeave(to, from, next){
       clearTimeout(this.startWorkspaceTimeout);
       this.cancelIframeCommunication();
+      this.cleanOtherWorkspaces();
       next();
     },
     methods:{
@@ -75,6 +76,12 @@
             });
           }
         });
+      },
+      cleanOtherWorkspaces(){
+        const contextBarIndex = this.$store.state.contextBars.findIndex(bar => bar.name === "project");
+        const categoryIndex = this.$store.state.contextBars[contextBarIndex].categories.findIndex(cat => cat.name === "Other workspaces");
+
+        this.$store.state.contextBars[contextBarIndex].categories[categoryIndex].options = [];
       },
       openWorkspace(){
         this.showLoading();
