@@ -32,7 +32,16 @@
         </template>
         <template v-else>
           <div v-for="option in category.options" class="px-3 py-2">
+            <a
+              v-if="category.name === 'Other workspaces'"
+              class="text-decoration-none"
+              :href="option.link"
+              target="_blank"
+            >
+              {{ option.title }}
+            </a>
             <router-link
+              v-else
               class="text-decoration-none"
               :to="option.link"
               @click.native="click(option)"
