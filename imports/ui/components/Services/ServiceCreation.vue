@@ -406,7 +406,7 @@
             const stepIndex = this.getStepIndex("Service Details");
 
             result.forEach(pattern => {
-              const text = pattern[0] + pattern.substring(1).toLowerCase().replace("_", "-");
+              const text = pattern.charAt(0) + pattern.substring(1).toLowerCase().replace("_", "-");
 
               this.steps[stepIndex].fields.architecturalPattern.options.push({
                 text,
