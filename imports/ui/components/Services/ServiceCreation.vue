@@ -19,6 +19,20 @@
           v-for="field in Object.keys(steps[currentStep-1].fields)"
           :label="steps[currentStep-1].fields[field].label"
         >
+          <template
+              v-if="steps[currentStep-1].fields[field].label === 'Architectural Pattern'"
+              slot="label"
+          >
+            {{ steps[currentStep-1].fields[field].label }}
+            <b-icon-question-circle
+              class="mb-1 text-primary"
+              v-b-tooltip.hover
+              title="Click to open the assistant"
+              v-b-modal.architectural-pattern-modal
+            />
+            <ArchitecturalPattern/>
+          </template>
+
           <b-form-select
             v-if="steps[currentStep-1].fields[field].formType === 'select'"
             v-model="steps[currentStep-1].fields[field].value"
@@ -120,12 +134,16 @@
 </template>
 
 <script>
+  import ArchitecturalPattern from "./ArchitecturalPattern";
   import router from "../../../../client/routes";
   import YAML_JSON from "yamljs";
   import moment from "moment";
 
   export default {
     name: "ServiceCreation",
+    components: {
+      ArchitecturalPattern
+    },
     data(){
       return {
         steps: [
@@ -173,21 +191,17 @@
                 placeholder: "Provide a short description of the service",
                 value: null
               },
-              visibility: {
-                label: "Visibility",
+              architecturalPattern: {
+                label: "Architectural Pattern",
                 formType: "select",
                 options: [
                   {
-                    text: "Please select the project's visibility",
+                    text: "Select the architectural pattern",
                     value: null
                   },
                   {
-                    text: "Private",
-                    value: 2, // According to the service-creation extension
-                  },
-                  {
-                    text: "Public",
-                    value: 0 // According to the service-creation extension
+                    text: "None",
+                    value: "NONE"
                   }
                 ],
                 value: null
@@ -197,7 +211,7 @@
                 formType: "select",
                 options: [
                   {
-                    text: "Please select a framework",
+                    text: "Select the framework",
                     value: null
                   },
                   {
@@ -215,50 +229,32 @@
                 ],
                 value: null
               },
+              visibility: {
+                label: "Visibility",
+                formType: "select",
+                options: [
+                  {
+                    text: "Select the visibility of the repository",
+                    value: null
+                  },
+                  {
+                    text: "Private",
+                    value: 2, // According to the service-creation extension
+                  },
+                  {
+                    text: "Public",
+                    value: 0 // According to the service-creation extension
+                  }
+                ],
+                value: null
+              },
               licence: {
                 label: "Licence",
                 formType: "select",
                 options: [
                   {
-                    text: "Please select a licence",
+                    text: "Select the project's licence",
                     value: null
-                  }
-                ],
-                value: null
-              }
-            }
-          },
-          {
-            title: "Architectural Pattern Selection",
-            sub_title: "Choose the desired Architectural Pattern according to the recommendations",
-            fields: {
-              architecturalPattern: {
-                label: "Please choose an Architectural Pattern",
-                formType: "radio",
-                options: [
-                  {
-                    id: "AP1",
-                    text: "Service-oriented"
-                  },
-                  {
-                    id: "AP2",
-                    text: "Space-based"
-                  },
-                  {
-                    id: "AP3",
-                    text: "Microservices"
-                  },
-                  {
-                    id: "AP4",
-                    text: "Layered"
-                  },
-                  {
-                    id: "AP5",
-                    text: "Event-driven"
-                  },
-                  {
-                    id: "AP6",
-                    text: "Microkernel"
                   }
                 ],
                 value: null
@@ -268,7 +264,7 @@
         ],
         gitCredentials: [],
         currentStep: 1,
-        totalSteps: 4,
+        totalSteps: 2,
         receivedService: {},
         serviceCreated: false
       }
@@ -281,7 +277,7 @@
         this.fetchService();
 
       this.fetchLicences();
-      this.fetchAPSSurvey();
+      this.fetchArchitecturalPatterns();
     },
     methods: {
       showOverlay(){
@@ -301,44 +297,18 @@
       previousButtonClicked(){
         this.currentStep--;
       },
-      buildAPSResponsesArray(){
-        let responses = [];
-        const stepIndex = this.getStepIndex("Architectural Pattern Form");
-
-        for(const field of Object.keys(this.steps[stepIndex].fields)){
-          const values = this.steps[stepIndex].fields[field].values;
-          values ? responses.push(...values) : responses.push(this.steps[stepIndex].fields[field].value);
-        }
-
-        return responses;
-      },
-      getAPSEvaluation(){
-        Meteor.call("evaluateAPSInput", this.$store.state.keycloak.idToken, this.buildAPSResponsesArray(),
-          (error, result) => {
-            if(result){
-              console.log(result);
-              this.currentStep++;
-            }
-          }
-        );
-      },
       async nextButtonClicked(event){
         event.preventDefault();
 
-        if(this.currentStep < this.totalSteps - 1)
+        if(this.currentStep < this.totalSteps)
             this.currentStep++;
-        else
-          if(this.currentStep === this.totalSteps - 1)
-            await this.getAPSEvaluation();
         else{
           this.showOverlay();
           this.setupProject();
         }
       },
       getStepIndex(stepTitle){
-        for(let stepIndex = 0; stepIndex < this.steps.length; stepIndex++)
-          if(this.steps[stepIndex].title === stepTitle)
-            return stepIndex;
+          return this.steps.findIndex(step => step.title === stepTitle);
       },
       buildGitSystemOptions(){
         let credentialTypes = this.gitCredentials.map(gitCredential => gitCredential.type);
@@ -411,19 +381,6 @@
           }
         })
       },
-      fetchAPSSurvey(){
-        Meteor.call("getAPSSurvey", this.$store.state.keycloak.idToken, (error, result) => {
-          if(result){
-            for(const field of Object.keys(result.fields))
-              if(result.fields[field].formType === "radio")
-                result.fields[field].value = null;
-              else if(result.fields[field].formType === "checkbox")
-                result.fields[field].values = [];
-
-            this.steps.splice(this.getStepIndex("Architectural Pattern Selection"), 0, result);
-          }
-        });
-      },
       fillDevfileTemplate(devfile, repositoryURL){
         const stepIndex = this.getStepIndex("Service Details");
 
@@ -438,10 +395,26 @@
         devfile.metadata.name = `${this.steps[stepIndex].fields.name.value}-${(+new Date).toString(36)}`;
         devfile.projects = [{
           name: this.steps[stepIndex].fields.name.value,
-          source: {location: repositoryURL, type: "git"}
+          source: { location: repositoryURL, type: "git" }
         }];
 
         return devfile;
+      },
+      fetchArchitecturalPatterns(){
+        Meteor.call("getSupportedPatterns", this.$store.state.keycloak.idToken, (error, result) => {
+          if(result){
+            const stepIndex = this.getStepIndex("Service Details");
+
+            result.forEach(pattern => {
+              const text = pattern[0] + pattern.substring(1).toLowerCase().replace("_", "-");
+
+              this.steps[stepIndex].fields.architecturalPattern.options.push({
+                text,
+                value: pattern
+              });
+            });
+          }
+        });
       },
       getSelectedFrameworkName(){
         const stepIndex = this.getStepIndex("Service Details");
@@ -548,6 +521,12 @@
 </script>
 
 <style scoped>
+  .icon{
+    width: 20px;
+    height: 20px;
+    color: var(--primary);
+  }
+
   .creating{
     z-index: 9;
     width: 100%;
