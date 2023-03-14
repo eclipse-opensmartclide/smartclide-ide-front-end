@@ -24,8 +24,6 @@ import Credentials from "../imports/ui/components/MyAccount/Credentials";
 import Profile from "../imports/ui/components/MyAccount/Profile";
 // import ServiceRegistries from "../imports/ui/components/MyAccount/ServiceRegistries";
 
-import About from "../imports/ui/components/Help/About";
-
 import NotImplemented from "../imports/ui/components/NotImplemented";
 
 Vue.use(VueRouter)
@@ -65,11 +63,6 @@ const routes = [
         path: '/project/:id',
         name: 'Project',
         component: CheTheia
-    },
-    {
-        path: "/about",
-        name: 'About',
-        component: About
     },
     {
         path: "/profile",
