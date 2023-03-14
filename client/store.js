@@ -51,11 +51,11 @@ export default new Vuex.Store({
                         options: [
                             { title: "Close Project", link: "/" }
                         ]
+                    },
+                    {
+                        name: "Other workspaces",
+                        options: []
                     }
-                    // {
-                    //     name: "Other workspaces",
-                    //     options: []
-                    // }
                 ]
             },
         ],

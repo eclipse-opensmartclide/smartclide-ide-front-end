@@ -34,7 +34,7 @@
       this.$store.state.context = "project";
       this.$store.state.currentWorkspace = this.$route.params.id;
       this.openWorkspace();
-      // this.fetchOtherWorkspaces();
+      this.fetchOtherWorkspaces();
       this.setupIframeCommunication();
     },
     data(){
