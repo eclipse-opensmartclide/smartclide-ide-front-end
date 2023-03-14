@@ -25,7 +25,7 @@
           >
             {{ steps[currentStep-1].fields[field].label }}
             <b-icon-question-circle
-              class="mb-1 text-primary"
+              class="text-primary ml-1 mb-1"
               v-b-tooltip.hover
               title="Click to open the assistant"
               v-b-modal.architectural-pattern-modal
@@ -521,12 +521,6 @@
 </script>
 
 <style scoped>
-  .icon{
-    width: 20px;
-    height: 20px;
-    color: var(--primary);
-  }
-
   .creating{
     z-index: 9;
     width: 100%;
