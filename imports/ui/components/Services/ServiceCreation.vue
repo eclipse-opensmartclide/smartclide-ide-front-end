@@ -450,15 +450,30 @@
           };
         }
         else{
-          createRepositoryMethod = "createRepository";
-          headers = {
-            'projectName': this.steps[detailsStepIndex].fields.name.value,
-            'projVisibility': this.steps[detailsStepIndex].fields.visibility.value,
-            'projDescription': this.steps[detailsStepIndex].fields.description.value,
-            'gitLabServerURL': this.steps[gitStepIndex].fields.credentials.value.url,
-            'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token,
-            'license': this.steps[detailsStepIndex].fields.licence.value
-          };
+          // if(this.steps[detailsStepIndex].fields.architecturalPattern.value !== "NONE"){
+          //   createRepositoryMethod = "importRepository";
+          //   parameters = {
+          //     'repoUrl': this.steps[detailsStepIndex].fields.architecturalPattern.value, /*GET THE URL OF THE REPOSITORY FROM APS BACKEND*/
+          //     'name': this.steps[detailsStepIndex].fields.name.value,
+          //     // 'description': this.steps[detailsStepIndex].fields.description.value,
+          //     'visibility': this.steps[detailsStepIndex].fields.visibility.value
+          //   };
+          //   headers = {
+          //     'gitLabServerURL': this.steps[gitStepIndex].fields.credentials.value.url,
+          //     'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token
+          //   };
+          // }
+          // else{
+            createRepositoryMethod = "createRepository";
+            headers = {
+              'projectName': this.steps[detailsStepIndex].fields.name.value,
+              'projVisibility': this.steps[detailsStepIndex].fields.visibility.value,
+              'projDescription': this.steps[detailsStepIndex].fields.description.value,
+              'gitLabServerURL': this.steps[gitStepIndex].fields.credentials.value.url,
+              'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token,
+              'license': this.steps[detailsStepIndex].fields.licence.value
+            };
+          // }
         }
 
         Meteor.call(createRepositoryMethod, this.$store.state.keycloak.idToken, headers, parameters, (error, result) => {
