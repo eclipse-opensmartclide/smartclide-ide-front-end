@@ -16,9 +16,10 @@
     size="lg"
     scrollable
     ok-only
-    ok-title="Get suggestions"
-    @ok="getSuggestionsClicked"
-    @hidden="resetModal"
+    ok-variant="danger"
+    ok-title="Clear"
+    @ok="resetModal($event,false)"
+    @hidden="resetModal($event, true)"
   >
     <b-form>
       <b-form-group
@@ -28,6 +29,7 @@
         <b-form-radio-group
             v-if="survey.fields[field].formType === 'radio'"
             v-model="survey.fields[field].value"
+            @change="updateSuggestions"
             required
             stacked
         >
@@ -42,6 +44,7 @@
             v-else-if="survey.fields[field].formType === 'checkbox'"
             v-model="survey.fields[field].values"
             :required="survey.fields[field].values.length === 0"
+            @change="updateSuggestions"
             stacked
         >
           <b-form-checkbox
@@ -54,8 +57,9 @@
       </b-form-group>
     </b-form>
 
-    <div v-if="suggestions.length > 0">
-      <p>According to your input, the most suitable patterns and corresponding scores are:</p>
+    <div>
+      <p v-if="isFormComplete">According to your input, the most suitable patterns and corresponding scores are:</p>
+      <p v-else class="text-danger">Please complete the form in order to get the suggestions. All questions are mandatory.</p>
       <ol>
         <li
           v-for="suggestion in suggestions"
@@ -74,7 +78,8 @@
       return {
         survey: {},
         patternsDictionary: {},
-        suggestions: []
+        suggestions: [],
+        isFormComplete: false
       }
     },
     mounted(){
@@ -95,6 +100,15 @@
           }
         });
       },
+      resetSuggestions(){
+        this.suggestions = [];
+        this.isFormComplete = false;
+
+        for(let i = 0; i < Object.keys(this.patternsDictionary).length; i++)
+          this.suggestions.push({ pattern: "-", score: "-" });
+
+        console.log(this.suggestions)
+      },
       fetchArchitecturalPatterns(){
         Meteor.call("getSupportedPatterns", this.$store.state.keycloak.idToken, (error, result) => {
           if(result){
@@ -102,22 +116,27 @@
               const text = pattern.charAt(0) + pattern.substring(1).toLowerCase().replace("_", "-");
               this.patternsDictionary[pattern] = text;
             });
+            this.resetSuggestions();
           }
         });
       },
-      resetModal(){
+      resetModal(bvModalEvent, close){
+        if(!close)
+          bvModalEvent.preventDefault();
+
         Object.keys(this.survey.fields).forEach(field => {
           this.survey.fields[field].value ? this.survey.fields[field].value = null : this.survey.fields[field].values = [];
         });
-        this.suggestions = [];
+        this.resetSuggestions();
       },
-      getSuggestionsClicked(bvModalEvent){
-        bvModalEvent.preventDefault();
-
+      updateSuggestions(){
         const responses = this.buildResponsesArray();
+        this.isFormComplete = !!responses;
 
-        if(responses)
+        if(this.isFormComplete)
           this.getSuggestions(responses);
+        else
+          this.fetchArchitecturalPatterns();
       },
       buildResponsesArray(){
         let responses = [];
