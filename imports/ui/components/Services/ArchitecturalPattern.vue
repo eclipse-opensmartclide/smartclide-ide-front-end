@@ -106,8 +106,6 @@
 
         for(let i = 0; i < Object.keys(this.patternsDictionary).length; i++)
           this.suggestions.push({ pattern: "-", score: "-" });
-
-        console.log(this.suggestions)
       },
       fetchArchitecturalPatterns(){
         Meteor.call("getSupportedPatterns", this.$store.state.keycloak.idToken, (error, result) => {
