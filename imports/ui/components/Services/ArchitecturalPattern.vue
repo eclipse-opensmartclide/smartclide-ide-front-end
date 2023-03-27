@@ -25,6 +25,7 @@
       <b-form-group
           v-for="field in Object.keys(survey.fields)"
           :label="survey.fields[field].label"
+          label-class="font-weight-bold"
       >
         <b-form-radio-group
             v-if="survey.fields[field].formType === 'radio'"
@@ -58,8 +59,8 @@
     </b-form>
 
     <div>
-      <p v-if="isFormComplete">According to your input, the most suitable patterns and corresponding scores are:</p>
-      <p v-else class="text-danger">Please complete the form in order to get the suggestions. All questions are mandatory.</p>
+      <p v-if="isFormComplete" class="font-weight-bold">According to your input, the most suitable patterns and corresponding scores are:</p>
+      <p v-else class="font-weight-bold text-danger">Please complete the form in order to get the suggestions. All questions are mandatory.</p>
       <ol>
         <li
           v-for="suggestion in suggestions"
