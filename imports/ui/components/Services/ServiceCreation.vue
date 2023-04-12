@@ -215,6 +215,10 @@
                     value: null
                   },
                   {
+                    text: "None",
+                    value: "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-ide-front-end/f8e30b55dca811fb7627611cf3950c87c17df7c2/public/templates/default/devfile.yaml"
+                  },
+                  {
                     text: "Java with Spring Boot and MySQL",
                     value: "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-ide-front-end/5f4cf858ab0fd0a689c70658986d64f9ad55b6df/public/templates/java-web-spring/devfile.yaml"
                   },
