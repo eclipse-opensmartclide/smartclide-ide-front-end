@@ -17,6 +17,7 @@
       <b-form class="mt-4" @submit="nextButtonClicked">
         <b-form-group
           v-for="field in Object.keys(steps[currentStep-1].fields)"
+          v-if="steps[currentStep-1].fields[field].visible"
           :label="steps[currentStep-1].fields[field].label"
         >
           <template
@@ -34,15 +35,15 @@
           </template>
 
           <b-form-select
-            v-if="steps[currentStep-1].fields[field].formType === 'select'"
-            v-model="steps[currentStep-1].fields[field].value"
-            @change="changedGitSystem"
-            required
+              v-if="steps[currentStep-1].fields[field].formType === 'select'"
+              v-model="steps[currentStep-1].fields[field].value"
+              @change="changedGitSystem"
+              required
           >
             <b-form-select-option
-              v-for="option in steps[currentStep-1].fields[field].options"
-              v-model="option.value"
-              :disabled="option.value === null"
+                v-for="option in steps[currentStep-1].fields[field].options"
+                v-model="option.value"
+                :disabled="option.value === null"
             >
               {{option.text}}
             </b-form-select-option>
@@ -55,35 +56,35 @@
               required
           />
           <b-form-textarea
-            v-else-if="steps[currentStep-1].fields[field].formType === 'textarea'"
-            v-model="steps[currentStep-1].fields[field].value"
-            :placeholder="steps[currentStep-1].fields[field].placeholder"
-            rows="3"
-            no-resize
-            required
+              v-else-if="steps[currentStep-1].fields[field].formType === 'textarea'"
+              v-model="steps[currentStep-1].fields[field].value"
+              :placeholder="steps[currentStep-1].fields[field].placeholder"
+              rows="3"
+              no-resize
+              required
           />
           <b-form-radio-group
-            v-else-if="steps[currentStep-1].fields[field].formType === 'radio'"
-            v-model="steps[currentStep-1].fields[field].value"
-            required
-            stacked
+              v-else-if="steps[currentStep-1].fields[field].formType === 'radio'"
+              v-model="steps[currentStep-1].fields[field].value"
+              required
+              stacked
           >
             <b-form-radio
-              v-for="option in steps[currentStep-1].fields[field].options"
-              :value="option.id"
+                v-for="option in steps[currentStep-1].fields[field].options"
+                :value="option.id"
             >
               {{option.text}}
             </b-form-radio>
           </b-form-radio-group>
           <b-form-checkbox-group
-            v-else-if="steps[currentStep-1].fields[field].formType === 'checkbox'"
-            v-model="steps[currentStep-1].fields[field].values"
-            :required="steps[currentStep-1].fields[field].values.length === 0"
-            stacked
+              v-else-if="steps[currentStep-1].fields[field].formType === 'checkbox'"
+              v-model="steps[currentStep-1].fields[field].values"
+              :required="steps[currentStep-1].fields[field].values.length === 0"
+              stacked
           >
             <b-form-checkbox
-              v-for="option in steps[currentStep-1].fields[field].options"
-              :value="option.id"
+                v-for="option in steps[currentStep-1].fields[field].options"
+                :value="option.id"
             >
               {{option.text}}
             </b-form-checkbox>
@@ -160,7 +161,8 @@
                     value: null
                   }
                 ],
-                value: null
+                value: null,
+                visible: true
               },
               credentials: {
                 label: "Credentials",
@@ -171,7 +173,8 @@
                     value: null
                   }
                 ],
-                value: null
+                value: null,
+                visible: true
               },
             }
           },
@@ -183,13 +186,15 @@
                 label: "Name",
                 formType: "text",
                 placeholder: "Provide the name of the service",
-                value: null
+                value: null,
+                visible: true
               },
               description: {
                 label: "Description",
                 formType: "textarea",
                 placeholder: "Provide a short description of the service",
-                value: null
+                value: null,
+                visible: true
               },
               architecturalPattern: {
                 label: "Architectural Pattern",
@@ -204,7 +209,8 @@
                     value: "NONE"
                   }
                 ],
-                value: null
+                value: null,
+                visible: true
               },
               framework: {
                 label: "Framework",
@@ -231,7 +237,8 @@
                     value: "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-ide-front-end/5f4cf858ab0fd0a689c70658986d64f9ad55b6df/public/templates/python/devfile.yaml"
                   }
                 ],
-                value: null
+                value: null,
+                visible: true
               },
               visibility: {
                 label: "Visibility",
@@ -250,7 +257,8 @@
                     value: 0 // According to the service-creation extension
                   }
                 ],
-                value: null
+                value: null,
+                visible: true
               },
               licence: {
                 label: "Licence",
@@ -261,7 +269,8 @@
                     value: null
                   }
                 ],
-                value: null
+                value: null,
+                visible: true
               }
             }
           }
@@ -277,11 +286,18 @@
       this.hideOverlay();
       this.fetchGitCredentials();
 
-      if(this.$route.query.serviceID)
+      if(this.$route.query.serviceID){
+        const stepIndex = this.getStepIndex("Service Details");
+        this.steps[stepIndex].fields.architecturalPattern.visible = false;
+        this.steps[stepIndex].fields.framework.value = this.getFramework("text", "None").value;
+        this.steps[stepIndex].fields.framework.visible = false;
+        this.steps[stepIndex].fields.licence.visible = false;
         this.fetchService();
-
-      this.fetchLicences();
-      this.fetchArchitecturalPatterns();
+      }
+      else{
+        this.fetchLicences();
+        this.fetchArchitecturalPatterns();
+      }
     },
     methods: {
       showOverlay(){
@@ -420,11 +436,10 @@
           }
         });
       },
-      getSelectedFrameworkName(){
+      getFramework(searchField, fieldValue){
         const stepIndex = this.getStepIndex("Service Details");
-        const selectedOption = this.steps[stepIndex].fields.framework.options.filter(option => option.value === this.steps[stepIndex].fields.framework.value)[0];
-
-        return selectedOption.text;
+        const selectedOption = this.steps[stepIndex].fields.framework.options.filter(option => option[searchField] === fieldValue)[0];
+        return selectedOption;
       },
       developButtonClicked(){
         router.push(`/project/${this.serviceCreated}`);
@@ -440,12 +455,12 @@
         const gitStepIndex = this.getStepIndex("Git Setup");
         const detailsStepIndex = this.getStepIndex("Service Details");
 
-        if(Object.keys(this.$route.query).length !== 0){
+        if(this.$route.query.serviceID){
           createRepositoryMethod = "importRepository";
           parameters = {
             'repoUrl': this.receivedService.url.replace(".git", ""),
             'name': this.steps[detailsStepIndex].fields.name.value,
-            // 'description': this.steps[detailsStepIndex].fields.description.value,
+            'description': this.steps[detailsStepIndex].fields.description.value,
             'visibility': this.steps[detailsStepIndex].fields.visibility.value
           };
           headers = {
@@ -459,7 +474,7 @@
           //   parameters = {
           //     'repoUrl': this.steps[detailsStepIndex].fields.architecturalPattern.value, /*GET THE URL OF THE REPOSITORY FROM APS BACKEND*/
           //     'name': this.steps[detailsStepIndex].fields.name.value,
-          //     // 'description': this.steps[detailsStepIndex].fields.description.value,
+          //     'description': this.steps[detailsStepIndex].fields.description.value,
           //     'visibility': this.steps[detailsStepIndex].fields.visibility.value
           //   };
           //   headers = {
@@ -503,7 +518,7 @@
                           workspace_id: workspaceID,
                           url: repositoryURL,
                           description: this.steps[detailsStepIndex].fields.description.value,
-                          framework: this.getSelectedFrameworkName(),
+                          framework: this.getFramework("value", this.steps[detailsStepIndex].fields.framework.value).text,
                           updated: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
                           deployable: false,
                           is_public: this.steps[detailsStepIndex].fields.visibility.value === 0
