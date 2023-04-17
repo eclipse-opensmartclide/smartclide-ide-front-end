@@ -212,6 +212,24 @@ Meteor.methods({
             throw e;
         }
     },
+    async getTemplateURL(keycloakToken, inputParameters){
+        const configuration = {
+            method: 'POST',
+            url: `${process.env.SMARTCLIDE_BACKEND_URL}/architectural-patterns/application`,
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${keycloakToken}`
+            },
+            params: inputParameters
+        }
+
+        try{
+            const res = await axios(configuration);
+            return res.data;
+        } catch(e){
+            throw e;
+        }
+    },
     // Other
     async getRequest(URL){
         const configuration = {
