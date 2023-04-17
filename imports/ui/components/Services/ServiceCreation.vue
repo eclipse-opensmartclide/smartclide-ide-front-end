@@ -324,7 +324,7 @@
             this.currentStep++;
         else{
           this.showOverlay();
-          this.setupProject();
+          this.addClicked();
         }
       },
       getStepIndex(stepTitle){
@@ -343,7 +343,7 @@
             parameters: JSON.parse(`{
               "${this.$store.state.apis.backend.endpoints.getGitCredentials.parameters.userID}": "${this.$store.state.keycloak.subject}"
             }`),
-            token: this.$store.state.keycloak.token
+            token: this.$store.state.keycloak.idToken
           },
           (error, result) => {
             if(result){
@@ -448,41 +448,54 @@
         this.hideOverlay();
         alert(message);
       },
-      setupProject(){
-        let createRepositoryMethod;
-        let parameters = {};
-        let headers = {};
+      addClicked(){
         const gitStepIndex = this.getStepIndex("Git Setup");
         const detailsStepIndex = this.getStepIndex("Service Details");
+        let createRepositoryMethod;
+        let headers = {};
+        let parameters = {};
 
         if(this.$route.query.serviceID){
           createRepositoryMethod = "importRepository";
+          headers = {
+            'gitLabServerURL': this.steps[gitStepIndex].fields.credentials.value.url,
+            'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token
+          };
           parameters = {
             'repoUrl': this.receivedService.url.replace(".git", ""),
             'name': this.steps[detailsStepIndex].fields.name.value,
             'description': this.steps[detailsStepIndex].fields.description.value,
             'visibility': this.steps[detailsStepIndex].fields.visibility.value
           };
-          headers = {
-            'gitLabServerURL': this.steps[gitStepIndex].fields.credentials.value.url,
-            'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token
-          };
+          this.setupProject(createRepositoryMethod, headers, parameters);
         }
         else{
-          // if(this.steps[detailsStepIndex].fields.architecturalPattern.value !== "NONE"){
-          //   createRepositoryMethod = "importRepository";
-          //   parameters = {
-          //     'repoUrl': this.steps[detailsStepIndex].fields.architecturalPattern.value, /*GET THE URL OF THE REPOSITORY FROM APS BACKEND*/
-          //     'name': this.steps[detailsStepIndex].fields.name.value,
-          //     'description': this.steps[detailsStepIndex].fields.description.value,
-          //     'visibility': this.steps[detailsStepIndex].fields.visibility.value
-          //   };
-          //   headers = {
-          //     'gitLabServerURL': this.steps[gitStepIndex].fields.credentials.value.url,
-          //     'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token
-          //   };
-          // }
-          // else{
+          if(this.steps[detailsStepIndex].fields.architecturalPattern.value !== "NONE"){
+            const framework = this.getFramework("value", this.steps[detailsStepIndex].fields.framework.value);
+            const queryParams = {
+              framework: framework.text.replace(" ", "_").replace(".", ""),
+              pattern: this.steps[detailsStepIndex].fields.architecturalPattern.value
+            };
+
+            Meteor.call("getTemplateURL", this.$store.state.keycloak.idToken, queryParams, (error, result) => {
+              if(result){
+                createRepositoryMethod = "importRepository";
+                headers = {
+                  'gitLabServerURL': this.steps[gitStepIndex].fields.credentials.value.url,
+                  'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token
+                };
+                parameters = {
+                  'repoUrl': result.templateRepositoryUrl,
+                  'name': this.steps[detailsStepIndex].fields.name.value,
+                  'description': this.steps[detailsStepIndex].fields.description.value,
+                  'visibility': this.steps[detailsStepIndex].fields.visibility.value,
+                  'license': this.steps[detailsStepIndex].fields.licence.value
+                };
+                this.setupProject(createRepositoryMethod, headers, parameters);
+              }
+            });
+          }
+          else{
             createRepositoryMethod = "createRepository";
             headers = {
               'projectName': this.steps[detailsStepIndex].fields.name.value,
@@ -492,13 +505,17 @@
               'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token,
               'license': this.steps[detailsStepIndex].fields.licence.value
             };
-          // }
+            this.setupProject(createRepositoryMethod, headers, parameters);
+          }
         }
+      },
+      setupProject(createRepositoryMethod, headers, parameters){
+        const detailsStepIndex = this.getStepIndex("Service Details");
 
         Meteor.call(createRepositoryMethod, this.$store.state.keycloak.idToken, headers, parameters, (error, result) => {
           if(result){
-            if(result.status === 0 || (Object.keys(this.$route.query).length !== 0 && result === 201)){
-              const repositoryURL = Object.keys(this.$route.query).length !== 0 ? parameters.repoUrl : result.message;
+            if(result.status === 0 || result === 201){
+              const repositoryURL = result === 201 ? parameters.repoUrl : result.message;
               const devfileURL = this.steps[detailsStepIndex].fields.framework.value;
 
               Meteor.call("getRequest", devfileURL, (error, result) => {
