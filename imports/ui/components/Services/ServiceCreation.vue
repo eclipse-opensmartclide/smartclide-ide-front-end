@@ -473,7 +473,7 @@
           if(this.steps[detailsStepIndex].fields.architecturalPattern.value !== "NONE"){
             const framework = this.getFramework("value", this.steps[detailsStepIndex].fields.framework.value);
             const queryParams = {
-              framework: framework.text.replace(" ", "_").replace(".", ""),
+              framework: framework.text.replaceAll(" ", "_").replaceAll(".", ""),
               pattern: this.steps[detailsStepIndex].fields.architecturalPattern.value
             };
 
