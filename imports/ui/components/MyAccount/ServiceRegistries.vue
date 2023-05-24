@@ -199,7 +199,7 @@
       };
     },
     mounted(){
-      this.$store.state.context = 'my-account';
+      this.$store.state.context = "my-account";
       this.fetchContent();
     },
     methods: {

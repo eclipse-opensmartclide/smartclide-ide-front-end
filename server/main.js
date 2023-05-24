@@ -161,6 +161,23 @@ Meteor.methods({
         }
     },
     // Architectural Pattern Selection
+    async getSupportedPatterns(keycloakToken){
+        const config = {
+            method: 'GET',
+            url: `${process.env.SMARTCLIDE_BACKEND_URL}/architectural-patterns/supported-patterns`,
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${keycloakToken}`,
+            }
+        };
+
+        try{
+            const res = await axios(config);
+            return res.data;
+        } catch(e){
+            throw e;
+        }
+    },
     async getAPSSurvey(keycloakToken){
         const config = {
             method: 'GET',
@@ -190,6 +207,24 @@ Meteor.methods({
 
         try{
             const res = await axios.post(url, responsesArray, config);
+            return res.data;
+        } catch(e){
+            throw e;
+        }
+    },
+    async getTemplateURL(keycloakToken, inputParameters){
+        const configuration = {
+            method: 'POST',
+            url: `${process.env.SMARTCLIDE_BACKEND_URL}/architectural-patterns/application`,
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${keycloakToken}`
+            },
+            params: inputParameters
+        }
+
+        try{
+            const res = await axios(configuration);
             return res.data;
         } catch(e){
             throw e;

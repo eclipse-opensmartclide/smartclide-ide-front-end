@@ -22,9 +22,7 @@ import CheTheia from "../imports/ui/components/CheTheia/CheTheia";
 
 import Credentials from "../imports/ui/components/MyAccount/Credentials";
 import Profile from "../imports/ui/components/MyAccount/Profile";
-import ServiceRegistries from "../imports/ui/components/MyAccount/ServiceRegistries";
-
-import About from "../imports/ui/components/Help/About";
+// import ServiceRegistries from "../imports/ui/components/MyAccount/ServiceRegistries";
 
 import NotImplemented from "../imports/ui/components/NotImplemented";
 
@@ -67,20 +65,15 @@ const routes = [
         component: CheTheia
     },
     {
-        path: "/about",
-        name: 'About',
-        component: About
-    },
-    {
         path: "/profile",
         name: 'Profile',
         component: Profile
     },
-    {
-        path: "/service-registries",
-        name: 'ServiceRegistries',
-        component: ServiceRegistries
-    },
+    // {
+    //     path: "/service-registries",
+    //     name: 'ServiceRegistries',
+    //     component: ServiceRegistries
+    // },
     {
         path: "/credentials",
         name: 'Credentials',

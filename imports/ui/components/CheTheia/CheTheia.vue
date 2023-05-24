@@ -31,9 +31,10 @@
   export default {
     name: "Project",
     mounted(){
-      this.$store.state.context = 'project';
+      this.$store.state.context = "project";
       this.$store.state.currentWorkspace = this.$route.params.id;
       this.openWorkspace();
+      this.fetchOtherWorkspaces();
       this.setupIframeCommunication();
     },
     data(){
@@ -46,6 +47,7 @@
     beforeRouteLeave(to, from, next){
       clearTimeout(this.startWorkspaceTimeout);
       this.cancelIframeCommunication();
+      this.cleanOtherWorkspaces();
       next();
     },
     methods:{
@@ -56,6 +58,30 @@
       hideLoading(){
         $(".loading").removeClass("d-flex");
         $(".loading").addClass("d-none");
+      },
+      fetchOtherWorkspaces(){
+        Meteor.call("getLatestWorkspaces", this.$store.state.keycloak.idToken, 5, (error, result) => {
+          if(result){
+            const contextBarIndex = this.$store.state.contextBars.findIndex(bar => bar.name === "project");
+            const categoryIndex = this.$store.state.contextBars[contextBarIndex].categories.findIndex(cat => cat.name === "Other workspaces");
+
+            this.$store.state.contextBars[contextBarIndex].categories[categoryIndex].options = [];
+
+            result.forEach(workspace => {
+              if(workspace.id !== this.$store.state.currentWorkspace)
+                this.$store.state.contextBars[contextBarIndex].categories[categoryIndex].options.push({
+                  title: workspace.devfile.metadata.name,
+                  link: `/project/${workspace.id}`
+                });
+            });
+          }
+        });
+      },
+      cleanOtherWorkspaces(){
+        const contextBarIndex = this.$store.state.contextBars.findIndex(bar => bar.name === "project");
+        const categoryIndex = this.$store.state.contextBars[contextBarIndex].categories.findIndex(cat => cat.name === "Other workspaces");
+
+        this.$store.state.contextBars[contextBarIndex].categories[categoryIndex].options = [];
       },
       openWorkspace(){
         this.showLoading();

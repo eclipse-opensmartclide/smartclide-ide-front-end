@@ -17,18 +17,33 @@
       <b-form class="mt-4" @submit="nextButtonClicked">
         <b-form-group
           v-for="field in Object.keys(steps[currentStep-1].fields)"
+          v-if="steps[currentStep-1].fields[field].visible"
           :label="steps[currentStep-1].fields[field].label"
         >
+          <template
+              v-if="steps[currentStep-1].fields[field].label === 'Architectural Pattern'"
+              slot="label"
+          >
+            {{ steps[currentStep-1].fields[field].label }}
+            <b-icon-question-circle
+              class="text-primary ml-1 mb-1"
+              v-b-tooltip.hover
+              title="Click to open the assistant"
+              v-b-modal.architectural-pattern-modal
+            />
+            <ArchitecturalPattern/>
+          </template>
+
           <b-form-select
-            v-if="steps[currentStep-1].fields[field].formType === 'select'"
-            v-model="steps[currentStep-1].fields[field].value"
-            @change="changedGitSystem"
-            required
+              v-if="steps[currentStep-1].fields[field].formType === 'select'"
+              v-model="steps[currentStep-1].fields[field].value"
+              @change="changedGitSystem"
+              required
           >
             <b-form-select-option
-              v-for="option in steps[currentStep-1].fields[field].options"
-              v-model="option.value"
-              :disabled="option.value === null"
+                v-for="option in steps[currentStep-1].fields[field].options"
+                v-model="option.value"
+                :disabled="option.value === null"
             >
               {{option.text}}
             </b-form-select-option>
@@ -41,35 +56,35 @@
               required
           />
           <b-form-textarea
-            v-else-if="steps[currentStep-1].fields[field].formType === 'textarea'"
-            v-model="steps[currentStep-1].fields[field].value"
-            :placeholder="steps[currentStep-1].fields[field].placeholder"
-            rows="3"
-            no-resize
-            required
+              v-else-if="steps[currentStep-1].fields[field].formType === 'textarea'"
+              v-model="steps[currentStep-1].fields[field].value"
+              :placeholder="steps[currentStep-1].fields[field].placeholder"
+              rows="3"
+              no-resize
+              required
           />
           <b-form-radio-group
-            v-else-if="steps[currentStep-1].fields[field].formType === 'radio'"
-            v-model="steps[currentStep-1].fields[field].value"
-            required
-            stacked
+              v-else-if="steps[currentStep-1].fields[field].formType === 'radio'"
+              v-model="steps[currentStep-1].fields[field].value"
+              required
+              stacked
           >
             <b-form-radio
-              v-for="option in steps[currentStep-1].fields[field].options"
-              :value="option.id"
+                v-for="option in steps[currentStep-1].fields[field].options"
+                :value="option.id"
             >
               {{option.text}}
             </b-form-radio>
           </b-form-radio-group>
           <b-form-checkbox-group
-            v-else-if="steps[currentStep-1].fields[field].formType === 'checkbox'"
-            v-model="steps[currentStep-1].fields[field].values"
-            :required="steps[currentStep-1].fields[field].values.length === 0"
-            stacked
+              v-else-if="steps[currentStep-1].fields[field].formType === 'checkbox'"
+              v-model="steps[currentStep-1].fields[field].values"
+              :required="steps[currentStep-1].fields[field].values.length === 0"
+              stacked
           >
             <b-form-checkbox
-              v-for="option in steps[currentStep-1].fields[field].options"
-              :value="option.id"
+                v-for="option in steps[currentStep-1].fields[field].options"
+                :value="option.id"
             >
               {{option.text}}
             </b-form-checkbox>
@@ -120,12 +135,16 @@
 </template>
 
 <script>
+  import ArchitecturalPattern from "./ArchitecturalPattern";
   import router from "../../../../client/routes";
   import YAML_JSON from "yamljs";
   import moment from "moment";
 
   export default {
     name: "ServiceCreation",
+    components: {
+      ArchitecturalPattern
+    },
     data(){
       return {
         steps: [
@@ -142,7 +161,8 @@
                     value: null
                   }
                 ],
-                value: null
+                value: null,
+                visible: true
               },
               credentials: {
                 label: "Credentials",
@@ -153,7 +173,8 @@
                     value: null
                   }
                 ],
-                value: null
+                value: null,
+                visible: true
               },
             }
           },
@@ -165,40 +186,43 @@
                 label: "Name",
                 formType: "text",
                 placeholder: "Provide the name of the service",
-                value: null
+                value: null,
+                visible: true
               },
               description: {
                 label: "Description",
                 formType: "textarea",
                 placeholder: "Provide a short description of the service",
-                value: null
+                value: null,
+                visible: true
               },
-              visibility: {
-                label: "Visibility",
+              architecturalPattern: {
+                label: "Architectural Pattern",
                 formType: "select",
                 options: [
                   {
-                    text: "Please select the project's visibility",
+                    text: "Select the architectural pattern",
                     value: null
                   },
                   {
-                    text: "Private",
-                    value: 2, // According to the service-creation extension
-                  },
-                  {
-                    text: "Public",
-                    value: 0 // According to the service-creation extension
+                    text: "None",
+                    value: "NONE"
                   }
                 ],
-                value: null
+                value: null,
+                visible: true
               },
               framework: {
                 label: "Framework",
                 formType: "select",
                 options: [
                   {
-                    text: "Please select a framework",
+                    text: "Select the framework",
                     value: null
+                  },
+                  {
+                    text: "None",
+                    value: "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-ide-front-end/f8e30b55dca811fb7627611cf3950c87c17df7c2/public/templates/default/devfile.yaml"
                   },
                   {
                     text: "Java with Spring Boot and MySQL",
@@ -213,55 +237,40 @@
                     value: "https://raw.githubusercontent.com/eclipse-opensmartclide/smartclide-ide-front-end/5f4cf858ab0fd0a689c70658986d64f9ad55b6df/public/templates/python/devfile.yaml"
                   }
                 ],
-                value: null
+                value: null,
+                visible: true
+              },
+              visibility: {
+                label: "Visibility",
+                formType: "select",
+                options: [
+                  {
+                    text: "Select the visibility of the repository",
+                    value: null
+                  },
+                  {
+                    text: "Private",
+                    value: 2, // According to the service-creation extension
+                  },
+                  {
+                    text: "Public",
+                    value: 0 // According to the service-creation extension
+                  }
+                ],
+                value: null,
+                visible: true
               },
               licence: {
                 label: "Licence",
                 formType: "select",
                 options: [
                   {
-                    text: "Please select a licence",
+                    text: "Select the project's licence",
                     value: null
                   }
                 ],
-                value: null
-              }
-            }
-          },
-          {
-            title: "Architectural Pattern Selection",
-            sub_title: "Choose the desired Architectural Pattern according to the recommendations",
-            fields: {
-              architecturalPattern: {
-                label: "Please choose an Architectural Pattern",
-                formType: "radio",
-                options: [
-                  {
-                    id: "AP1",
-                    text: "Service-oriented"
-                  },
-                  {
-                    id: "AP2",
-                    text: "Space-based"
-                  },
-                  {
-                    id: "AP3",
-                    text: "Microservices"
-                  },
-                  {
-                    id: "AP4",
-                    text: "Layered"
-                  },
-                  {
-                    id: "AP5",
-                    text: "Event-driven"
-                  },
-                  {
-                    id: "AP6",
-                    text: "Microkernel"
-                  }
-                ],
-                value: null
+                value: null,
+                visible: true
               }
             }
           }
@@ -277,11 +286,18 @@
       this.hideOverlay();
       this.fetchGitCredentials();
 
-      if(this.$route.query.serviceID)
+      if(this.$route.query.serviceID){
+        const stepIndex = this.getStepIndex("Service Details");
+        this.steps[stepIndex].fields.architecturalPattern.visible = false;
+        this.steps[stepIndex].fields.framework.value = this.getFramework("text", "None").value;
+        this.steps[stepIndex].fields.framework.visible = false;
+        this.steps[stepIndex].fields.licence.visible = false;
         this.fetchService();
-
-      this.fetchLicences();
-      this.fetchAPSSurvey();
+      }
+      else{
+        this.fetchLicences();
+        this.fetchArchitecturalPatterns();
+      }
     },
     methods: {
       showOverlay(){
@@ -301,49 +317,18 @@
       previousButtonClicked(){
         this.currentStep--;
       },
-      buildAPSResponsesArray(){
-        let responses = [];
-        const stepIndex = this.getStepIndex("Architectural Pattern Form");
-
-        for(const field of Object.keys(this.steps[stepIndex].fields)){
-          const values = this.steps[stepIndex].fields[field].values;
-          values ? responses.push(...values) : responses.push(this.steps[stepIndex].fields[field].value);
-        }
-
-        return responses;
-      },
-      getAPSEvaluation(){
-        Meteor.call("evaluateAPSInput", this.$store.state.keycloak.idToken, this.buildAPSResponsesArray(),
-          (error, result) => {
-            if(result){
-              console.log(result);
-              this.currentStep++;
-            }
-          }
-        );
-      },
       async nextButtonClicked(event){
         event.preventDefault();
 
-        switch (this.currentStep) {
-          case 1:
+        if(this.currentStep < this.totalSteps)
             this.currentStep++;
-            break;
-          case 2:
-            // this.currentStep++;
-            // break;
-          // case 3:
-          //   await this.getAPSEvaluation();
-          //   break;
-          default:
-            this.showOverlay();
-            this.setupProject();
+        else{
+          this.showOverlay();
+          this.addClicked();
         }
       },
       getStepIndex(stepTitle){
-        for(let stepIndex = 0; stepIndex < this.steps.length; stepIndex++)
-          if(this.steps[stepIndex].title === stepTitle)
-            return stepIndex;
+          return this.steps.findIndex(step => step.title === stepTitle);
       },
       buildGitSystemOptions(){
         let credentialTypes = this.gitCredentials.map(gitCredential => gitCredential.type);
@@ -358,7 +343,7 @@
             parameters: JSON.parse(`{
               "${this.$store.state.apis.backend.endpoints.getGitCredentials.parameters.userID}": "${this.$store.state.keycloak.subject}"
             }`),
-            token: this.$store.state.keycloak.token
+            token: this.$store.state.keycloak.idToken
           },
           (error, result) => {
             if(result){
@@ -416,19 +401,6 @@
           }
         })
       },
-      fetchAPSSurvey(){
-        Meteor.call("getAPSSurvey", this.$store.state.keycloak.idToken, (error, result) => {
-          if(result){
-            for(const field of Object.keys(result.fields))
-              if(result.fields[field].formType === "radio")
-                result.fields[field].value = null;
-              else if(result.fields[field].formType === "checkbox")
-                result.fields[field].values = [];
-
-            this.steps.splice(2, 0, result);
-          }
-        });
-      },
       fillDevfileTemplate(devfile, repositoryURL){
         const stepIndex = this.getStepIndex("Service Details");
 
@@ -443,16 +415,31 @@
         devfile.metadata.name = `${this.steps[stepIndex].fields.name.value}-${(+new Date).toString(36)}`;
         devfile.projects = [{
           name: this.steps[stepIndex].fields.name.value,
-          source: {location: repositoryURL, type: "git"}
+          source: { location: repositoryURL, type: "git" }
         }];
 
         return devfile;
       },
-      getSelectedFrameworkName(){
-        const stepIndex = this.getStepIndex("Service Details");
-        const selectedOption = this.steps[stepIndex].fields.framework.options.filter(option => option.value === this.steps[stepIndex].fields.framework.value)[0];
+      fetchArchitecturalPatterns(){
+        Meteor.call("getSupportedPatterns", this.$store.state.keycloak.idToken, (error, result) => {
+          if(result){
+            const stepIndex = this.getStepIndex("Service Details");
 
-        return selectedOption.text;
+            result.forEach(pattern => {
+              const text = pattern.charAt(0) + pattern.substring(1).toLowerCase().replace("_", "-");
+
+              this.steps[stepIndex].fields.architecturalPattern.options.push({
+                text,
+                value: pattern
+              });
+            });
+          }
+        });
+      },
+      getFramework(searchField, fieldValue){
+        const stepIndex = this.getStepIndex("Service Details");
+        const selectedOption = this.steps[stepIndex].fields.framework.options.filter(option => option[searchField] === fieldValue)[0];
+        return selectedOption;
       },
       developButtonClicked(){
         router.push(`/project/${this.serviceCreated}`);
@@ -461,42 +448,74 @@
         this.hideOverlay();
         alert(message);
       },
-      setupProject(){
-        let createRepositoryMethod;
-        let parameters = {};
-        let headers = {};
+      addClicked(){
         const gitStepIndex = this.getStepIndex("Git Setup");
         const detailsStepIndex = this.getStepIndex("Service Details");
+        let createRepositoryMethod;
+        let headers = {};
+        let parameters = {};
 
-        if(Object.keys(this.$route.query).length !== 0){
+        if(this.$route.query.serviceID){
           createRepositoryMethod = "importRepository";
-          parameters = {
-            'repoUrl': this.receivedService.url.replace(".git", ""),
-            'name': this.steps[detailsStepIndex].fields.name.value,
-            // 'description': this.steps[detailsStepIndex].fields.description.value,
-            'visibility': this.steps[detailsStepIndex].fields.visibility.value
-          };
           headers = {
             'gitLabServerURL': this.steps[gitStepIndex].fields.credentials.value.url,
             'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token
           };
+          parameters = {
+            'repoUrl': this.receivedService.url.replace(".git", ""),
+            'name': this.steps[detailsStepIndex].fields.name.value,
+            'description': this.steps[detailsStepIndex].fields.description.value,
+            'visibility': this.steps[detailsStepIndex].fields.visibility.value
+          };
+          this.setupProject(createRepositoryMethod, headers, parameters);
         }
         else{
-          createRepositoryMethod = "createRepository";
-          headers = {
-            'projectName': this.steps[detailsStepIndex].fields.name.value,
-            'projVisibility': this.steps[detailsStepIndex].fields.visibility.value,
-            'projDescription': this.steps[detailsStepIndex].fields.description.value,
-            'gitLabServerURL': this.steps[gitStepIndex].fields.credentials.value.url,
-            'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token,
-            'license': this.steps[detailsStepIndex].fields.licence.value
-          };
+          if(this.steps[detailsStepIndex].fields.architecturalPattern.value !== "NONE"){
+            const framework = this.getFramework("value", this.steps[detailsStepIndex].fields.framework.value);
+            const queryParams = {
+              framework: framework.text.replaceAll(" ", "_").replaceAll(".", ""),
+              pattern: this.steps[detailsStepIndex].fields.architecturalPattern.value
+            };
+
+            Meteor.call("getTemplateURL", this.$store.state.keycloak.idToken, queryParams, (error, result) => {
+              if(result){
+                createRepositoryMethod = "importRepository";
+                headers = {
+                  'gitLabServerURL': this.steps[gitStepIndex].fields.credentials.value.url,
+                  'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token
+                };
+                parameters = {
+                  'repoUrl': result.templateRepositoryUrl,
+                  'name': this.steps[detailsStepIndex].fields.name.value,
+                  'description': this.steps[detailsStepIndex].fields.description.value,
+                  'visibility': this.steps[detailsStepIndex].fields.visibility.value,
+                  'license': this.steps[detailsStepIndex].fields.licence.value
+                };
+                this.setupProject(createRepositoryMethod, headers, parameters);
+              }
+            });
+          }
+          else{
+            createRepositoryMethod = "createRepository";
+            headers = {
+              'projectName': this.steps[detailsStepIndex].fields.name.value,
+              'projVisibility': this.steps[detailsStepIndex].fields.visibility.value,
+              'projDescription': this.steps[detailsStepIndex].fields.description.value,
+              'gitLabServerURL': this.steps[gitStepIndex].fields.credentials.value.url,
+              'gitlabToken': this.steps[gitStepIndex].fields.credentials.value.token,
+              'license': this.steps[detailsStepIndex].fields.licence.value
+            };
+            this.setupProject(createRepositoryMethod, headers, parameters);
+          }
         }
+      },
+      setupProject(createRepositoryMethod, headers, parameters){
+        const detailsStepIndex = this.getStepIndex("Service Details");
 
         Meteor.call(createRepositoryMethod, this.$store.state.keycloak.idToken, headers, parameters, (error, result) => {
           if(result){
-            if(result.status === 0 || (Object.keys(this.$route.query).length !== 0 && result === 201)){
-              const repositoryURL = Object.keys(this.$route.query).length !== 0 ? parameters.repoUrl : result.message;
+            if(result.status === 0 || result === 201){
+              const repositoryURL = result === 201 ? parameters.repoUrl : result.message;
               const devfileURL = this.steps[detailsStepIndex].fields.framework.value;
 
               Meteor.call("getRequest", devfileURL, (error, result) => {
@@ -516,7 +535,7 @@
                           workspace_id: workspaceID,
                           url: repositoryURL,
                           description: this.steps[detailsStepIndex].fields.description.value,
-                          framework: this.getSelectedFrameworkName(),
+                          framework: this.getFramework("value", this.steps[detailsStepIndex].fields.framework.value).text,
                           updated: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
                           deployable: false,
                           is_public: this.steps[detailsStepIndex].fields.visibility.value === 0

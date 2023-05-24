@@ -121,7 +121,7 @@
       };
     },
     mounted(){
-      this.$store.state.context = 'home';
+      this.$store.state.context = "home";
       this.fetchServices();
     },
     beforeRouteLeave(to, from, next){

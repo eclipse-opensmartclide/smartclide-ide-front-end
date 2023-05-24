@@ -1,0 +1,14 @@
+apiVersion: 1.0.0
+metadata:
+  name: default
+projects:
+  - name: web-java-spring-petclinic
+    source:
+      location: 'https://github.com/che-samples/java-spring-petclinic'
+      type: git
+components:
+  - id: redhat/java8/latest
+    type: chePlugin
+  - type: cheEditor
+    reference: 'https://github.com/eclipse-opensmartclide/smartclide-ide-front-end/raw/d953258b5f6b587c54342d258694abf4bb4ed58e/public/templates/editor_meta.yaml'
+

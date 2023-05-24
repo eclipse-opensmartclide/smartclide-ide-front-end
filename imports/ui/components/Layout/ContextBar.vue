@@ -10,15 +10,15 @@
 
 <template>
   <div style="width: 200px">
-    <template v-if="$store.state.context === 'project'">
-      <QuickAccess/>
-    </template>
+<!--    <template v-if="$store.state.context === 'project'">-->
+<!--      <QuickAccess/>-->
+<!--    </template>-->
     <b-nav class="h-100 bg-light pt-2" vertical tabs>
       <div v-for="(category, categoryIdx) in $store.getters.getCategories">
-        <div class="custom_inactive px-2 py-2" v-if="category.category !== 'root'">
-          {{ category.category }}
+        <div class="custom_inactive px-2 py-2" v-if="category.name !== 'root'">
+          {{ category.name }}
         </div>
-        <template v-if="category.category === 'root'">
+        <template v-if="category.name === 'root'">
           <div v-for="option in category.options">
             <b-nav-item
               link-classes="custom_inactive"
@@ -32,7 +32,16 @@
         </template>
         <template v-else>
           <div v-for="option in category.options" class="px-3 py-2">
+            <a
+              v-if="category.name === 'Other workspaces'"
+              class="text-decoration-none"
+              :href="option.link"
+              target="_blank"
+            >
+              {{ option.title }}
+            </a>
             <router-link
+              v-else
               class="text-decoration-none"
               :to="option.link"
               @click.native="click(option)"
@@ -59,9 +68,8 @@
     },
     methods: {
       click(option) {
-        if(option.title === "Close Project"){
+        if(option.title === "Close Project")
           this.closeWorkspace();
-        }
       },
       async closeWorkspace(){
         const keycloakToken = this.$store.state.keycloak.idToken;

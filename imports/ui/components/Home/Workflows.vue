@@ -22,7 +22,7 @@
   export default {
     name: "Workflows",
     mounted(){
-      this.$store.state.context = 'home';
+      this.$store.state.context = "home";
       this.setupIframeCommunication();
     },
     data(){
@@ -43,14 +43,9 @@
 
           switch (messageType){
             case messageTypes.COMM_START_REPLY:
-              message = buildMessage(messageType, {
-                token: keycloak.token
-              });
-              break;
             case messageTypes.KEYCLOAK_TOKEN:
-              const keycloak = this.$store.state.keycloak;
               message = buildMessage(messageType, {
-                token: keycloak.token
+                token: this.$store.state.keycloak.token
               });
               break;
             case messageTypes.COMM_END:
@@ -68,6 +63,7 @@
       onReceiveMessage({data}){
         switch(data.type){
           case messageTypes.COMM_START:
+            console.log("entered");
             console.log("RECEIVED", JSON.stringify(data, undefined, 4));
             this.sendMessageToIframe(messageTypes.COMM_START_REPLY);
             break;
