@@ -33,6 +33,7 @@
   import Layout from "./components/Layout/Layout";
   import Footer from "./components/Layout/Footer";
   import router from "../../client/routes";
+  import {setTheme, unsetTheme} from "../../styles/functions";
 
   export default {
     components: { Login, LoginSmartCLIDE, Layout, Footer },
@@ -42,14 +43,13 @@
         SmartCLIDELogin: undefined
       };
     },
-    created() {
-      // Meteor.call("getKeycloakConfiguration", (error, result) => {
-      //   if(result) {
-      //     this.$store.state.keycloak = result;
-      //     this.$store.state.keycloak = new Keycloak(result);
-      //   }
-      // });
-
+    beforeCreate() {
+      setTheme();
+    },
+    destroyed() {
+      unsetTheme();
+    },
+    created(){
       this.$store.state.keycloak = new Keycloak("/keycloak.json");
 
       this.$store.state.keycloak.init({
@@ -60,7 +60,6 @@
         if(authenticated){
           this.eclipseCheUser = this.$store.state.keycloak.tokenParsed;
           this.addUserToDB();
-          // router.push("/dashboard");
         }
       }).catch(error => {
         console.log(error);
@@ -74,10 +73,6 @@
         this.eclipseCheUser = undefined;
         router.push("/");
       };
-
-      // setInterval(() => {
-      //   console.log(this.$store.state.keycloak.token);
-      // }, 5000);
     },
     methods: {
       loginWithSmartCLIDE(){
@@ -116,6 +111,6 @@
   };
 </script>
 
-<style scoped>
+<style>
 
 </style>
