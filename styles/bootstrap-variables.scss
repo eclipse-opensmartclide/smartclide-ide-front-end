@@ -5,14 +5,14 @@ $success: #7ac943;
 $info: #e5eefd;
 $warning: #f7931e;
 */
-$primary:      var(--bootstrap-primary);
-$secondary:    var(--bootstrap-secondary);
-$success:      var(--bootstrap-success);
-$info:      var(--bootstrap-info);
-$warning:     var(--bootstrap-warning);
-$danger:      var(--bootstrap-danger);
-$light:       var(--bootstrap-light);
-$dark:     var(--bootstrap-dark);
+$primary: var(--bootstrap-primary);
+$secondary: var(--bootstrap-secondary);
+$success: var(--bootstrap-success);
+$info: var(--bootstrap-info);
+$warning: var(--bootstrap-warning);
+$danger: var(--bootstrap-danger);
+$light: var(--bootstrap-light);
+$dark: var(--bootstrap-dark);
 /*
 
 
@@ -26,6 +26,7 @@ $dark:     var(--bootstrap-dark);
 		"bootstrap-dark":colors?.dark || default_dark,
 
  */
+
 $input-disabled-bg: #f5f8fe;
 $input-border-color: #2272ea;
 $navbar-light-active-color: #2272ea;
@@ -35,7 +36,6 @@ $border-radius-sm: 0.4rem;
 $toast-border-radius: 0.4rem;
 $table-hover-bg: #e5eefd;
 $blue: #2272ea;
-
 
 body {
   background-color:var(--test)!important;

@@ -515,7 +515,7 @@
         Meteor.call(createRepositoryMethod, this.$store.state.keycloak.idToken, headers, parameters, (error, result) => {
           if(result){
             if(result.status === 0 || result === 201){
-              const repositoryURL = result === 201 ? parameters.repoUrl : result.message;
+              const repositoryURL = result === 201 ? parameters.repoUrl : result.message; // CHANGE parameters.repoUrl
               const devfileURL = this.steps[detailsStepIndex].fields.framework.value;
 
               Meteor.call("getRequest", devfileURL, (error, result) => {
