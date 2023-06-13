@@ -44,17 +44,17 @@
         </b-row>
       </b-col>
 
-      <div class="position-relative">
-        <b-icon-plus-circle
-          role="button"
-          class="add-icon position-absolute"
-          variant="primary"
-          font-scale="1.2"
-          @click="addWidget"
-          v-b-tooltip.hover
-          title="Add new"
-        />
-      </div>
+<!--      <div class="position-relative">-->
+<!--        <b-icon-plus-circle-->
+<!--          role="button"-->
+<!--          class="add-icon position-absolute"-->
+<!--          variant="primary"-->
+<!--          font-scale="1.2"-->
+<!--          @click="addWidget"-->
+<!--          v-b-tooltip.hover-->
+<!--          title="Add new"-->
+<!--        />-->
+<!--      </div>-->
     </div>
 
     <!-- Grid -->
@@ -69,17 +69,17 @@
         :title="table.title"
         :padding="[0,0]"
       >
-        <template slot="toolbar">
-          <div class="mx-2">
-            <b-icon-trash
-              role="button"
-              class="widget-button"
-              @click="remove(index)"
-              v-b-tooltip.hover
-              title="Delete"
-            />
-          </div>
-        </template>
+<!--        <template slot="toolbar">-->
+<!--          <div class="mx-2">-->
+<!--            <b-icon-trash-->
+<!--              role="button"-->
+<!--              class="widget-button"-->
+<!--              @click="remove(index)"-->
+<!--              v-b-tooltip.hover-->
+<!--              title="Delete"-->
+<!--            />-->
+<!--          </div>-->
+<!--        </template>-->
         <div class="d-flex flex-row">
           <b-table
               class="custom_table mx-1 mb-0 text-center"
@@ -174,14 +174,14 @@
       },
       convertDate(date){
         return moment(new Date(date)).format('DD-MMM-YYYY HH:mm');
-      },
-      remove(cardID){
-        let index = this.cards.map(card => card.i).indexOf(cardID);
-        this.cards.splice(index, 1);
-      },
-      addWidget(){
-        alert("Not implemented")
       }
+      // remove(cardID){
+      //   let index = this.cards.map(card => card.i).indexOf(cardID);
+      //   this.cards.splice(index, 1);
+      // },
+      // addWidget(){
+      //   alert("Not implemented")
+      // }
     }
   }
 </script>
