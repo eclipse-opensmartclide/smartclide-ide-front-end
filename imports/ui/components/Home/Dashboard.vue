@@ -27,9 +27,9 @@
           <!-- Create New -->
           <b-col>
             <b-row class="h5 mb-2">Create New...</b-row>
-            <b-row><router-link to="/notImplemented">Workflow</router-link></b-row>
+<!--            <b-row><router-link to="/notImplemented">Workflow</router-link></b-row>-->
             <b-row><router-link to="/services/serviceCreation">Service</router-link></b-row>
-            <b-row><router-link to="/notImplemented">Deployment</router-link></b-row>
+<!--            <b-row><router-link to="/notImplemented">Deployment</router-link></b-row>-->
           </b-col>
 
           <!-- Recent Projects -->

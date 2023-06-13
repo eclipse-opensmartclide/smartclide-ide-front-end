@@ -25,7 +25,7 @@ export default new Vuex.Store({
                         options: [
                             { title: "Workflows", link: "/workflows" },
                             { title: "Services", link: "/services" },
-                            { title: "Deployments", link: "/deployments" }
+                            // { title: "Deployments", link: "/deployments" }
                         ]
                     }
                 ]
