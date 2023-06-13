@@ -50,6 +50,7 @@
       unsetTheme();
     },
     created(){
+      this.storeTheme();
       this.$store.state.keycloak = new Keycloak("/keycloak.json");
 
       this.$store.state.keycloak.init({
@@ -75,6 +76,19 @@
       };
     },
     methods: {
+      storeTheme(){
+        const themeName = this.$route.query.theme === "iotcat_ide" ? "iotcat_ide" : "default";
+        this.$store.state.theme = {
+          name: themeName,
+          images: {
+            eclipseIcon: `/assets/themes/${themeName}/eclipseIcon.png`,
+            euFlag: `/assets/themes/${themeName}/euFlag.png`,
+            // ideIcon: `/assets/themes/${themeName}/ideIcon.png`,
+            ideLogo: `/assets/themes/${themeName}/ideLogo.png`,
+            welcomeCard:`/assets/themes/${themeName}/welcomeCard.png`
+          }
+        };
+      },
       loginWithSmartCLIDE(){
         this.SmartCLIDELogin = true;
       },

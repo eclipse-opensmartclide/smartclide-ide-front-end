@@ -14,14 +14,14 @@ import {
 
 export function getBoostrapTheme(colors){
 	return getStyle({
-		"bootstrap-primary":colors.primary || default_primary ,
-		"bootstrap-secondary":colors?.secondary || default_secondary,
-		"bootstrap-success":colors?.success || default_success,
-		"bootstrap-info":colors?.info || default_info,
-		"bootstrap-warning":colors?.warning || default_warning,
-		"bootstrap-danger":colors?.danger || default_danger,
-		"bootstrap-light":colors?.light || default_light,
-		"bootstrap-dark":colors?.dark || default_dark,
+		"bootstrap-primary": colors.primary || default_primary ,
+		"bootstrap-secondary": colors?.secondary || default_secondary,
+		"bootstrap-success": colors?.success || default_success,
+		"bootstrap-info": colors?.info || default_info,
+		"bootstrap-warning": colors?.warning || default_warning,
+		"bootstrap-danger": colors?.danger || default_danger,
+		"bootstrap-light": colors?.light || default_light,
+		"bootstrap-dark": colors?.dark || default_dark
 	})
 }
 
@@ -156,7 +156,7 @@ export function setTheme(){
 }
 
 export function getImageFromTheme(imageName){
-	const theme =getThemeFromURL()
+	const theme = getThemeFromURL()
 	return theme?.images?.[imageName]
 }
 

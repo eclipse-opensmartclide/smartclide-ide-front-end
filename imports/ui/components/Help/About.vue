@@ -17,7 +17,7 @@
     <b-table-simple>
       <b-row>
         <b-col cols="3">
-          <b-img src="/assets/SmartCLIDERGBColor.png" fluid/>
+          <b-img :src="this.$store.state.theme.images.ideLogo" fluid/>
         </b-col>
         <b-col class="pl-0" align="justify">
           <div>
@@ -48,7 +48,7 @@
       <b-row align-v="center">
         <b-col cols="3">
           <div class="d-flex flex-row align-items-center">
-            <b-img src="/assets/EUFlag.png" fluid width="75px" center/>
+            <b-img :src="this.$store.state.theme.images.euFlag" fluid width="75px" center/>
           </div>
         </b-col>
         <b-col class="about-text pl-0" align="justify">

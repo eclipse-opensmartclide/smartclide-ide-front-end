@@ -13,7 +13,7 @@
     <div class="login-container d-flex flex-column align-items-center">
 
       <b-row class="h-50">
-        <b-img class="main-logo" src="/assets/SmartCLIDERGBColor.png"/>
+        <b-img class="main-logo" :src="this.$store.state.theme.images.ideLogo"/>
       </b-row>
 
       <b-row class="h-50">

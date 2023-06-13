@@ -13,7 +13,7 @@
 
     <!-- LOGO -->
     <div class="logo-container">
-      <router-link to="/"> <b-img class="logo" src="/assets/SmartCLIDERGBColor.png" @click="optionClicked('home')"/></router-link>
+      <router-link to="/"> <b-img class="logo" :src="this.$store.state.theme.images.ideLogo" @click="optionClicked('home')"/></router-link>
     </div>
 
     <!-- TODO: avoid this -->

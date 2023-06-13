@@ -11,7 +11,7 @@
 <template>
   <div class="footer">
     <div class="d-flex h-100 align-items-center ml-4 mr-4">
-      <b-img height="34" width="54" src="/assets/EUFlag.png" />
+      <b-img height="34" :src="this.$store.state.theme.images.euFlag"/>
       <div class="ml-3 flex-grow-1">
         <div class="text d-inline-block" >
           SmartCLIDE has received funding from the European Union&apos;s Horizon 2020
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="privacy ml-3 mr-4 float-right">Privacy Policy</div>
-      <b-img height="34" width="54" src="/assets/SmartCLIDERGBColor.png" />
+      <b-img height="34" :src="this.$store.state.theme.images.ideLogo"/>
     </div>
   </div>
 </template>

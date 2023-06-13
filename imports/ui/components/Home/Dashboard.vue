@@ -13,7 +13,7 @@
     <!-- Welcome / Get Started -->
     <div class="d-flex">
       <b-col>
-        <b-img class="w-100" src="/assets/WelcomeCard.png"/>
+        <b-img class="w-100" :src="this.$store.state.theme.images.welcomeCard"/>
       </b-col>
 
       <b-col>

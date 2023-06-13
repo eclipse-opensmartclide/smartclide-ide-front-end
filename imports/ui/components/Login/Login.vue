@@ -11,18 +11,18 @@
 <template>
   <b-container class="vh-100 d-flex justify-content-center align-items-center">
     <div class="login-container d-flex flex-column align-items-center">
-      <b-img class="main-logo mb-5" src="/assets/SmartCLIDERGBColor.png"/>
+      <b-img class="main-logo mb-5" :src="$store.state.theme.images.ideLogo"/>
 
 <!--      <b-form @submit.prevent="loginWithSmartCLIDE()">-->
 <!--        <b-button class="smartCLIDE bg-primary mt-4" name="login" type="submit">-->
-<!--          <b-img class="SmartCLIDEIcon" src="/assets/SmartCLIDEIcon.png"/>-->
+<!--          <b-img class="SmartCLIDEIcon" src="/assets/default/ideIcon.png"/>-->
 <!--          <div class="btn-text">Username or Email</div>-->
 <!--        </b-button>-->
 <!--      </b-form>-->
 
       <b-form @submit.prevent="loginWithEclipseChe()">
         <b-button class="che mt-3" name="loginEclipseChe" type="submit">
-          <b-img class="eclipse_icon" src="/assets/EclipseIcon.png"/>
+          <b-img class="eclipse_icon" :src="$store.state.theme.images.eclipseIcon"/>
           <div class="btn-text">SmartCLIDE Eclipse Che</div>
         </b-button>
       </b-form>
