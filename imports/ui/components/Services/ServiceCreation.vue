@@ -514,8 +514,8 @@
 
         Meteor.call(createRepositoryMethod, this.$store.state.keycloak.idToken, headers, parameters, (error, result) => {
           if(result){
-            if(result.status === 0 || result === 201){
-              const repositoryURL = result === 201 ? parameters.repoUrl : result.message; // CHANGE parameters.repoUrl
+            if(result.status === 0 || result.status === 201){
+              const repositoryURL = result.status === 201 ? result.repoURL : result.message;
               const devfileURL = this.steps[detailsStepIndex].fields.framework.value;
 
               Meteor.call("getRequest", devfileURL, (error, result) => {
@@ -535,10 +535,11 @@
                           workspace_id: workspaceID,
                           url: repositoryURL,
                           description: this.steps[detailsStepIndex].fields.description.value,
+                          is_public: this.steps[detailsStepIndex].fields.visibility.value === 0,
+                          licence: this.steps[detailsStepIndex].fields.licence.value,
                           framework: this.getFramework("value", this.steps[detailsStepIndex].fields.framework.value).text,
                           updated: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
-                          deployable: false,
-                          is_public: this.steps[detailsStepIndex].fields.visibility.value === 0
+                          deployable: false
                         },
                         token: this.$store.state.keycloak.idToken
                       }, (error, result) => {

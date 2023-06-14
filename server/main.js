@@ -155,7 +155,7 @@ Meteor.methods({
 
         try{
             const res = await axios(configuration);
-            return res.status;
+            return { status: res.status, repoURL: res.headers.location };
         } catch(e){
             throw e;
         }
