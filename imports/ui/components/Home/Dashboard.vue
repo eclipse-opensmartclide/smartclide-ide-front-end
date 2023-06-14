@@ -16,7 +16,7 @@
         <b-img class="w-100" :src="this.$store.state.theme.images.welcomeCard"/>
       </b-col>
 
-      <b-col>
+      <b-col class="pt-5">
         <b-row>
           <div class="h3 text-primary">
             Get Started
@@ -96,6 +96,9 @@
                 Loading...
               </div>
             </template>
+            <template #cell(creationDate)="data">
+              {{ convertDate(data.value) }}
+            </template>
             <template #cell(updatedAt)="data">
               {{ convertDate(data.value) }}
             </template>
@@ -116,8 +119,8 @@
         latestWorkspaces: [],
         cards: [
           { i: 0, x: 0, y: 0, w: 6, h: 4 },
-          { i: 1, x: 6, y: 0, w: 6, h: 4 },
-          { i: 2, x: 0, y: 5, w: 12, h: 5 }
+          { i: 1, x: 6, y: 0, w: 6, h: 4 }
+          // { i: 2, x: 0, y: 5, w: 12, h: 5 }
         ],
         tables: [
           {
@@ -128,16 +131,16 @@
           },
           {
             title: "Services",
-            fields: ["name", "licence", "updatedAt"],
-            content: [],
-            loaded: false
-          },
-          {
-            title: "Deployments",
-            fields: ["name", "workflow_service", "version", "state", "updatedAt"],
+            fields: ["name", "creationDate"],
             content: [],
             loaded: false
           }
+          // {
+          //   title: "Deployments",
+          //   fields: ["name", "workflow_service", "version", "state", "updatedAt"],
+          //   content: [],
+          //   loaded: false
+          // }
         ]
       }
     },
@@ -150,7 +153,7 @@
         this.fetchLatestWorkspaces();
         this.fetchLatestWorkflows();
         this.fetchLatestServices();
-        this.fetchLatestDeployments();
+        // this.fetchLatestDeployments();
       },
       fetchLatestWorkspaces(){
         Meteor.call("getLatestWorkspaces", this.$store.state.keycloak.idToken, 3, (error, result) => {
@@ -163,9 +166,30 @@
         });
       },
       fetchLatestServices(){
-        Meteor.call("getLatestServices", (error, result) => {
-          Object.assign(this.tables[1],{ loaded: true, content: result || [] });
-        });
+        Meteor.call("request", {
+              operationID: this.$store.state.apis.backend.endpoints.getServices.operationID,
+              parameters: JSON.parse(`{
+              "${this.$store.state.apis.backend.endpoints.getServices.parameters.userID}": "${this.$store.state.keycloak.subject}",
+              "${this.$store.state.apis.backend.endpoints.getServices.parameters.registryID}": "internal"
+            }`),
+              token: this.$store.state.keycloak.idToken
+            },
+            (error, result) => {
+              if(result){
+                let content = result?.body.map((item) => {
+                  return {
+                    id: item.id,
+                    name: item.name,
+                    licence: item.licence,
+                    creationDate: item["created"],
+                    updateDate: item["updated"]
+                  };
+                });
+
+                Object.assign(this.tables[1],{ loaded: true, content });
+              }
+            }
+        );
       },
       fetchLatestDeployments(){
         Meteor.call("getLatestDeployments", (error, result) => {
