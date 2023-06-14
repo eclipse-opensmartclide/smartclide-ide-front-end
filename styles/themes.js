@@ -23,7 +23,8 @@ export const themes = {
 	"iotcat_ide":{
 		colors:{
 			primary: "#C99C28",
-			secondary: "#CBCBCB"
+			secondary: "#CBCBCB",
+			info: "#DFC47E"
 		},
 		images:{
 			header:"https://iot-catalogue.s3.amazonaws.com/internalImages/r4R9H6Gc535eEqTnp/logo.png"
