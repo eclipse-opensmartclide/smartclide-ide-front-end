@@ -295,7 +295,7 @@
 
 <style scoped>
   .search_bar {
-    border-color: #dee2e6;
+    border-color: #DEE2E6;
   }
 
   /deep/ .custom-table thead{
