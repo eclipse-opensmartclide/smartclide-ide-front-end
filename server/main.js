@@ -231,7 +231,7 @@ Meteor.methods({
         }
     },
     // Other
-    async getRequest(URL){
+    async getRequest(URL, keycloakToken){
         const configuration = {
             method: 'GET',
             url: URL,
@@ -239,6 +239,9 @@ Meteor.methods({
                 'Accept': 'application/json'
             }
         }
+
+        if(keycloakToken)
+            configuration.headers['Authorization'] = `Bearer ${keycloakToken}`;
 
         try{
             const res = await axios(configuration);
