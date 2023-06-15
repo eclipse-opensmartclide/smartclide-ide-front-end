@@ -186,7 +186,7 @@
                   };
                 });
 
-                Object.assign(this.tables[1],{ loaded: true, content });
+                Object.assign(this.tables[1],{ loaded: true, content: this.sortByCreationDate(content) });
               }
             }
         );
@@ -195,6 +195,11 @@
         Meteor.call("getLatestDeployments", (error, result) => {
           Object.assign(this.tables[2],{ loaded: true, content: result || [] });
         });
+      },
+      sortByCreationDate(elements){
+        return elements.sort(function(a,b){
+          return new Date(b.creationDate) - new Date(a.creationDate);
+        }).slice(0, 3);
       },
       convertDate(date){
         return moment(new Date(date)).format('DD-MMM-YYYY HH:mm');
