@@ -453,8 +453,9 @@
         const detailsStepIndex = this.getStepIndex("Service Details");
         const isFrameworkNone = this.steps[detailsStepIndex].fields.framework.value === this.getFramework("text", "None").value;
         const isAPNone = this.steps[detailsStepIndex].fields.architecturalPattern.value === "NONE";
+        const isAPNull = this.steps[detailsStepIndex].fields.architecturalPattern.value === null;
 
-        if(isFrameworkNone && !isAPNone){
+        if(isFrameworkNone && !isAPNone && !isAPNull){
           alert("If you want to use an Architectural Pattern, you must select one of the supported frameworks.");
           return false;
         }
