@@ -323,8 +323,8 @@
         if(this.currentStep < this.totalSteps)
             this.currentStep++;
         else{
-          this.showOverlay();
-          this.addClicked();
+          if(this.addClicked())
+            this.showOverlay();
         }
       },
       getStepIndex(stepTitle){
@@ -451,6 +451,14 @@
       addClicked(){
         const gitStepIndex = this.getStepIndex("Git Setup");
         const detailsStepIndex = this.getStepIndex("Service Details");
+        const isFrameworkNone = this.steps[detailsStepIndex].fields.framework.value === this.getFramework("text", "None").value;
+        const isAPNone = this.steps[detailsStepIndex].fields.architecturalPattern.value === "NONE";
+
+        if(isFrameworkNone && !isAPNone){
+          alert("If you want to use an Architectural Pattern, you must select one of the supported frameworks.");
+          return false;
+        }
+
         let createRepositoryMethod;
         let headers = {};
         let parameters = {};
@@ -508,6 +516,8 @@
             this.setupProject(createRepositoryMethod, headers, parameters);
           }
         }
+
+        return true;
       },
       setupProject(createRepositoryMethod, headers, parameters){
         const detailsStepIndex = this.getStepIndex("Service Details");
