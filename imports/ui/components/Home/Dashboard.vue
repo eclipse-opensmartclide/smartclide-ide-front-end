@@ -125,7 +125,7 @@
         tables: [
           {
             title: "Workflows",
-            fields: ["name", "template", "updatedAt"],
+            fields: ["name", "version", "creationDate"],
             content: [],
             loaded: false
           },
@@ -157,12 +157,23 @@
       },
       fetchLatestWorkspaces(){
         Meteor.call("getLatestWorkspaces", this.$store.state.keycloak.idToken, 3, (error, result) => {
-          this.latestWorkspaces = result;
+          if(result)
+            this.latestWorkspaces = result;
         });
       },
       fetchLatestWorkflows(){
-        Meteor.call("getLatestWorkflows", (error, result) => {
-          Object.assign(this.tables[0],{ loaded: true, content: result || [] });
+        Meteor.call("getRequest", "https://jbpm.dev.smartclide.eu/kie-server/services/rest/server/queries/processes/instances?status=2&page=0&pageSize=3", this.$store.state.keycloak.token, (error, result) => {
+          if(result){
+            let content = this.sortByCreationDate(result?.["process-instance"].map((item) => {
+              return {
+                name: item["process-name"],
+                version: item["process-version"],
+                creationDate: item["start-date"]["java.util.Date"]
+              };
+            }));
+
+            Object.assign(this.tables[0],{ loaded: true, content: content || [] });
+          }
         });
       },
       fetchLatestServices(){
