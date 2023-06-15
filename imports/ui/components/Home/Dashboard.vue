@@ -37,7 +37,7 @@
             <b-row class="h5 mb-2">Recent</b-row>
             <b-row v-for="project in latestWorkspaces">
               <router-link :to="{ path: `/project/${project.id}` }">
-                {{project.devfile.metadata.name}}
+                {{project.devfile.projects[0].name}}
               </router-link>
             </b-row>
           </b-col>
