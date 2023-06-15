@@ -446,7 +446,7 @@
       },
       serviceCreationError(message){
         this.hideOverlay();
-        alert(message);
+        this.$bvModal.msgBoxOk(message);
       },
       addClicked(){
         const gitStepIndex = this.getStepIndex("Git Setup");
@@ -456,7 +456,7 @@
         const isAPNull = this.steps[detailsStepIndex].fields.architecturalPattern.value === null;
 
         if(isFrameworkNone && !isAPNone && !isAPNull){
-          alert("If you want to use an Architectural Pattern, you must select one of the supported frameworks.");
+          this.$bvModal.msgBoxOk("If you want to use an Architectural Pattern, you must select one of the supported frameworks.");
           return false;
         }
 
