@@ -59,7 +59,7 @@
           />
           <b-form-textarea
               v-else-if="steps[currentStep-1].fields[field].formType === 'textarea'"
-              clas="border-primary"
+              class="border-primary"
               v-model="steps[currentStep-1].fields[field].value"
               :placeholder="steps[currentStep-1].fields[field].placeholder"
               rows="3"
