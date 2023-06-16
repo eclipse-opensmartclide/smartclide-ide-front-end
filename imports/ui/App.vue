@@ -50,7 +50,7 @@
       unsetTheme();
     },
     created(){
-      this.storeTheme();
+      this.parseTheme();
       this.$store.state.keycloak = new Keycloak("/keycloak.json");
 
       this.$store.state.keycloak.init({
@@ -76,8 +76,20 @@
       };
     },
     methods: {
-      storeTheme(){
-        const themeName = this.$route.query.theme === "iotcat_ide" ? "iotcat_ide" : "default";
+      parseTheme(){
+        let ideName, themeName;
+
+        if(this.$route.query.theme === "iotcat_ide"){
+          ideName = "IoT Catalogue";
+          themeName = "iotcat_ide";
+        }
+        else{
+          ideName = "SmartCLIDE";
+          themeName = "default";
+        }
+
+        document.title = `${ideName} IDE`;
+
         this.$store.state.theme = {
           name: themeName,
           images: {

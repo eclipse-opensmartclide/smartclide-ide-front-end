@@ -96,7 +96,7 @@
   }
 
   .logo{
-    width: 100px;
+    height: 50px;
     padding: 4px;
   }
 
