@@ -10,7 +10,7 @@
 
 <template>
   <b-container class="vh-100 d-flex justify-content-center align-items-center">
-    <div class="login-container d-flex flex-column align-items-center">
+    <div class="login-container d-flex flex-column align-items-center border border-primary">
       <b-img class="main-logo mb-5" :src="$store.state.theme.images.ideLogo"/>
 
 <!--      <b-form @submit.prevent="loginWithSmartCLIDE()">-->
@@ -51,7 +51,7 @@
 
 <style scoped>
   .login-container{
-    background: #E5EEFD;
+    background: hsla(var(--bootstrap-primary-h),var(--bootstrap-primary-s), var(--bootstrap-primary-l), 0.15);
     width: 351px;
     height: 397px;
     border-radius: 10px;

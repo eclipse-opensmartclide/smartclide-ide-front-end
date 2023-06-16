@@ -61,6 +61,7 @@
                 >
                   <b-form-select
                     v-if="table.modalFields[field].formType === 'select'"
+                    class="border-primary"
                     v-model="table.modalFields[field].value"
                     required
                   >
@@ -74,6 +75,7 @@
                   </b-form-select>
                   <b-form-input
                     v-else
+                    class="border-primary"
                     :type="table.modalFields[field].formType"
                     v-model="table.modalFields[field].value"
                     required
