@@ -36,6 +36,7 @@
 
           <b-form-select
               v-if="steps[currentStep-1].fields[field].formType === 'select'"
+              class="border-primary"
               v-model="steps[currentStep-1].fields[field].value"
               @change="changedGitSystem"
               required
@@ -50,6 +51,7 @@
           </b-form-select>
           <b-form-input
               v-else-if="steps[currentStep-1].fields[field].formType === 'text'"
+              class="border-primary"
               :type="steps[currentStep-1].fields[field].formType"
               v-model="steps[currentStep-1].fields[field].value"
               :placeholder="steps[currentStep-1].fields[field].placeholder"
@@ -57,38 +59,39 @@
           />
           <b-form-textarea
               v-else-if="steps[currentStep-1].fields[field].formType === 'textarea'"
+              clas="border-primary"
               v-model="steps[currentStep-1].fields[field].value"
               :placeholder="steps[currentStep-1].fields[field].placeholder"
               rows="3"
               no-resize
               required
           />
-          <b-form-radio-group
-              v-else-if="steps[currentStep-1].fields[field].formType === 'radio'"
-              v-model="steps[currentStep-1].fields[field].value"
-              required
-              stacked
-          >
-            <b-form-radio
-                v-for="option in steps[currentStep-1].fields[field].options"
-                :value="option.id"
-            >
-              {{option.text}}
-            </b-form-radio>
-          </b-form-radio-group>
-          <b-form-checkbox-group
-              v-else-if="steps[currentStep-1].fields[field].formType === 'checkbox'"
-              v-model="steps[currentStep-1].fields[field].values"
-              :required="steps[currentStep-1].fields[field].values.length === 0"
-              stacked
-          >
-            <b-form-checkbox
-                v-for="option in steps[currentStep-1].fields[field].options"
-                :value="option.id"
-            >
-              {{option.text}}
-            </b-form-checkbox>
-          </b-form-checkbox-group>
+<!--          <b-form-radio-group-->
+<!--              v-else-if="steps[currentStep-1].fields[field].formType === 'radio'"-->
+<!--              v-model="steps[currentStep-1].fields[field].value"-->
+<!--              required-->
+<!--              stacked-->
+<!--          >-->
+<!--            <b-form-radio-->
+<!--                v-for="option in steps[currentStep-1].fields[field].options"-->
+<!--                :value="option.id"-->
+<!--            >-->
+<!--              {{option.text}}-->
+<!--            </b-form-radio>-->
+<!--          </b-form-radio-group>-->
+<!--          <b-form-checkbox-group-->
+<!--              v-else-if="steps[currentStep-1].fields[field].formType === 'checkbox'"-->
+<!--              v-model="steps[currentStep-1].fields[field].values"-->
+<!--              :required="steps[currentStep-1].fields[field].values.length === 0"-->
+<!--              stacked-->
+<!--          >-->
+<!--            <b-form-checkbox-->
+<!--                v-for="option in steps[currentStep-1].fields[field].options"-->
+<!--                :value="option.id"-->
+<!--            >-->
+<!--              {{option.text}}-->
+<!--            </b-form-checkbox>-->
+<!--          </b-form-checkbox-group>-->
         </b-form-group>
 
         <b-row>
