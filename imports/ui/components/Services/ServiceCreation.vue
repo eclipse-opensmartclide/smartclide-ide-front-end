@@ -459,7 +459,7 @@
         const isAPNull = this.steps[detailsStepIndex].fields.architecturalPattern.value === null;
 
         if(isFrameworkNone && !isAPNone && !isAPNull){
-          this.$bvModal.msgBoxOk("If you want to use an Architectural Pattern, you must select one of the supported frameworks.");
+          this.$bvModal.msgBoxOk("In order to use an Architectural Pattern, one of the supported frameworks must be selected.");
           return false;
         }
 
