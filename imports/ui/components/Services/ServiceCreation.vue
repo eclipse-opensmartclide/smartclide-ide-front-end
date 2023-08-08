@@ -36,6 +36,7 @@
 
           <b-form-select
               v-if="steps[currentStep-1].fields[field].formType === 'select'"
+              class="border-primary"
               v-model="steps[currentStep-1].fields[field].value"
               @change="changedGitSystem"
               required
@@ -50,6 +51,7 @@
           </b-form-select>
           <b-form-input
               v-else-if="steps[currentStep-1].fields[field].formType === 'text'"
+              class="border-primary"
               :type="steps[currentStep-1].fields[field].formType"
               v-model="steps[currentStep-1].fields[field].value"
               :placeholder="steps[currentStep-1].fields[field].placeholder"
@@ -57,38 +59,39 @@
           />
           <b-form-textarea
               v-else-if="steps[currentStep-1].fields[field].formType === 'textarea'"
+              class="border-primary"
               v-model="steps[currentStep-1].fields[field].value"
               :placeholder="steps[currentStep-1].fields[field].placeholder"
               rows="3"
               no-resize
               required
           />
-          <b-form-radio-group
-              v-else-if="steps[currentStep-1].fields[field].formType === 'radio'"
-              v-model="steps[currentStep-1].fields[field].value"
-              required
-              stacked
-          >
-            <b-form-radio
-                v-for="option in steps[currentStep-1].fields[field].options"
-                :value="option.id"
-            >
-              {{option.text}}
-            </b-form-radio>
-          </b-form-radio-group>
-          <b-form-checkbox-group
-              v-else-if="steps[currentStep-1].fields[field].formType === 'checkbox'"
-              v-model="steps[currentStep-1].fields[field].values"
-              :required="steps[currentStep-1].fields[field].values.length === 0"
-              stacked
-          >
-            <b-form-checkbox
-                v-for="option in steps[currentStep-1].fields[field].options"
-                :value="option.id"
-            >
-              {{option.text}}
-            </b-form-checkbox>
-          </b-form-checkbox-group>
+<!--          <b-form-radio-group-->
+<!--              v-else-if="steps[currentStep-1].fields[field].formType === 'radio'"-->
+<!--              v-model="steps[currentStep-1].fields[field].value"-->
+<!--              required-->
+<!--              stacked-->
+<!--          >-->
+<!--            <b-form-radio-->
+<!--                v-for="option in steps[currentStep-1].fields[field].options"-->
+<!--                :value="option.id"-->
+<!--            >-->
+<!--              {{option.text}}-->
+<!--            </b-form-radio>-->
+<!--          </b-form-radio-group>-->
+<!--          <b-form-checkbox-group-->
+<!--              v-else-if="steps[currentStep-1].fields[field].formType === 'checkbox'"-->
+<!--              v-model="steps[currentStep-1].fields[field].values"-->
+<!--              :required="steps[currentStep-1].fields[field].values.length === 0"-->
+<!--              stacked-->
+<!--          >-->
+<!--            <b-form-checkbox-->
+<!--                v-for="option in steps[currentStep-1].fields[field].options"-->
+<!--                :value="option.id"-->
+<!--            >-->
+<!--              {{option.text}}-->
+<!--            </b-form-checkbox>-->
+<!--          </b-form-checkbox-group>-->
         </b-form-group>
 
         <b-row>
@@ -323,8 +326,8 @@
         if(this.currentStep < this.totalSteps)
             this.currentStep++;
         else{
-          this.showOverlay();
-          this.addClicked();
+          if(this.addClicked())
+            this.showOverlay();
         }
       },
       getStepIndex(stepTitle){
@@ -446,11 +449,20 @@
       },
       serviceCreationError(message){
         this.hideOverlay();
-        alert(message);
+        this.$bvModal.msgBoxOk(message);
       },
       addClicked(){
         const gitStepIndex = this.getStepIndex("Git Setup");
         const detailsStepIndex = this.getStepIndex("Service Details");
+        const isFrameworkNone = this.steps[detailsStepIndex].fields.framework.value === this.getFramework("text", "None").value;
+        const isAPNone = this.steps[detailsStepIndex].fields.architecturalPattern.value === "NONE";
+        const isAPNull = this.steps[detailsStepIndex].fields.architecturalPattern.value === null;
+
+        if(isFrameworkNone && !isAPNone && !isAPNull){
+          this.$bvModal.msgBoxOk("In order to use an Architectural Pattern, one of the supported frameworks must be selected.");
+          return false;
+        }
+
         let createRepositoryMethod;
         let headers = {};
         let parameters = {};
@@ -508,14 +520,16 @@
             this.setupProject(createRepositoryMethod, headers, parameters);
           }
         }
+
+        return true;
       },
       setupProject(createRepositoryMethod, headers, parameters){
         const detailsStepIndex = this.getStepIndex("Service Details");
 
         Meteor.call(createRepositoryMethod, this.$store.state.keycloak.idToken, headers, parameters, (error, result) => {
           if(result){
-            if(result.status === 0 || result === 201){
-              const repositoryURL = result === 201 ? parameters.repoUrl : result.message;
+            if(result.status === 0 || result.status === 201){
+              const repositoryURL = result.status === 201 ? result.repoURL : result.message;
               const devfileURL = this.steps[detailsStepIndex].fields.framework.value;
 
               Meteor.call("getRequest", devfileURL, (error, result) => {
@@ -535,10 +549,11 @@
                           workspace_id: workspaceID,
                           url: repositoryURL,
                           description: this.steps[detailsStepIndex].fields.description.value,
+                          is_public: this.steps[detailsStepIndex].fields.visibility.value === 0,
+                          licence: this.steps[detailsStepIndex].fields.licence.value,
                           framework: this.getFramework("value", this.steps[detailsStepIndex].fields.framework.value).text,
                           updated: moment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
-                          deployable: false,
-                          is_public: this.steps[detailsStepIndex].fields.visibility.value === 0
+                          deployable: false
                         },
                         token: this.$store.state.keycloak.idToken
                       }, (error, result) => {

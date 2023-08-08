@@ -33,6 +33,7 @@
   import Layout from "./components/Layout/Layout";
   import Footer from "./components/Layout/Footer";
   import router from "../../client/routes";
+  import {setTheme, unsetTheme} from "../../styles/functions";
 
   export default {
     components: { Login, LoginSmartCLIDE, Layout, Footer },
@@ -42,14 +43,14 @@
         SmartCLIDELogin: undefined
       };
     },
-    created() {
-      // Meteor.call("getKeycloakConfiguration", (error, result) => {
-      //   if(result) {
-      //     this.$store.state.keycloak = result;
-      //     this.$store.state.keycloak = new Keycloak(result);
-      //   }
-      // });
-
+    beforeCreate() {
+      setTheme();
+    },
+    destroyed() {
+      unsetTheme();
+    },
+    created(){
+      this.parseTheme();
       this.$store.state.keycloak = new Keycloak("/keycloak.json");
 
       this.$store.state.keycloak.init({
@@ -60,7 +61,6 @@
         if(authenticated){
           this.eclipseCheUser = this.$store.state.keycloak.tokenParsed;
           this.addUserToDB();
-          // router.push("/dashboard");
         }
       }).catch(error => {
         console.log(error);
@@ -74,12 +74,33 @@
         this.eclipseCheUser = undefined;
         router.push("/");
       };
-
-      // setInterval(() => {
-      //   console.log(this.$store.state.keycloak.token);
-      // }, 5000);
     },
     methods: {
+      parseTheme(){
+        let ideName, themeName;
+
+        if(this.$route.query.theme === "iotcat_ide"){
+          ideName = "IoT Catalogue";
+          themeName = "iotcat_ide";
+        }
+        else{
+          ideName = "SmartCLIDE";
+          themeName = "default";
+        }
+
+        document.title = `${ideName} IDE`;
+
+        this.$store.state.theme = {
+          name: themeName,
+          images: {
+            eclipseIcon: `/assets/themes/${themeName}/eclipseIcon.png`,
+            euFlag: `/assets/themes/${themeName}/euFlag.png`,
+            // ideIcon: `/assets/themes/${themeName}/ideIcon.png`,
+            ideLogo: `/assets/themes/${themeName}/ideLogo.png`,
+            welcomeCard:`/assets/themes/${themeName}/welcomeCard.png`
+          }
+        };
+      },
       loginWithSmartCLIDE(){
         this.SmartCLIDELogin = true;
       },
@@ -116,6 +137,6 @@
   };
 </script>
 
-<style scoped>
+<style>
 
 </style>

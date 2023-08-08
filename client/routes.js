@@ -12,7 +12,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Dashboard from "../imports/ui/components/Home/Dashboard";
-import Deployments from "../imports/ui/components/Home/Deployments";
+// import Deployments from "../imports/ui/components/Home/Deployments";
 import Services from "../imports/ui/components/Home/Services";
 import ServiceCreation from "../imports/ui/components/Services/ServiceCreation";
 // import Devfile from "../imports/ui/components/Services/Devfile";
@@ -54,11 +54,11 @@ const routes = [
         name: "ServiceCreation",
         component: ServiceCreation
     },
-    {
-        path: "/deployments",
-        name: 'Deployments',
-        component: Deployments
-    },
+    // {
+    //     path: "/deployments",
+    //     name: 'Deployments',
+    //     component: Deployments
+    // },
     {
         path: '/project/:id',
         name: 'Project',

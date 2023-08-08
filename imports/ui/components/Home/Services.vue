@@ -72,15 +72,15 @@
                 v-b-tooltip.hover
                 title="Develop"
               />
-              <b-icon-pencil
-                role="button"
-                variant="primary"
-                class="mx-2"
-                font-scale="1.2"
-                @click="pencilIconClicked(data.item)"
-                v-b-tooltip.hover
-                title="Edit"
-              />
+<!--              <b-icon-pencil-->
+<!--                role="button"-->
+<!--                variant="primary"-->
+<!--                class="mx-2"-->
+<!--                font-scale="1.2"-->
+<!--                @click="pencilIconClicked(data.item)"-->
+<!--                v-b-tooltip.hover-->
+<!--                title="Edit"-->
+<!--              />-->
               <b-icon-trash
                 role="button"
                 variant="primary"
@@ -234,7 +234,7 @@
 
 <style scoped>
   .search_bar{
-    border-color: #dee2e6;
+    border-color: #DEE2E6;
   }
 
   /deep/ .custom-table thead{

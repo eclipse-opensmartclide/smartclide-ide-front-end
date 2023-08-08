@@ -55,7 +55,7 @@
           }
 
           iframe.contentWindow.postMessage(message, "*");
-          console.log("SENT", JSON.stringify(message, undefined, 4));
+          // console.log("SENT", JSON.stringify(message, undefined, 4));
         }catch(error) {
           console.log(error);
         }
@@ -63,8 +63,7 @@
       onReceiveMessage({data}){
         switch(data.type){
           case messageTypes.COMM_START:
-            console.log("entered");
-            console.log("RECEIVED", JSON.stringify(data, undefined, 4));
+            // console.log("RECEIVED", JSON.stringify(data, undefined, 4));
             this.sendMessageToIframe(messageTypes.COMM_START_REPLY);
             break;
           default:
