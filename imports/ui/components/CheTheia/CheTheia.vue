@@ -193,7 +193,7 @@
 
 <style scoped>
   .name {
-    background: #E5EEFD;
+    background: hsla(var(--bootstrap-primary-h),var(--bootstrap-primary-s), var(--bootstrap-primary-l), 0.15);
     font-weight: bold;
     height: 28px;
     display: flex;
