@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # extract the tag name from GITHUB_REF - e.g. refs/tags/1.0.0 --> 1.0.0
       - name: Get Tag Name
