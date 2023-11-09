@@ -12,7 +12,7 @@
     "@unparallel/smartclide-backend-connector": "^0.7.0",
     "@unparallel/smartclide-che-rest-client": "^1.0.8",
     "@unparallel/smartclide-frontend-comm": "^1.0.1",
-    "axios": "^1.4.0",
+    "axios": "^1.6.1",
     "bootstrap": "^4.6.1",
     "bootstrap-vue": "^2.23.1",
     "json-to-pretty-yaml": "^1.2.2",
