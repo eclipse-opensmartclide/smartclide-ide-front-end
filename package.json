@@ -8,7 +8,7 @@
     "visualize": "meteor --production --extra-packages bundle-visualizer"
   },
   "dependencies": {
-    "@babel/runtime": "^7.22.10",
+    "@babel/runtime": "^7.23.4",
     "@unparallel/smartclide-backend-connector": "^0.7.0",
     "@unparallel/smartclide-che-rest-client": "^1.0.8",
     "@unparallel/smartclide-frontend-comm": "^1.0.1",
